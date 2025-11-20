@@ -1,16 +1,13 @@
 import express from 'express';
+import postController from '../controllers/post.controller.js';
 
 const router = express.Router();
 
-// Get the posts list
-router.get('/', (req, res) => {
-  res.json('Get posts list');
-});
+// Get a posts list
+router.get('/', postController.getAllPosts);
 
-// Get a post data
-router.get("/:id", (req, res) => {
-  res.json('View post');
-});
+// Get a post
+router.get("/:id", postController.getPostById);
 
 // Create a new post
 router.post("/", (req, res) => {
