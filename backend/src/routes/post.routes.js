@@ -10,9 +10,7 @@ router.get('/', postController.getAllPosts);
 router.get("/:id", postController.getPostById);
 
 // Create a new post
-router.post("/", (req, res) => {
-  res.json('Create new post');
-});
+router.post("/", postController.createPost);
 
 // Update partially a post
 router.patch("/:id", (req, res) => {

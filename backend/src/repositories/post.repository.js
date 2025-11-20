@@ -14,7 +14,15 @@ async function getById(id) {
   return post;
 }
 
+async function create({title, content, authorId}) {
+  const post = await prisma.post.create({
+    data: {title, content, authorId},
+  });
+  return post;
+}
+
 export default {
   getAll,
   getById,
+  create,
 };
