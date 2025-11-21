@@ -29,9 +29,17 @@ async function updateById(id, { title, content, published, authorId }) {
   return post;
 }
 
+async function deleteById(id) {
+  const post = await prisma.post.delete({
+    where: { id },
+  });
+  return post;
+}
+
 export default {
   getAll,
   getById,
   create,
   updateById,
+  deleteById,
 };

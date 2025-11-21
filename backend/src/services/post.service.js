@@ -26,9 +26,19 @@ async function updatePostById(id, { title, content, published, authorId }) {
   return updatedPost;
 }
 
+async function deletePostById(id) {
+  // Before delete the post, check its existence.
+  const post = await findPostById(id);
+  if (!post) return null;
+
+  const deletedPost = await postRepository.deleteById(id);
+  return deletedPost;
+}
+
 export default {
   findAllPosts,
   findPostById,
   createNewPost,
   updatePostById,
+  deletePostById,
 };

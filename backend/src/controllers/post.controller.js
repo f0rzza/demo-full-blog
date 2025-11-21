@@ -40,9 +40,21 @@ async function updatePostById(req, res) {
   res.json( updatedPost );
 }
 
+async function deletePostById(req, res) {
+  const postId = parseInt(req.params.id);
+  const deletedPost = await postService.deletePostById(postId);
+
+  if (!deletedPost) {
+    return res.status(404).json({ error: `Post with id: ${postId} not found. No post were deleted.` });
+  }
+
+  res.sendStatus(200);
+}
+
 export default {
   getAllPosts,
   getPostById,
   createPost,
   updatePostById,
+  deletePostById,
 }

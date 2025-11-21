@@ -16,8 +16,6 @@ router.post("/", postController.createPost);
 router.put("/:id", postController.updatePostById);
 
 // Delete a post
-router.delete("/:id", (req, res) => {
-  res.json('Delete post');
-});
+router.delete("/:id", postController.deletePostById);
 
 export default router;
