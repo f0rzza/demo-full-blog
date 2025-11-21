@@ -12,15 +12,8 @@ router.get("/:id", postController.getPostById);
 // Create a new post
 router.post("/", postController.createPost);
 
-// Update partially a post
-router.patch("/:id", (req, res) => {
-  res.json('Update partially post');
-});
-
 // Update a post
-router.put("/:id", (req, res) => {
-  res.json('Update post');
-});
+router.put("/:id", postController.updatePostById);
 
 // Delete a post
 router.delete("/:id", (req, res) => {

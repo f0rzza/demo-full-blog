@@ -21,8 +21,17 @@ async function create({title, content, authorId}) {
   return post;
 }
 
+async function updateById(id, { title, content, published, authorId }) {
+  const post = await prisma.post.update({
+    where: { id },
+    data: { title, content, published, authorId },
+  });
+  return post;
+}
+
 export default {
   getAll,
   getById,
   create,
+  updateById,
 };

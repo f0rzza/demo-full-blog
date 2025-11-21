@@ -16,8 +16,19 @@ async function createNewPost({title, content, authorId}) {
   return post;
 }
 
+async function updatePostById(id, { title, content, published, authorId }) {
+  // Before update the post, check its existence.
+  const post = await findPostById(id);
+  if (!post) return null;
+
+  // Update the post.
+  const updatedPost = await postRepository.updateById(id, { title, content, published, authorId });
+  return updatedPost;
+}
+
 export default {
   findAllPosts,
   findPostById,
   createNewPost,
+  updatePostById,
 };
