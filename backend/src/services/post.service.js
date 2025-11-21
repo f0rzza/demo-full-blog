@@ -10,8 +10,8 @@ async function findPostById(id) {
   return post;
 }
 
-async function createNewPost({title, content, authorId}) {
-  const post = await postRepository.create({title, content, authorId});
+async function createNewPost({ title, content, authorId }) {
+  const post = await postRepository.create({ title, content, authorId });
   // TODO : assign categories to post
   return post;
 }

@@ -7,16 +7,14 @@ async function getAll() {
 
 async function getById(id) {
   const post = await prisma.post.findUnique({
-    where: {
-      id: id,
-    },
+    where: { id },
   });
   return post;
 }
 
-async function create({title, content, authorId}) {
+async function create({ title, content, authorId }) {
   const post = await prisma.post.create({
-    data: {title, content, authorId},
+    data: { title, content, authorId },
   });
   return post;
 }

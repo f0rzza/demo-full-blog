@@ -12,10 +12,10 @@ async function getPostById(req, res) {
 }
 
 async function createPost(req, res) {
-  const {title, content, authorId} = req.body;
+  const { title, content, authorId } = req.body;
   const parsedAuthorId = parseInt(authorId);
   // TODO: use 'Zod' package or eq to get validated data.
-  const post = await postService.createNewPost({title, content, authorId: parsedAuthorId});
+  const post = await postService.createNewPost({ title, content, authorId: parsedAuthorId });
   res.json( post );
 }
 
