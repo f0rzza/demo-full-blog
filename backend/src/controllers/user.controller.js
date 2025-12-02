@@ -33,7 +33,7 @@ async function createUser(req, res) {
 
     if (!result.success) {
       const errors = result.error.issues.map( (error) => error.message );
-      return res.status(400).json({ error: errors });
+      return res.status(400).json({ error: errors }); // Error : Bad Request
     }
 
     // Create new user with correct data.
@@ -47,18 +47,26 @@ async function createUser(req, res) {
 
 async function updateUserById(req, res) {
   try {
-    const userId = parseInt(req.params.id);
+    // Convert received user ID to number.
+    const id = Number(req.params.id);
     const { name, email } = req.body;
-    // TODO: use 'Zod' package or eq to get validated data.
+
+    // Check all received data.
+    const result = userSchema.safeParse({ id, name, email });
+
+    if (!result.success) {
+      const errors = result.error.issues.map( (error) => error.message );
+      return res.status(400).json({ error: errors }); // Error : Bad Request
+    }
 
     // Update existing user.
-    const updatedUser = await userService.updateUserById(userId, {
+    const updatedUser = await userService.updateUserById(id, {
       name,
       email,
     });
 
     if (!updatedUser) {
-      return res.status(404).json({ error: `User with id: ${userId} not found. No user were updated.` });
+      return res.status(404).json({ error: `User not found with ID ${id}. No user were updated.` }); // Error : Not Found
     }
 
     res.json(updatedUser);
@@ -69,12 +77,20 @@ async function updateUserById(req, res) {
 
 async function deleteUserById(req, res) {
   try {
+    // Convert received user ID to number.
+    const id = Number(req.params.id);
+    // Check only user ID. (all other validations are disabled)
+    const result = userSchema.pick({ id: true }).safeParse({ id });
+
+    if (!result.success) {
+      return res.status(400).json({ error: `Invalid User ID.` }); // Error : Bad Request
+    }
+
     // Delete existing user.
-    const userId = parseInt(req.params.id);
-    const deletedUser = await userService.deleteUserById(userId);
+    const deletedUser = await userService.deleteUserById(id);
 
     if (!deletedUser) {
-      return res.status(404).json({ error: `User with id: ${userId} not found. No user were deleted.` });
+      return res.status(404).json({ error: `User not found with ID ${id}. No user were deleted.` }); // Error : Not Found
     }
 
     res.sendStatus(200);
