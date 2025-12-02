@@ -1,4 +1,5 @@
 import userService from '../services/user.service.js';
+import { userSchema } from '../utils/zod.schemas.js';
 
 async function getAllUsers(req, res) {
   const users = await userService.findAllCategories();
@@ -6,12 +7,20 @@ async function getAllUsers(req, res) {
 }
 
 async function getUserById(req, res) {
-  // Get user from current ID.
-  const userId = parseInt(req.params.id);
-  const user = await userService.findUserById(userId);
+  // Convert received user ID to number.
+  const id = Number(req.params.id);
+  // Check only user ID. (all other validations are disabled)
+  const result = userSchema.pick({ id: true }).safeParse({ id });
+
+  if (!result.success) {
+    return res.status(400).json({ error: `Invalid User ID.` }); // Error : Bad Request
+  }
+
+  // Retrieve user with a correct integer ID.
+  const user = await userService.findUserById(id);
 
   if (!user) {
-    return res.status(404).json({ error: `User with id: ${userId} not found.` });
+    return res.status(404).json({ error: `User not found with ID ${id}.` }); // Error : Not Found
   }
 
   res.json(user);
@@ -19,11 +28,16 @@ async function getUserById(req, res) {
 
 async function createUser(req, res) {
   try {
-    const { name, email } = req.body;
-    // TODO: use 'Zod' package or eq to get validated data.
+    // Check if received data are corrects. (except the ID)
+    const result = userSchema.omit({ id: true }).safeParse(req.body);
 
-    // Create new user.
-    const user = await userService.createNewUser({ name, email });
+    if (!result.success) {
+      const errors = result.error.issues.map( (error) => error.message );
+      return res.status(400).json({ error: errors });
+    }
+
+    // Create new user with correct data.
+    const user = await userService.createNewUser(result.data);
 
     res.json(user);
   } catch (error) {
