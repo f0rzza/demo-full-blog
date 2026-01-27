@@ -14,10 +14,11 @@ datasource db {
 
 // Email and name are required. User can have many posts.
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
-  posts Post[]
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  username  String? @unique
+  password  String?
+  posts     Post[]
 }
 
 // Post can can be assigned to many categories but have only one author.
