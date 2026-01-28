@@ -1,4 +1,4 @@
-import userRepository from '../repositories/user.repository.js';
+import userRepository from "../repositories/user.repository.js";
 
 async function findAllCategories() {
   const users = await userRepository.getAll();
@@ -10,18 +10,20 @@ async function findUserById(id) {
   return user;
 }
 
-async function createNewUser({ name, email }) {
-  const user = await userRepository.create({ name, email });
+async function createNewUser({ username, email, password }) {
+  // TODO : check email and username
+  // TODO : generate hashed password
+  const user = await userRepository.create({ username, email, password });
   return user;
 }
 
-async function updateUserById(id, { name, email }) {
+async function updateUserById(id, { username, email, password }) {
   // Before update the user, check its existence.
   const user = await findUserById(id);
   if (!user) return null;
 
   // Update the user.
-  const updatedUser = await userRepository.updateById(id, { name, email });
+  const updatedUser = await userRepository.updateById(id, { username, email, password });
   return updatedUser;
 }
 
