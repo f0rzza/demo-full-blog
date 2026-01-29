@@ -1,7 +1,7 @@
-import userService from "../services/user.service.js";
+import userService from '../services/user.service.js';
 
 async function getAllUsers(req, res) {
-  const users = await userService.findAllCategories();
+  const users = await userService.findAllUsers();
   res.json(users);
 }
 
@@ -20,14 +20,8 @@ async function getUserById(req, res) {
 }
 
 async function createUser(req, res) {
-  try {
-    // Create new user with correct data.
-    const user = await userService.createNewUser(req.body);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No user were created.` });
-    // TODO : detail the errors
-  }
+  const user = await userService.createNewUser(req.body);
+  res.json(user);
 }
 
 async function updateUserById(req, res) {
