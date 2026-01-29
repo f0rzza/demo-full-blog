@@ -1,5 +1,6 @@
 import HttpError from '../errors/HttpError.js';
 import userRepository from '../repositories/user.repository.js';
+import bcryptjs from 'bcryptjs';
 
 // Get a list of users
 async function findAllUsers() {
@@ -17,8 +18,11 @@ async function findUserById(id) {
 async function createNewUser({ username, email, password }) {
   // Check if username / email are available.
   await checkEmailAndUsernameAvailability(username, email);
-  // TODO : generate hashed password
-  const user = await userRepository.create({ username, email, password });
+  // Generate hashed password
+  const saltRounds = Number(process.env.PASSWORD_SALT) || 10;
+  const hashedPassword = await bcryptjs.hash(password, saltRounds);
+  // Create new user
+  const user = await userRepository.create({ username, email, password: hashedPassword });
   return user;
 }
 
