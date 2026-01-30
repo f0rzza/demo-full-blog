@@ -11,10 +11,10 @@ async function getAll() {
 }
 
 // Get a user by ID
-async function getById(id) {
+async function getById(id, returnPassword = false) {
   const user = await prisma.user.findUnique({
     where: { id },
-    omit: omittedFields,
+    omit: { password: !returnPassword },
   });
   return user;
 }

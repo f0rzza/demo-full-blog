@@ -1,6 +1,7 @@
 import HttpError from '../errors/HttpError.js';
 import userRepository from '../repositories/user.repository.js';
 import bcryptjs from 'bcryptjs';
+import { isObjectEmpty } from '../utils/tools.js';
 
 // Get a list of users
 async function findAllUsers() {
@@ -9,8 +10,8 @@ async function findAllUsers() {
 }
 
 // Get a user by ID
-async function findUserById(id) {
-  const user = await userRepository.getById(id);
+async function findUserById(id, returnPassword = false) {
+  const user = await userRepository.getById(id, returnPassword);
 
   if (!user) {
     throw new HttpError(`User not found with ID ${id}.`, 404);
@@ -33,15 +34,38 @@ async function createNewUser({ username, email, password }) {
 
 async function updateUserById(id, { username, email, password }) {
   // Before update the user, check its existence.
-  await findUserById(id);
-  // Update the user.
-  const updatedUser = await userRepository.updateById(id, { username, email, password });
+  const user = await findUserById(id, true);
 
-  if (!updatedUser) {
-    throw new HttpError('Unexpected error during user update.', 500);
+  // Check user data to create payload.
+  const payload = {};
+
+  if (user.username !== username) payload.username = username;
+
+  if (user.email !== email) payload.email = email;
+
+  // Compare received password with stored password.
+  if (password && !(await bcryptjs.compare(password, user.password))) {
+    // Generate new hashed password
+    const saltRounds = Number(process.env.PASSWORD_SALT) || 10;
+    const newPassword = await bcryptjs.hash(password, saltRounds);
+    payload.password = newPassword;
   }
 
-  return updatedUser;
+  // Execute update query if payload is not empty.
+  if (!isObjectEmpty(payload)) {
+    // Update the user.
+    const updatedUser = await userRepository.updateById(id, payload);
+
+    if (!updatedUser) {
+      throw new HttpError('Unexpected error during user update.', 500);
+    }
+
+    return updatedUser;
+  }
+
+  // If no changes, return existing user. (exclude user password)
+  delete user.password;
+  return user;
 }
 
 async function deleteUserById(id) {
