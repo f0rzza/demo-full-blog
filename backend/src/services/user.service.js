@@ -46,10 +46,14 @@ async function updateUserById(id, { username, email, password }) {
 
 async function deleteUserById(id) {
   // Before delete the user, check its existence.
-  const user = await findUserById(id);
-  if (!user) return null;
-
+  await findUserById(id);
+  // Delete the user.
   const deletedUser = await userRepository.deleteById(id);
+
+  if (!deletedUser) {
+    throw new HttpError('Unexpected error during user deletion.', 500);
+  }
+
   return deletedUser;
 }
 

@@ -27,21 +27,11 @@ async function updateUserById(req, res) {
 }
 
 async function deleteUserById(req, res) {
-  try {
-    // Convert received user ID to number.
-    const id = Number(req.params.id);
-
-    // Delete existing user.
-    const deletedUser = await userService.deleteUserById(id);
-
-    if (!deletedUser) {
-      return res.status(404).json({ error: `User not found with ID ${id}. No user were deleted.` }); // Error : Not Found
-    }
-
-    res.sendStatus(200);
-  } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No user were deleted.` });
-  }
+  // Convert received user ID to number.
+  const id = Number(req.params.id);
+  // Delete existing user.
+  const deletedUser = await userService.deleteUserById(id);
+  res.sendStatus(200);
 }
 
 export default {
