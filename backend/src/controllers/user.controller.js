@@ -19,21 +19,11 @@ async function createUser(req, res) {
 }
 
 async function updateUserById(req, res) {
-  try {
-    // Convert received user ID to number.
-    const id = Number(req.params.id);
-
-    // Update existing user.
-    const updatedUser = await userService.updateUserById(id, req.body);
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: `User not found with ID ${id}. No user were updated.` }); // Error : Not Found
-    }
-
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No user were updated.` });
-  }
+  // Convert received user ID to number.
+  const id = Number(req.params.id);
+  // Update existing user.
+  const updatedUser = await userService.updateUserById(id, req.body);
+  res.json(updatedUser);
 }
 
 async function deleteUserById(req, res) {

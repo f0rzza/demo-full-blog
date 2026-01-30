@@ -33,11 +33,14 @@ async function createNewUser({ username, email, password }) {
 
 async function updateUserById(id, { username, email, password }) {
   // Before update the user, check its existence.
-  const user = await findUserById(id);
-  if (!user) return null;
-
+  await findUserById(id);
   // Update the user.
   const updatedUser = await userRepository.updateById(id, { username, email, password });
+
+  if (!updatedUser) {
+    throw new HttpError('Unexpected error during user update.', 500);
+  }
+
   return updatedUser;
 }
 
