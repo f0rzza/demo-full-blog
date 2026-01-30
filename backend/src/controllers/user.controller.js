@@ -8,14 +8,8 @@ async function getAllUsers(req, res) {
 async function getUserById(req, res) {
   // Convert received user ID to number.
   const id = Number(req.params.id);
-
   // Retrieve user with a correct integer ID.
   const user = await userService.findUserById(id);
-
-  if (!user) {
-    return res.status(404).json({ error: `User not found with ID ${id}.` }); // Error : Not Found
-  }
-
   res.json(user);
 }
 
@@ -25,39 +19,19 @@ async function createUser(req, res) {
 }
 
 async function updateUserById(req, res) {
-  try {
-    // Convert received user ID to number.
-    const id = Number(req.params.id);
-
-    // Update existing user.
-    const updatedUser = await userService.updateUserById(id, req.body);
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: `User not found with ID ${id}. No user were updated.` }); // Error : Not Found
-    }
-
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No user were updated.` });
-  }
+  // Convert received user ID to number.
+  const id = Number(req.params.id);
+  // Update existing user.
+  const updatedUser = await userService.updateUserById(id, req.body);
+  res.json(updatedUser);
 }
 
 async function deleteUserById(req, res) {
-  try {
-    // Convert received user ID to number.
-    const id = Number(req.params.id);
-
-    // Delete existing user.
-    const deletedUser = await userService.deleteUserById(id);
-
-    if (!deletedUser) {
-      return res.status(404).json({ error: `User not found with ID ${id}. No user were deleted.` }); // Error : Not Found
-    }
-
-    res.sendStatus(200);
-  } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No user were deleted.` });
-  }
+  // Convert received user ID to number.
+  const id = Number(req.params.id);
+  // Delete existing user.
+  const deletedUser = await userService.deleteUserById(id);
+  res.sendStatus(200);
 }
 
 export default {

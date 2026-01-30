@@ -11,6 +11,11 @@ async function findAllUsers() {
 // Get a user by ID
 async function findUserById(id) {
   const user = await userRepository.getById(id);
+
+  if (!user) {
+    throw new HttpError(`User not found with ID ${id}.`, 404);
+  }
+
   return user;
 }
 
@@ -28,20 +33,27 @@ async function createNewUser({ username, email, password }) {
 
 async function updateUserById(id, { username, email, password }) {
   // Before update the user, check its existence.
-  const user = await findUserById(id);
-  if (!user) return null;
-
+  await findUserById(id);
   // Update the user.
   const updatedUser = await userRepository.updateById(id, { username, email, password });
+
+  if (!updatedUser) {
+    throw new HttpError('Unexpected error during user update.', 500);
+  }
+
   return updatedUser;
 }
 
 async function deleteUserById(id) {
   // Before delete the user, check its existence.
-  const user = await findUserById(id);
-  if (!user) return null;
-
+  await findUserById(id);
+  // Delete the user.
   const deletedUser = await userRepository.deleteById(id);
+
+  if (!deletedUser) {
+    throw new HttpError('Unexpected error during user deletion.', 500);
+  }
+
   return deletedUser;
 }
 
