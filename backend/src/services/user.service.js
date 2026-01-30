@@ -11,6 +11,11 @@ async function findAllUsers() {
 // Get a user by ID
 async function findUserById(id) {
   const user = await userRepository.getById(id);
+
+  if (!user) {
+    throw new HttpError(`User not found with ID ${id}.`, 404);
+  }
+
   return user;
 }
 

@@ -8,14 +8,8 @@ async function getAllUsers(req, res) {
 async function getUserById(req, res) {
   // Convert received user ID to number.
   const id = Number(req.params.id);
-
   // Retrieve user with a correct integer ID.
   const user = await userService.findUserById(id);
-
-  if (!user) {
-    return res.status(404).json({ error: `User not found with ID ${id}.` }); // Error : Not Found
-  }
-
   res.json(user);
 }
 
