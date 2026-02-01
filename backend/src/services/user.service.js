@@ -81,12 +81,26 @@ async function deleteUserById(id) {
   return deletedUser;
 }
 
+// Get a user by email
+async function findUserByEmail(email, returnPassword = false) {
+  const user = await userRepository.getByEmail(email, returnPassword);
+  return user;
+}
+
+// Get a user by name
+async function findUserByUsername(username, returnPassword = false) {
+  const user = await userRepository.getByUsername(username, returnPassword);
+  return user;
+}
+
 export default {
   findAllUsers,
   findUserById,
   createNewUser,
   updateUserById,
   deleteUserById,
+  findUserByEmail,
+  findUserByUsername,
 };
 
 /* ---------- helpers privés ---------- */

@@ -20,19 +20,19 @@ async function getById(id, returnPassword = false) {
 }
 
 // Get a user by email
-async function getByEmail(email) {
+async function getByEmail(email, returnPassword = false) {
   const user = await prisma.user.findUnique({
     where: { email },
-    omit: omittedFields,
+    omit: { password: !returnPassword },
   });
   return user;
 }
 
 // Get a user by username
-async function getByUsername(username) {
+async function getByUsername(username, returnPassword = false) {
   const user = await prisma.user.findUnique({
     where: { username },
-    omit: omittedFields,
+    omit: { password: !returnPassword },
   });
   return user;
 }
