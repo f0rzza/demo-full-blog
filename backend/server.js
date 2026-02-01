@@ -52,7 +52,8 @@ passport.use(useLocalStrategy());
 
 // Define serialize functions
 passport.serializeUser((user, cb) => {
-  cb(null, user);
+  const { password, ...userWithoutPassword } = user;
+  cb(null, userWithoutPassword);
 });
 
 passport.deserializeUser((user, cb) => {

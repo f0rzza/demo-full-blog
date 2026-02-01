@@ -24,6 +24,8 @@ router.post('/register', validateRequest({ body: createUserSchema }), authContro
 // TODO : logout
 
 /*** Temporary Routes ***/
-router.get('/status', (req, res) => res.send(`isAuth: ${req.isAuthenticated()}`));
+router.get('/status', (req, res) =>
+  res.send(`isAuth: ${req.isAuthenticated()} ${JSON.stringify(req.user)}`),
+);
 
 export default router;
