@@ -1,8 +1,23 @@
 import postService from '../services/post.service.js';
 
 async function getAllPosts(req, res) {
-  const posts = await postService.findAllPosts();
-  res.json(posts);
+  const { categories = '', authors = '', page = 1, limit = 10 } = req.query;
+  // Convert list of ids, from string to array.
+  const parsedCategories = categories ? categories.split(',').map(Number) : [];
+  const parsedAuthors = authors ? authors.split(',').map(Number) : [];
+
+  // Get posts with current filters / page.
+  const posts = await postService.findAllPosts({
+    categories: parsedCategories,
+    authors: parsedAuthors,
+    currentPage: parseInt(page),
+    limit: parseInt(limit),
+  });
+
+  // Get total published posts.
+  const total = await postService.countPublishedPosts();
+
+  res.json({ posts, total });
 }
 
 async function getPostById(req, res) {
@@ -36,7 +51,7 @@ async function updatePostById(req, res) {
   try {
     const postId = parseInt(req.params.id);
     const { title, content, published, authorId } = req.body;
-    const isPublished = (published === 'true');
+    const isPublished = published === 'true';
     const parsedAuthorId = parseInt(authorId);
     // TODO: use 'Zod' package or eq to get validated data.
 
@@ -49,7 +64,9 @@ async function updatePostById(req, res) {
     });
 
     if (!updatedPost) {
-      return res.status(404).json({ error: `Post with id: ${postId} not found. No post were updated.` });
+      return res
+        .status(404)
+        .json({ error: `Post with id: ${postId} not found. No post were updated.` });
     }
 
     res.json(updatedPost);
@@ -65,7 +82,9 @@ async function deletePostById(req, res) {
     const deletedPost = await postService.deletePostById(postId);
 
     if (!deletedPost) {
-      return res.status(404).json({ error: `Post with id: ${postId} not found. No post were deleted.` });
+      return res
+        .status(404)
+        .json({ error: `Post with id: ${postId} not found. No post were deleted.` });
     }
 
     res.sendStatus(200);
@@ -80,4 +99,4 @@ export default {
   createPost,
   updatePostById,
   deletePostById,
-}
+};

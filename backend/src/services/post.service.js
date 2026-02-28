@@ -1,7 +1,12 @@
 import postRepository from '../repositories/post.repository.js';
 
-async function findAllPosts() {
-  const posts = await postRepository.getAll();
+async function findAllPosts({ categories, authors, currentPage, limit }) {
+  const posts = await postRepository.getAll({
+    categories,
+    authors,
+    currentPage,
+    limit,
+  });
   return posts;
 }
 
@@ -35,10 +40,15 @@ async function deletePostById(id) {
   return deletedPost;
 }
 
+async function countPublishedPosts() {
+  return await postRepository.countPublishedPosts();
+}
+
 export default {
   findAllPosts,
   findPostById,
   createNewPost,
   updatePostById,
   deletePostById,
+  countPublishedPosts,
 };

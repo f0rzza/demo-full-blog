@@ -1,7 +1,22 @@
 import { prisma } from '../utils/prisma.js';
 
-async function getAll() {
-  const posts = await prisma.post.findMany();
+async function getAll({ categories, authors, currentPage, limit }) {
+  const posts = await prisma.post.findMany({
+    where: {
+      // Post has at least one category in the given list.
+      ...(categories?.length > 0 && { categories: { some: { id: { in: categories } } } }),
+      // Post written by an author in the list.
+      ...(authors?.length > 0 && { authorId: { in: authors } }),
+      // Only published posts.
+      published: true,
+    },
+    // Include related entities. For users, return only usernames.
+    include: { categories: true, author: { select: { username: true } } },
+    // Return X posts.
+    ...(limit && { take: limit }),
+    // Skip the first X posts according to the current page.
+    ...(currentPage && { skip: (currentPage - 1) * limit }),
+  });
   return posts;
 }
 
@@ -34,10 +49,21 @@ async function deleteById(id) {
   return post;
 }
 
+async function countPublishedPosts() {
+  const posts = await prisma.post.count({
+    where: {
+      published: true,
+    },
+  });
+  return posts;
+}
+// Note : add selected filters
+
 export default {
   getAll,
   getById,
   create,
   updateById,
   deleteById,
+  countPublishedPosts,
 };
