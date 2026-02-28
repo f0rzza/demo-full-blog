@@ -40,8 +40,8 @@ async function deletePostById(id) {
   return deletedPost;
 }
 
-async function countPublishedPosts() {
-  return await postRepository.countPublishedPosts();
+async function countPublishedPosts({ categories, authors }) {
+  return await postRepository.countPublishedPosts({ categories, authors });
 }
 
 export default {

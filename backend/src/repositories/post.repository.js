@@ -49,9 +49,14 @@ async function deleteById(id) {
   return post;
 }
 
-async function countPublishedPosts() {
+async function countPublishedPosts({ categories, authors }) {
   const posts = await prisma.post.count({
     where: {
+      // Post has at least one category in the given list.
+      ...(categories?.length > 0 && { categories: { some: { id: { in: categories } } } }),
+      // Post written by an author in the list.
+      ...(authors?.length > 0 && { authorId: { in: authors } }),
+      // Only published posts.
       published: true,
     },
   });
