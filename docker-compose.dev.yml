@@ -1,0 +1,31 @@
+services:
+  # Backend : Node / Express
+  backend:
+    build:
+      context: ./backend # localisation du code source
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/app # synchronise le code local avec le container
+      - /app/node_modules # pour éviter que le dossier node_modules local n'écrase celui du conteneur
+    env_file:
+      - ./backend/.env # injecter les variables d'env du backend
+    ports:
+      - '${SERVER_PORT:-4000}:${SERVER_PORT:-4000}'
+
+  # Frontend : Vite + React/TS
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    env_file:
+      - ./frontend/.env
+    environment:
+      - CHOKIDAR_USEPOLLING=true # pour hot-reload
+    ports:
+      # Port Vite par défaut
+      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    depends_on:
+      - backend # le front démarre après le back
