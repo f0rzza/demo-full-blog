@@ -7,6 +7,7 @@ import { errorHandler } from './src/middlewares/error.middleware.js';
 import session from 'express-session';
 import passport from 'passport';
 import { useLocalStrategy } from './src/utils/passport.strategy.js';
+import cors from 'cors';
 
 // Load custom ENV file
 dotenv.config();
@@ -14,6 +15,7 @@ dotenv.config();
 const app = express();
 const port = process.env.SERVER_PORT;
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   morgan('combined', {
@@ -30,13 +32,20 @@ app.use(
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 }, // 1h
+    cookie: { maxAge: 1000 * 60 * 60, sameSite: 'lax', httpOnly: true }, // Lifetime: 1h
   }),
 );
 
 // Init passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(
+  cors({
+    origin: process.env.ALLOWED_FRONTEND_URL,
+    credentials: true,
+  }),
+);
 
 // Initialize the routes
 app.use('/categories', categoryRoutes);
