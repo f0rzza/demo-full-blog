@@ -17,6 +17,7 @@ COPY . .
 # Exposer le port du serveur
 EXPOSE 4000
 
-# Lancer Node en mode DEV après création de l'image
+# Effectuer les migrations Prisma puis générer le client.
+# Lancer ensuite Node en mode DEV après création de l'image
 # --host : permet au serveur d’être accessible depuis l'extérieur du container
-CMD ["npx", "nodemon", "server.js", "--", "--host"]
+CMD ["sh", "-c", "npm run db:deploy", "&&" ,"npx nodemon server.js", "--", "--host"]
