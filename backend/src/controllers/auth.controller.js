@@ -35,4 +35,20 @@ async function createAccount(req, res) {
   res.json(user);
 }
 
-export default { login, createAccount };
+function checkAuthentication(req, res) {
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: 'Not auth' }); // Unauthorized
+  }
+  res.json({ success: true, user: req.user });
+}
+
+function logout(req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.json({ success: true });
+  });
+}
+
+export default { login, createAccount, checkAuthentication, logout };

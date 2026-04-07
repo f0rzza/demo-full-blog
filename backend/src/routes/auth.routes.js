@@ -21,11 +21,10 @@ router.post('/login', validateRequest({ body: loginSchema }), authController.log
 // Register account
 router.post('/register', validateRequest({ body: createUserSchema }), authController.createAccount);
 
-// TODO : logout
+// Check user authentication
+router.get('/check', authController.checkAuthentication);
 
-/*** Temporary Routes ***/
-router.get('/status', (req, res) =>
-  res.send(`isAuth: ${req.isAuthenticated()} ${JSON.stringify(req.user)}`),
-);
+// Logout
+router.post('/logout', authController.logout);
 
 export default router;
