@@ -54,7 +54,7 @@ async function updatePostById(req, res) {
   try {
     const postId = parseInt(req.params.id);
     const { title, content, published, authorId } = req.body;
-    const isPublished = published === 'true';
+    const isPublished = published === true;
     const parsedAuthorId = parseInt(authorId);
     // TODO: use 'Zod' package or eq to get validated data.
 
