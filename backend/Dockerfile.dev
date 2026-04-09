@@ -1,0 +1,23 @@
+# Environnement de l'image : Node v22 - Linux Alpine (version légère de Linux)
+FROM node:22-alpine
+# Note : FROM node:22-slim > si jamais on utilise des dépendances telles que bcrypt, sharp, canvas.
+
+# Répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copier les fichiers package.json et package-lock.json : de l'env local vers l'image Docker
+COPY package*.json ./
+
+# Installer les dépendances dans l'image
+RUN npm install
+
+# Copier tout le code source du projet dans l'image
+COPY . .
+
+# Exposer le port du serveur
+EXPOSE 4000
+
+# Effectuer les migrations Prisma puis générer le client.
+# Lancer ensuite Node en mode DEV après création de l'image
+# --host : permet au serveur d’être accessible depuis l'extérieur du container
+CMD ["sh", "-c", "npm run db:deploy", "&&" ,"npx nodemon server.js", "--", "--host"]
