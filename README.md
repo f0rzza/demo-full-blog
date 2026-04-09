@@ -1,1 +1,1 @@
-# demo-blog
+# demo-full-blog
