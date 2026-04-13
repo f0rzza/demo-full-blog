@@ -7,15 +7,15 @@ WORKDIR /app
 # Copier les fichiers package.json et package-lock.json : de l'env local vers l'image Docker
 COPY package*.json ./
 
-# Installer les dépendances dans l'image
-RUN npm install
+# Installer les dépendances dans l'image (clean install)
+RUN npm ci
 
 # Copier tout le code source du projet dans l'image
 COPY . .
 
-# Exposer le port du serveur
-EXPOSE 4000
+# Exposer le port de l'App Vite
+EXPOSE 5173
 
-# Lancer Node en mode DEV après création de l'image
-# --host : permet au serveur d’être accessible depuis l'extérieur du container
-CMD ["npm", "run", "dev", "--", "--host"]
+# Lancer l'App en mode DEV après création de l'image
+# --host et 0.0.0.0 : permet à l'App d’être accessible depuis l'extérieur du container
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
