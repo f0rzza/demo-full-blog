@@ -1,5 +1,9 @@
+###########
+## BUILD ##
+###########
+
 # Environnement de l'image : Node v22 - Linux Alpine (version légère de Linux)
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
 # Répertoire de travail dans le conteneur
 WORKDIR /app
@@ -13,9 +17,14 @@ RUN npm ci
 # Copier tout le code source du projet dans l'image
 COPY . .
 
-# Exposer le port de l'App Vite
-EXPOSE 5173
+# Lancer le build de l'App
+RUN npm run build
 
-# Lancer l'App en mode DEV après création de l'image
-# --host et 0.0.0.0 : permet à l'App d’être accessible depuis l'extérieur du container
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+###########################
+## RUN with Nginx ##
+###########################
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80

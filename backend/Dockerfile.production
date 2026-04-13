@@ -24,4 +24,4 @@ EXPOSE 4000
 ENTRYPOINT ["sh", "./bin/startup.sh"]
 
 # Lancer le serveur.
-CMD ["npx", "nodemon", "server.js", "--host"]
+CMD ["node", "server.js", "--host"]
