@@ -33,9 +33,10 @@ COPY --from=builder /app/dist ./dist
 # Copier les dépendances nécessaires pour Vite preview.
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/vite.config.* ./
 
 # Exposer le port de l'App Vite
 EXPOSE 4173
 
 # Lancer l'App en mode PROD après création de l'image
-CMD ["npm", "run", "preview", "--", "--host"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
