@@ -1,6 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-
-const homeRoute = { path: '/', element: <h1>Homepage</h1> };
+import { BasicLayout } from './layouts/BasicLayout';
+import { Home } from './pages/Home';
+import { PostsList, PostCreate, PostDetails, PostEdit } from './pages/posts';
+import { CategoriesList, CategoryCreate, CategoryDetails, CategoryEdit } from './pages/categories';
+import { AccountDashboard } from './pages/accounts/AccountDashboard';
+import { Authentication } from './pages/auth/Authentication';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -8,11 +12,11 @@ const postRoutes = {
   children: [
     {
       index: true,
-      element: <h1>List of post</h1>,
+      Component: PostsList,
     },
-    { path: ':id', element: <h1>Post details</h1> },
-    { path: 'create', element: <h1>Create new post</h1> },
-    { path: ':id/edit', element: <h1>Edit post</h1> },
+    { path: ':id', Component: PostDetails },
+    { path: 'create', Component: PostCreate },
+    { path: ':id/edit', Component: PostEdit },
   ],
 };
 
@@ -22,11 +26,11 @@ const categoryRoutes = {
   children: [
     {
       index: true,
-      element: <h1>List of categories</h1>,
+      Component: CategoriesList,
     },
-    { path: ':id', element: <h1>Category details</h1> },
-    { path: 'create', element: <h1>Create new category</h1> },
-    { path: ':id/edit', element: <h1>Edit category</h1> },
+    { path: ':id', Component: CategoryDetails },
+    { path: 'create', Component: CategoryCreate },
+    { path: ':id/edit', Component: CategoryEdit },
   ],
 };
 
@@ -36,18 +40,28 @@ const accountRoutes = {
   children: [
     {
       index: true,
-      element: <h1>Account dashboard</h1>,
+      Component: AccountDashboard,
     },
   ],
 };
 
 // Auth routes, with prefix.
-const authRoute = { path: 'auth', element: <h1>Sign In / Sign Up</h1> };
+const authRoute = { path: 'auth', Component: Authentication };
 
+// Note: create another group of pages when we want to use a different layout.
 export const router = createBrowserRouter([
-  homeRoute,
-  postRoutes,
-  categoryRoutes,
-  accountRoutes,
-  authRoute,
+  {
+    path: '/',
+    Component: BasicLayout,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      postRoutes,
+      categoryRoutes,
+      accountRoutes,
+      authRoute,
+    ],
+  },
 ]);
