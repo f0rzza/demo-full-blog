@@ -5,6 +5,7 @@ import { PostsList, PostCreate, PostDetails, PostEdit } from './pages/posts';
 import { CategoriesList, CategoryCreate, CategoryDetails, CategoryEdit } from './pages/categories';
 import { AccountDashboard } from './pages/accounts/AccountDashboard';
 import { Authentication } from './pages/auth/Authentication';
+import { AppError } from './components/Errors/AppError';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -53,6 +54,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     Component: BasicLayout,
+    errorElement: <AppError />,
     children: [
       {
         index: true,
