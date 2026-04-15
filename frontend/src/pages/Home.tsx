@@ -1,7 +1,11 @@
+import { FeaturedPost } from '../components/ui/Posts/FeaturedPost';
+import { LatestPosts } from '../components/ui/Posts/LatestPosts';
+
 export function Home() {
   return (
     <>
-      <h1>Welcome</h1>
+      <FeaturedPost />
+      <LatestPosts />
     </>
   );
 }
