@@ -1,5 +1,4 @@
-import { SignInForm } from '../../components/Forms/SignInForm';
-import { SignUpForm } from '../../components/Forms/SignUpForm';
+import { SignInForm, SignUpForm } from '../../features/auth';
 
 export function Authentication() {
   const mode = 'login'; // tmp const
