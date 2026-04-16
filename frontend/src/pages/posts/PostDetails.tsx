@@ -1,7 +1,13 @@
+import { PostContent } from '../../components/ui/Post/PostContent';
+import { PostHero } from '../../components/ui/Post/PostHero';
+import { SimilarPosts } from '../../components/ui/Post/SimilarPosts';
+
 export function PostDetails() {
   return (
     <>
-      <h1>Post details</h1>
+      <PostHero />
+      <PostContent />
+      <SimilarPosts />
     </>
   );
 }
