@@ -5,7 +5,7 @@ import { PostsList, PostCreate, PostDetails, PostEdit } from './pages/posts';
 import { CategoriesList, CategoryCreate, CategoryDetails, CategoryEdit } from './pages/categories';
 import { AccountDashboard } from './pages/accounts/AccountDashboard';
 import { Authentication } from './pages/auth/Authentication';
-import { AppError } from './components/Errors/AppError';
+import { AppError } from './shared/components/errors/AppError';
 
 // Post routes, with prefix.
 const postRoutes = {
