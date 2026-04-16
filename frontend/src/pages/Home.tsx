@@ -1,5 +1,4 @@
-import { FeaturedPost } from '../components/ui/Posts/FeaturedPost';
-import { LatestPosts } from '../components/ui/Posts/LatestPosts';
+import { FeaturedPost, LatestPosts } from '../features/posts';
 
 export function Home() {
   return (

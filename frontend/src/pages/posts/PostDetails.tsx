@@ -1,6 +1,4 @@
-import { PostContent } from '../../components/ui/Post/PostContent';
-import { PostHero } from '../../components/ui/Post/PostHero';
-import { SimilarPosts } from '../../components/ui/Post/SimilarPosts';
+import { PostContent, PostHero, SimilarPosts } from '../../features/posts';
 
 export function PostDetails() {
   return (
