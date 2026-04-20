@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { BasicLayout } from './layouts/BasicLayout';
 import { Home } from './pages/Home';
 import { PostsList, PostDetails } from './pages/posts';
 import { CategoriesList, CategoryDetails } from './pages/categories';
@@ -13,6 +12,7 @@ import {
   AdminPostEdit,
   AdminPostsList,
 } from './pages/admin';
+import { BasicLayout, DashboardLayout } from './layouts';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -61,7 +61,7 @@ const adminRoutes = {
       path: 'posts',
       children: [
         // DashboardLayout
-        { children: [{ index: true, Component: AdminPostsList }] },
+        { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
         // PostEditorLayout
         {
           children: [
