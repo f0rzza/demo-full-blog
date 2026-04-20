@@ -12,7 +12,7 @@ import {
   AdminPostEdit,
   AdminPostsList,
 } from './pages/admin';
-import { BasicLayout, DashboardLayout } from './layouts';
+import { BasicLayout, DashboardLayout, PostEditorLayout } from './layouts';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -64,6 +64,7 @@ const adminRoutes = {
         { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
         // PostEditorLayout
         {
+          Component: PostEditorLayout,
           children: [
             { path: 'create', Component: AdminPostCreate },
             { path: ':id/edit', Component: AdminPostEdit },

@@ -1,7 +1,5 @@
+import { AdminPostEditor } from '../../../features/posts';
+
 export function AdminPostCreate() {
-  return (
-    <>
-      <h1>Admin - Create new post</h1>
-    </>
-  );
+  return <AdminPostEditor />;
 }
