@@ -1,8 +1,8 @@
 import { AdminPostEditor } from './components/admin/AdminPostEditor';
-import { PostContent } from './components/details/PostContent';
-import { PostHero } from './components/details/PostHero';
-import { SimilarPosts } from './components/details/SimilarPosts';
-import { FeaturedPost } from './components/list/FeaturedPost';
-import { LatestPosts } from './components/list/LatestPosts';
+import { FeaturedPost } from './components/public/FeaturedPost';
+import { LatestPosts } from './components/public/LatestPosts';
+import { PostContent } from './components/public/PostContent';
+import { PostHero } from './components/public/PostHero';
+import { SimilarPosts } from './components/public/SimilarPosts';
 
-export { AdminPostEditor, PostContent, PostHero, SimilarPosts, FeaturedPost, LatestPosts };
+export { AdminPostEditor, FeaturedPost, LatestPosts, PostContent, PostHero, SimilarPosts };
