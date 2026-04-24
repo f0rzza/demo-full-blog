@@ -1,7 +1,10 @@
+import { CategoriesList, CategoryEditor } from '../../../features/categories';
+
 export function AdminCategoriesList() {
   return (
     <>
-      <h1>Admin - List of categories</h1>
+      <CategoryEditor />
+      <CategoriesList />
     </>
   );
 }
