@@ -8,4 +8,10 @@ export default defineConfig({
     // Domaines pour lesquels Vite est autorisé à répondre.
     allowedHosts: process.env.ALLOWED_HOSTS ? process.env.ALLOWED_HOSTS.split(',') : undefined,
   },
+  server: {
+    host: true,
+    watch: {
+      usePolling: true,
+    },
+  },
 });

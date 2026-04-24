@@ -1,11 +1,24 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { BasicLayout } from './layouts/BasicLayout';
-import { Home } from './pages/Home';
-import { PostsList, PostCreate, PostDetails, PostEdit } from './pages/posts';
-import { CategoriesList, CategoryCreate, CategoryDetails, CategoryEdit } from './pages/categories';
-import { AccountDashboard } from './pages/accounts/AccountDashboard';
-import { Authentication } from './pages/auth/Authentication';
-import { AppError } from './components/Errors/AppError';
+// Public pages
+import {
+  AccountDashboard,
+  Authentication,
+  CategoriesList,
+  CategoryDetails,
+  Home,
+  PostDetails,
+  PostsList,
+} from './pages/public';
+// Admin pages
+import {
+  AdminCategoriesList,
+  AdminCategoryEdit,
+  AdminPostCreate,
+  AdminPostEdit,
+  AdminPostsList,
+} from './pages/admin';
+import { AppError } from './shared/components/errors/AppError';
+import { BasicLayout, CategoryEditorLayout, DashboardLayout, PostEditorLayout } from './layouts';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -16,8 +29,6 @@ const postRoutes = {
       Component: PostsList,
     },
     { path: ':id', Component: PostDetails },
-    { path: 'create', Component: PostCreate },
-    { path: ':id/edit', Component: PostEdit },
   ],
 };
 
@@ -30,8 +41,6 @@ const categoryRoutes = {
       Component: CategoriesList,
     },
     { path: ':id', Component: CategoryDetails },
-    { path: 'create', Component: CategoryCreate },
-    { path: ':id/edit', Component: CategoryEdit },
   ],
 };
 
@@ -49,6 +58,38 @@ const accountRoutes = {
 // Auth routes, with prefix.
 const authRoute = { path: 'auth', Component: Authentication };
 
+// Admin routes : management pages.
+const adminRoutes = {
+  path: 'admin',
+  children: [
+    // Post routes
+    {
+      path: 'posts',
+      children: [
+        // DashboardLayout
+        { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
+        // PostEditorLayout
+        {
+          Component: PostEditorLayout,
+          children: [
+            { path: 'create', Component: AdminPostCreate },
+            { path: ':id/edit', Component: AdminPostEdit },
+          ],
+        },
+      ],
+    },
+    // Category routes
+    {
+      path: 'categories',
+      Component: CategoryEditorLayout,
+      children: [
+        { index: true, Component: AdminCategoriesList },
+        { path: ':id/edit', Component: AdminCategoryEdit },
+      ],
+    },
+  ],
+};
+
 // Note: create another group of pages when we want to use a different layout.
 export const router = createBrowserRouter([
   {
@@ -64,6 +105,7 @@ export const router = createBrowserRouter([
       categoryRoutes,
       accountRoutes,
       authRoute,
+      adminRoutes,
     ],
   },
 ]);
