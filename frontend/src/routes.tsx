@@ -1,10 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { PostsList, PostDetails } from './pages/posts';
-import { CategoriesList, CategoryDetails } from './pages/categories';
-import { AccountDashboard } from './pages/accounts/AccountDashboard';
-import { Authentication } from './pages/auth/Authentication';
-import { AppError } from './shared/components/errors/AppError';
+// Public pages
+import {
+  AccountDashboard,
+  Authentication,
+  CategoriesList,
+  CategoryDetails,
+  Home,
+  PostDetails,
+  PostsList,
+} from './pages/public';
+// Admin pages
 import {
   AdminCategoriesList,
   AdminCategoryEdit,
@@ -12,6 +17,7 @@ import {
   AdminPostEdit,
   AdminPostsList,
 } from './pages/admin';
+import { AppError } from './shared/components/errors/AppError';
 import { BasicLayout, CategoryEditorLayout, DashboardLayout, PostEditorLayout } from './layouts';
 
 // Post routes, with prefix.

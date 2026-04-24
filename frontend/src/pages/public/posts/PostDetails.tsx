@@ -1,4 +1,4 @@
-import { PostContent, PostHero, SimilarPosts } from '../../features/posts';
+import { PostContent, PostHero, SimilarPosts } from '../../../features/posts';
 
 export function PostDetails() {
   return (

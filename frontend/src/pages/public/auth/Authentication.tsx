@@ -1,4 +1,4 @@
-import { SignInForm, SignUpForm } from '../../features/auth';
+import { SignInForm, SignUpForm } from '../../../features/auth';
 
 export function Authentication() {
   const mode = 'login'; // tmp const

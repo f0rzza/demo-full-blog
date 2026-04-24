@@ -1,4 +1,4 @@
-import { FeaturedPost, LatestPosts } from '../features/posts';
+import { FeaturedPost, LatestPosts } from '../../features/posts';
 
 export function Home() {
   return (
