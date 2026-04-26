@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Images } from './components/Images';
 import { RightColumn } from './layouts/RightColumn';
 import { LeftColumn } from './layouts/LeftColumn';
+import { LinkButton } from '@/shared';
 
 export function FeaturedPost() {
   return (
@@ -12,6 +13,7 @@ export function FeaturedPost() {
         <LeftColumn>
           <Header />
           <Author />
+          <LinkButton label="Read the essay" to="posts/1" />
         </LeftColumn>
 
         {/* Right column */}
