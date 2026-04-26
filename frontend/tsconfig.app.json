@@ -7,6 +7,12 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
+    "baseUrl": "./src", // Base pour les chemins relatifs
+    "paths": {
+      "@/*": ["*"] // Alias "@" pointe vers tout ce qui est sous "src"
+    },
+    "ignoreDeprecations": "6.0",
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
