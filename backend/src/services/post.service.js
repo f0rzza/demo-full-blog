@@ -1,11 +1,12 @@
 import postRepository from '../repositories/post.repository.js';
 
-async function findAllPosts({ categories, authors, currentPage, limit }) {
+async function findAllPosts({ categories, authors, currentPage, limit, featured }) {
   const posts = await postRepository.getAll({
     categories,
     authors,
     currentPage,
     limit,
+    featured,
   });
   return posts;
 }
@@ -15,19 +16,25 @@ async function findPostById(id) {
   return post;
 }
 
-async function createNewPost({ title, content, authorId }) {
-  const post = await postRepository.create({ title, content, authorId });
+async function createNewPost({ title, content, authorId, featured }) {
+  const post = await postRepository.create({ title, content, authorId, featured });
   // TODO : assign categories to post
   return post;
 }
 
-async function updatePostById(id, { title, content, published, authorId }) {
+async function updatePostById(id, { title, content, published, authorId, featured }) {
   // Before update the post, check its existence.
   const post = await findPostById(id);
   if (!post) return null;
 
   // Update the post.
-  const updatedPost = await postRepository.updateById(id, { title, content, published, authorId });
+  const updatedPost = await postRepository.updateById(id, {
+    title,
+    content,
+    published,
+    authorId,
+    featured,
+  });
   return updatedPost;
 }
 
@@ -40,8 +47,8 @@ async function deletePostById(id) {
   return deletedPost;
 }
 
-async function countPublishedPosts({ categories, authors }) {
-  return await postRepository.countPublishedPosts({ categories, authors });
+async function countPublishedPosts({ categories, authors, featured }) {
+  return await postRepository.countPublishedPosts({ categories, authors, featured });
 }
 
 export default {
