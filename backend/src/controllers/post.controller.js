@@ -41,12 +41,18 @@ async function getPostById(req, res) {
 
 async function createPost(req, res) {
   try {
-    const { title, content, authorId } = req.body;
+    const { title, content, authorId, featured } = req.body;
     const parsedAuthorId = parseInt(authorId);
+    const parsedFeatured = parseBoolean(featured);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Create new post.
-    const post = await postService.createNewPost({ title, content, authorId: parsedAuthorId });
+    const post = await postService.createNewPost({
+      title,
+      content,
+      authorId: parsedAuthorId,
+      featured: parsedFeatured,
+    });
 
     res.json(post);
   } catch (error) {
@@ -57,9 +63,10 @@ async function createPost(req, res) {
 async function updatePostById(req, res) {
   try {
     const postId = parseInt(req.params.id);
-    const { title, content, published, authorId } = req.body;
+    const { title, content, published, authorId, featured } = req.body;
     const isPublished = published === true;
     const parsedAuthorId = parseInt(authorId);
+    const parsedFeatured = parseBoolean(featured);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Update existing post.
@@ -68,6 +75,7 @@ async function updatePostById(req, res) {
       content,
       published: isPublished,
       authorId: parsedAuthorId,
+      featured: parsedFeatured,
     });
 
     if (!updatedPost) {

@@ -29,17 +29,30 @@ async function getById(id) {
   return post;
 }
 
-async function create({ title, content, authorId }) {
+async function create({ title, content, authorId, featured }) {
   const post = await prisma.post.create({
-    data: { title, content, authorId },
+    data: {
+      title,
+      content,
+      authorId,
+      // Use default value if 'featured' is undefined.
+      ...(featured !== undefined && { featured }),
+    },
   });
   return post;
 }
 
-async function updateById(id, { title, content, published, authorId }) {
+async function updateById(id, { title, content, published, authorId, featured }) {
   const post = await prisma.post.update({
     where: { id },
-    data: { title, content, published, authorId },
+    data: {
+      title,
+      content,
+      published,
+      authorId,
+      // Keep existing value if 'featured' is undefined.
+      ...(featured !== undefined && { featured }),
+    },
   });
   return post;
 }
