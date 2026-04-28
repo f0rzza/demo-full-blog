@@ -1,6 +1,6 @@
 import { prisma } from '../utils/prisma.js';
 
-async function getAll({ categories, authors, currentPage, limit }) {
+async function getAll({ categories, authors, currentPage, limit, featured }) {
   const posts = await prisma.post.findMany({
     where: {
       // Post has at least one category in the given list.
@@ -9,6 +9,8 @@ async function getAll({ categories, authors, currentPage, limit }) {
       ...(authors?.length > 0 && { authorId: { in: authors } }),
       // Only published posts.
       published: true,
+      // Ignore featured filter if undefined.
+      ...(featured !== undefined && { featured }),
     },
     // Include related entities. For users, return only usernames.
     include: { categories: true, author: { select: { username: true } } },
@@ -49,7 +51,7 @@ async function deleteById(id) {
   return post;
 }
 
-async function countPublishedPosts({ categories, authors }) {
+async function countPublishedPosts({ categories, authors, featured }) {
   const posts = await prisma.post.count({
     where: {
       // Post has at least one category in the given list.
@@ -58,6 +60,8 @@ async function countPublishedPosts({ categories, authors }) {
       ...(authors?.length > 0 && { authorId: { in: authors } }),
       // Only published posts.
       published: true,
+      // Ignore featured filter if undefined.
+      ...(featured !== undefined && { featured }),
     },
   });
   return posts;

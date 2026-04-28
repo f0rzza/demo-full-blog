@@ -1,10 +1,12 @@
 import postService from '../services/post.service.js';
+import { parseBoolean } from '../utils/tools.js';
 
 async function getAllPosts(req, res) {
-  const { categories = '', authors = '', page = 1, limit = 10 } = req.query;
+  const { categories = '', authors = '', page = 1, limit = 10, featured } = req.query;
   // Convert list of ids, from string to array.
   const parsedCategories = categories ? categories.split(',').map(Number) : [];
   const parsedAuthors = authors ? authors.split(',').map(Number) : [];
+  const parsedFeatured = parseBoolean(featured);
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
@@ -12,12 +14,14 @@ async function getAllPosts(req, res) {
     authors: parsedAuthors,
     currentPage: parseInt(page),
     limit: parseInt(limit),
+    featured: parsedFeatured,
   });
 
   // Get total published posts.
   const total = await postService.countPublishedPosts({
     categories: parsedCategories,
     authors: parsedAuthors,
+    featured: parsedFeatured,
   });
 
   res.json({ posts, total });
