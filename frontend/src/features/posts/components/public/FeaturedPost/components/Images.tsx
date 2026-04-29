@@ -1,4 +1,5 @@
 export function Images() {
+  // TODO : dynamic images
   return (
     <>
       <div className="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl transform lg:translate-x-12 lg:-rotate-2">
