@@ -1,3 +1,6 @@
+import type { CategoryType } from '../categories/categories.types';
+import type { UserType } from '../users/users.types';
+
 export type PostType = {
   id: number;
   title: string;
@@ -6,7 +9,8 @@ export type PostType = {
   createdAt: Date;
   updatedAt: Date;
   authorId: number;
-  // TODO categories
+  author: UserType;
+  categories: Array<CategoryType>;
   featured: boolean;
   chapo: string;
 };
