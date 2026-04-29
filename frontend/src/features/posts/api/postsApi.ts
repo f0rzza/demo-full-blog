@@ -17,6 +17,15 @@ export async function getFeaturedPost(): Promise<GetPostsApiResponse | null> {
   return null;
 }
 
-export function getLatestPosts() {
-  // TODO
+export async function getLatestPosts(nb: number = 5): Promise<GetPostsApiResponse | null> {
+  // Generate API URL
+  const url = new URL('/posts', baseApiUrl);
+  url.searchParams.set('limit', nb.toString());
+
+  // Call API
+  const results = await callApi(url);
+
+  if (results.total > 0) return results;
+
+  return null;
 }
