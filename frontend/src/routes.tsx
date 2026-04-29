@@ -6,6 +6,7 @@ import {
   CategoriesList,
   CategoryDetails,
   Home,
+  homePageLoader,
   PostDetails,
   PostsList,
 } from './pages/public';
@@ -100,6 +101,7 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+        loader: homePageLoader,
       },
       postRoutes,
       categoryRoutes,
