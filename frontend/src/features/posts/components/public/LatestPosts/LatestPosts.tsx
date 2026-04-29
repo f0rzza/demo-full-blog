@@ -1,13 +1,9 @@
 import { ClassicButton } from '@/shared';
 import { Header } from './components/Header';
 import { PostCard } from './components/PostCard';
-import { useLoaderData } from 'react-router-dom';
-import type { PostType } from '@/features/posts/posts.types';
-import type { HomePageLoaderType } from '@/pages/public/homeLoader';
+import type { GetPostsApiResponse, PostType } from '@/features/posts/posts.types';
 
-export function LatestPosts() {
-  const { latestPosts } = useLoaderData<HomePageLoaderType>();
-
+export function LatestPosts({ latestPosts }: { latestPosts: GetPostsApiResponse }) {
   // If there is are not latest posts, hide the section.
   if (!latestPosts) {
     return;

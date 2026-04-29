@@ -4,12 +4,9 @@ import { Images } from './components/Images';
 import { RightColumn } from './layouts/RightColumn';
 import { LeftColumn } from './layouts/LeftColumn';
 import { LinkButton } from '@/shared';
-import { useLoaderData } from 'react-router-dom';
-import type { HomePageLoaderType } from '@/pages/public/homeLoader';
+import type { GetFeaturedPostApiResponse } from '@/features/posts/posts.types';
 
-export function FeaturedPost() {
-  const { featuredPost } = useLoaderData<HomePageLoaderType>();
-
+export function FeaturedPost({ featuredPost }: { featuredPost: GetFeaturedPostApiResponse }) {
   // If there is are not featured post, hide the section.
   if (!featuredPost) {
     return;
