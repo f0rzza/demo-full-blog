@@ -33,6 +33,7 @@ model Post {
   authorId      Int
   categories    Category[]
   featured      Boolean   @default(false)
+  chapo         String?   @db.VarChar(250)
 }
 
 // Category can be assigned to many posts.

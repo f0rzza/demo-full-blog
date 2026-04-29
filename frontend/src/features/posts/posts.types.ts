@@ -8,6 +8,7 @@ export type PostType = {
   authorId: number;
   // TODO categories
   featured: boolean;
+  chapo: string;
 };
 
 export type GetPostsApiResponse = {
