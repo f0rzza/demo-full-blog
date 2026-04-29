@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type SubmitEvent } from 'react';
 import { TitleInput } from './TitleInput';
 import { TinyMceEditor } from './TinyMceEditor';
+import { PostEditorSidebar } from '@/layouts/components/sidebars/PostEditorSidebar';
 
 export function PostForm() {
   const [formData, setFormData] = useState({
@@ -28,11 +29,15 @@ export function PostForm() {
   const { title, content } = formData;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-7xl mx-auto px-8 py-12 flex flex-col lg:flex-row gap-16"
+    >
       <article className="flex-grow max-w-4xl">
         <TitleInput title={title} onFormChange={handleChange} />
         <TinyMceEditor content={content} onFormChange={handleEditorChange} />
       </article>
+      <PostEditorSidebar />
     </form>
   );
 }
