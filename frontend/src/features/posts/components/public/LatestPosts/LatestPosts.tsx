@@ -3,9 +3,10 @@ import { Header } from './components/Header';
 import { PostCard } from './components/PostCard';
 import { useLoaderData } from 'react-router-dom';
 import type { PostType } from '@/features/posts/posts.types';
+import type { HomePageLoaderType } from '@/pages/public/homeLoader';
 
 export function LatestPosts() {
-  const { latestPosts } = useLoaderData();
+  const { latestPosts } = useLoaderData<HomePageLoaderType>();
 
   // If there is are not latest posts, hide the section.
   if (!latestPosts) {

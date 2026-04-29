@@ -5,9 +5,10 @@ import { RightColumn } from './layouts/RightColumn';
 import { LeftColumn } from './layouts/LeftColumn';
 import { LinkButton } from '@/shared';
 import { useLoaderData } from 'react-router-dom';
+import type { HomePageLoaderType } from '@/pages/public/homeLoader';
 
 export function FeaturedPost() {
-  const { featuredPost } = useLoaderData();
+  const { featuredPost } = useLoaderData<HomePageLoaderType>();
 
   // If there is are not featured post, hide the section.
   if (!featuredPost) {
