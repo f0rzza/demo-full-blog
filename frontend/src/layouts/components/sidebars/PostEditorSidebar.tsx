@@ -2,13 +2,11 @@ import { PublishButton } from '@/features/posts/components/admin/forms/buttons/P
 import { SaveDraftButton } from '@/features/posts/components/admin/forms/buttons/SaveDraftButton';
 import { TextAreaField } from '@/features/posts/components/admin/forms/fields/TextAreaField';
 import { SelectField } from '@/features/posts/components/admin/forms/fields/SelectField';
+import { useLoaderData } from 'react-router-dom';
+import type { CreatePostPageLoaderType } from '@/pages/admin/posts/createPostLoader';
 
 export function PostEditorSidebar() {
-  const categories = [
-    { id: 1, name: 'Design & Culture' },
-    { id: 2, name: 'Architectural Essays' },
-    { id: 3, name: 'Digital Curation' },
-  ]; // tmp data
+  const { categories } = useLoaderData<CreatePostPageLoaderType>();
 
   return (
     <aside className="w-full lg:w-80 flex flex-col gap-8">

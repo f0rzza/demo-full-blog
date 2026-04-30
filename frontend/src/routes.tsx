@@ -17,6 +17,7 @@ import {
   AdminPostCreate,
   AdminPostEdit,
   AdminPostsList,
+  createPostPageLoader,
 } from './pages/admin';
 import { AppError } from './shared/components/errors/AppError';
 import { BasicLayout, CategoryEditorLayout, DashboardLayout } from './layouts';
@@ -72,7 +73,7 @@ const adminRoutes = {
         // BasicLayout
         {
           children: [
-            { path: 'create', Component: AdminPostCreate },
+            { path: 'create', Component: AdminPostCreate, loader: createPostPageLoader },
             { path: ':id/edit', Component: AdminPostEdit },
           ],
         },
