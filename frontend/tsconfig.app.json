@@ -7,11 +7,10 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    "baseUrl": "./src", // Base pour les chemins relatifs
     "paths": {
-      "@/*": ["*"] // Alias "@" pointe vers tout ce qui est sous "src"
+      "@/*": ["./src/*"], // Alias "@" pointe vers tout ce qui est sous "src"
+      "@shared/*": ["../shared/*"] // Alias "@shared" pointe vers le dossier 'shared' externe à Vite
     },
-    "ignoreDeprecations": "6.0",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -27,5 +26,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "../shared"]
 }
