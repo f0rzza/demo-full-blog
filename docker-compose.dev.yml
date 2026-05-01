@@ -20,6 +20,7 @@ services:
     volumes:
       - ./backend:/app # synchronise le code local avec le container
       - /app/node_modules # pour éviter que le dossier node_modules local n'écrase celui du conteneur
+      - ./shared:/app/shared # permet d'accéder aux ressources partagées
     env_file:
       - ./backend/.env # injecter les variables d'env du backend
     environment:
@@ -37,6 +38,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+      - ./shared:/app/shared
     env_file:
       - ./frontend/.env
     environment:
