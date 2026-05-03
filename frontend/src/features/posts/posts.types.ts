@@ -31,3 +31,5 @@ export type CreatePostType = {
   featured: boolean;
   chapo: string;
 };
+
+export type CreatePostApiResponse = PostType;
