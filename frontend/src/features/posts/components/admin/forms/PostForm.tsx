@@ -11,7 +11,7 @@ export function PostForm() {
   // Get form mthods to use in the provider.
   const methods = useForm<CreatePostType>({
     resolver: zodResolver(createPostSchema),
-    defaultValues: { title: '', content: '', authorId: 1 },
+    defaultValues: { title: '', content: '', authorId: undefined },
   });
 
   const {

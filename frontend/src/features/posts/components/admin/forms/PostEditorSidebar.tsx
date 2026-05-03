@@ -3,9 +3,15 @@ import { MultipleSelectField } from '@/features/posts/components/admin/forms/fie
 import { useLoaderData } from 'react-router-dom';
 import type { CreatePostPageLoaderType } from '@/pages/admin/posts/createPostLoader';
 import { PostButton } from './buttons/PostButton';
+import { SelectField } from './fields/SelectField';
 
 export function PostEditorSidebar() {
   const { categories } = useLoaderData<CreatePostPageLoaderType>();
+
+  const fakeUsers = [
+    { id: 1, username: 'User1' },
+    { id: 2, username: 'User2' },
+  ];
 
   return (
     <aside className="w-full lg:w-80 flex flex-col gap-8">
@@ -22,6 +28,12 @@ export function PostEditorSidebar() {
       </div>
 
       <div className="space-y-12 px-2">
+        <SelectField
+          sectionTitle="Author"
+          fieldName="authorId"
+          options={fakeUsers}
+          fieldAsLabel="username"
+        />
         <MultipleSelectField
           sectionTitle="Categories"
           fieldName="categories"

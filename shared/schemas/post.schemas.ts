@@ -18,13 +18,19 @@ const chapoSchema = z
   .min(250, { message: 'Content must contain at least 250 characters.' })
   .optional();
 
+const authorSchema = z
+  .string({ required_error: 'Select an author.' })
+  .min(1, 'Select an author.')
+  .transform((val) => Number(val))
+  .pipe(z.number().int().positive());
+
 // Post schema
 export const postSchema = z.object({
   id: idSchema,
   title: titleSchema,
   content: contentSchema,
   published: z.boolean().default(false),
-  authorId: idSchema,
+  authorId: authorSchema,
   categories: z.array(z.string()), // TODO
   featured: z.boolean().default(false),
   chapo: chapoSchema,
