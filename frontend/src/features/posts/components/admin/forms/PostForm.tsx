@@ -4,7 +4,8 @@ import { PostEditorSidebar } from '@/features/posts/components/admin/forms/PostE
 import type { CreatePostType } from '@/features/posts/posts.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createPostSchema } from '@shared/schemas';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm, type FieldError } from 'react-hook-form';
+import { ErrorField } from '@/shared/components/ui/form/ErrorField';
 
 export function PostForm() {
   // Get form mthods to use in the provider.
@@ -21,6 +22,10 @@ export function PostForm() {
 
   return (
     <FormProvider {...methods}>
+      {errors.root?.serverError && (
+        <ErrorField id="serverError" error={errors.root.serverError as FieldError} />
+      )}
+
       <form className="max-w-7xl mx-auto px-8 py-12 flex flex-col lg:flex-row gap-16">
         <article className="flex-grow max-w-4xl">
           <TitleInput {...register('title')} error={errors.title} />
