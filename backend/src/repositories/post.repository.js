@@ -29,7 +29,7 @@ async function getById(id) {
   return post;
 }
 
-async function create({ title, content, authorId, featured }) {
+async function create({ title, content, published, authorId, featured }) {
   const post = await prisma.post.create({
     data: {
       title,
@@ -37,6 +37,7 @@ async function create({ title, content, authorId, featured }) {
       authorId,
       // Use default value if 'featured' is undefined.
       ...(featured !== undefined && { featured }),
+      ...(published !== undefined && { published }),
     },
   });
   return post;
@@ -48,10 +49,10 @@ async function updateById(id, { title, content, published, authorId, featured })
     data: {
       title,
       content,
-      published,
       authorId,
       // Keep existing value if 'featured' is undefined.
       ...(featured !== undefined && { featured }),
+      ...(published !== undefined && { published }),
     },
   });
   return post;
