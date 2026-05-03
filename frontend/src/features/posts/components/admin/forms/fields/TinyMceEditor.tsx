@@ -1,16 +1,19 @@
-import { Editor } from '@tinymce/tinymce-react';
+import { ErrorField } from '@/shared/components/ui/form/ErrorField';
+import type { ErrorFieldType } from '@/shared/types/common';
+import { Editor, type IAllProps } from '@tinymce/tinymce-react';
 
-type Props = {
-  content: string;
-  onFormChange?: (newContent: string) => void;
+// Get native TinyMce props with correct types and add a custom prop.
+// Note: required to satisfy TS when using '...props'.
+type Props = Pick<IAllProps, 'value' | 'onBlur' | 'onEditorChange'> & {
+  error: ErrorFieldType;
 };
 
-export function TinyMceEditor({ content, onFormChange }: Props) {
+export function TinyMceEditor({ error, ...props }: Props) {
   return (
-    <>
+    <div>
+      {error && <ErrorField id="content-error" error={error} />}
       <Editor
         apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
-        value={content}
         init={{
           height: 500,
           menubar: false, // Masquer le menu, si tu n'en as pas besoin
@@ -33,8 +36,8 @@ export function TinyMceEditor({ content, onFormChange }: Props) {
           ],
           toolbar_sticky: true, // Barre d'outils fixe en haut
         }}
-        onEditorChange={onFormChange}
+        {...props}
       />
-    </>
+    </div>
   );
 }

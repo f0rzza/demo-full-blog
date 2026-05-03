@@ -1,21 +1,16 @@
-import type { ChangeEvent } from 'react';
+import { ErrorField } from '@/shared/components/ui/form/ErrorField';
+import type { ErrorFieldType } from '@/shared/types/common';
 
-type Props = {
-  title: string;
-  onFormChange?: (e: ChangeEvent) => void;
-};
-
-export function TitleInput({ title, onFormChange }: Props) {
+export function TitleInput({ error, ...props }: { error: ErrorFieldType }) {
   return (
     <div className="mb-12">
       <input
         className="w-full bg-transparent border-none p-0 text-5xl md:text-7xl font-headline italic tracking-tight placeholder:text-surface-container-high focus:ring-0 focus:outline-none text-on-surface"
         placeholder="Enter your story title..."
         type="text"
-        value={title}
-        name="title"
-        onChange={onFormChange}
+        {...props}
       />
+      {error && <ErrorField id="title-error" error={error} />}
     </div>
   );
 }
