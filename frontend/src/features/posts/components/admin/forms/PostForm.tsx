@@ -1,6 +1,6 @@
 import { TitleInput } from './fields/TitleInput';
 import { TinyMceEditor } from './fields/TinyMceEditor';
-import { PostEditorSidebar } from '@/layouts/components/sidebars/PostEditorSidebar';
+import { PostEditorSidebar } from '@/features/posts/components/admin/forms/PostEditorSidebar';
 import type { CreatePostType } from '@/features/posts/posts.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createPostSchema } from '@shared/schemas';
