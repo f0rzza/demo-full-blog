@@ -1,7 +1,7 @@
 type Props = { sectionTitle: string; fieldName: string; options: Array<unknown> };
 // TODO: use 'T' generic type
 
-export function SelectField({ sectionTitle, fieldName, options }: Props) {
+export function MultipleSelectField({ sectionTitle, fieldName, options }: Props) {
   return (
     <section>
       <h3 className="font-label text-xs uppercase tracking-[0.2em] text-outline mb-6">

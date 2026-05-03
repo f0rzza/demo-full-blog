@@ -1,5 +1,5 @@
 import { TextAreaField } from '@/features/posts/components/admin/forms/fields/TextAreaField';
-import { SelectField } from '@/features/posts/components/admin/forms/fields/SelectField';
+import { MultipleSelectField } from '@/features/posts/components/admin/forms/fields/MultipleSelectField';
 import { useLoaderData } from 'react-router-dom';
 import type { CreatePostPageLoaderType } from '@/pages/admin/posts/createPostLoader';
 import { PostButton } from './buttons/PostButton';
@@ -22,7 +22,11 @@ export function PostEditorSidebar() {
       </div>
 
       <div className="space-y-12 px-2">
-        <SelectField sectionTitle="Categories" fieldName="categories" options={categories} />
+        <MultipleSelectField
+          sectionTitle="Categories"
+          fieldName="categories"
+          options={categories}
+        />
         <TextAreaField
           sectionTitle="Chapo"
           fieldName="chapo"
