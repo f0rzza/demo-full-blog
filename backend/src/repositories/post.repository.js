@@ -25,11 +25,13 @@ async function getAll({ categories, authors, currentPage, limit, featured }) {
 async function getById(id) {
   const post = await prisma.post.findUnique({
     where: { id },
+    // Include related entities. For users, return only usernames.
+    include: { categories: true, author: { select: { username: true } } },
   });
   return post;
 }
 
-async function create({ title, content, authorId, featured }) {
+async function create({ title, content, published, authorId, featured, categories }) {
   const post = await prisma.post.create({
     data: {
       title,
@@ -37,21 +39,34 @@ async function create({ title, content, authorId, featured }) {
       authorId,
       // Use default value if 'featured' is undefined.
       ...(featured !== undefined && { featured }),
+      ...(published !== undefined && { published }),
+      // Add categories if necessary.
+      ...(categories && {
+        categories: {
+          connect: categories,
+        },
+      }),
     },
   });
   return post;
 }
 
-async function updateById(id, { title, content, published, authorId, featured }) {
+async function updateById(id, { title, content, published, authorId, featured, categories }) {
   const post = await prisma.post.update({
     where: { id },
     data: {
       title,
       content,
-      published,
       authorId,
       // Keep existing value if 'featured' is undefined.
       ...(featured !== undefined && { featured }),
+      ...(published !== undefined && { published }),
+      // Add categories if necessary.
+      ...(categories && {
+        categories: {
+          set: categories, // Use 'set' to disconnect useless categories.
+        },
+      }),
     },
   });
   return post;

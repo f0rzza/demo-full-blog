@@ -1,5 +1,11 @@
 import { callApi } from '@/shared/api/api';
-import type { GetFeaturedPostApiResponse, GetPostsApiResponse } from '../posts.types';
+import type {
+  CreatePostApiResponse,
+  CreatePostType,
+  GetFeaturedPostApiResponse,
+  GetPostsApiResponse,
+  PostType,
+} from '../posts.types';
 
 const baseApiUrl = import.meta.env.VITE_BASE_BLOG_API_URL;
 
@@ -28,4 +34,30 @@ export async function getLatestPosts(nb: number = 5): Promise<GetPostsApiRespons
   if (results.total > 0) return results;
 
   return null;
+}
+
+export async function getPost(id: number): Promise<PostType> {
+  // Generate API URL
+  const url = new URL(`/posts/${id}`, baseApiUrl);
+
+  // Call API
+  const result = await callApi(url);
+  return result;
+}
+
+export async function createPost(data: CreatePostType): Promise<CreatePostApiResponse> {
+  // Generate API URL
+  const url = new URL('/posts', baseApiUrl);
+
+  // Call API
+  const result = await callApi(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  console.log('res', result);
+
+  return result;
 }

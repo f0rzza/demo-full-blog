@@ -6,6 +6,7 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
   readonly VITE_BASE_BLOG_API_URL: string;
+  readonly VITE_TINYMCE_API_KEY: string;
 }
 
 interface ImportMeta {

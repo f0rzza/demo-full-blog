@@ -21,3 +21,15 @@ export type GetPostsApiResponse = {
 } | null;
 
 export type GetFeaturedPostApiResponse = PostType | null;
+
+export type CreatePostType = {
+  title: string;
+  content: string;
+  published?: boolean;
+  authorId?: number;
+  categories: Array<CategoryType>;
+  featured: boolean;
+  chapo: string;
+};
+
+export type CreatePostApiResponse = PostType;

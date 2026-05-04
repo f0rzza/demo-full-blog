@@ -1,9 +1,15 @@
 // Generic function to make API request.
-export async function callApi(endpoint: URL, options = {}) {
-  const response = await fetch(`${endpoint}`, options);
+export async function callApi(endpoint: URL, options: RequestInit = {}) {
+  let response: Response;
+
+  try {
+    response = await fetch(endpoint, options);
+  } catch {
+    throw new Error('Network Error');
+  }
 
   if (!response.ok) {
-    throw new Response('Api Error', { status: 500 });
+    throw new Error(response.statusText ?? 'Api Error');
   }
 
   return await response.json();

@@ -1,5 +1,5 @@
-import { AdminPostEditor } from '../../../features/posts';
+import { PostForm } from '@/features/posts/components/admin/forms/PostForm';
 
 export function AdminPostCreate() {
-  return <AdminPostEditor />;
+  return <PostForm />;
 }

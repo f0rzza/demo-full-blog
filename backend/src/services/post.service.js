@@ -16,13 +16,19 @@ async function findPostById(id) {
   return post;
 }
 
-async function createNewPost({ title, content, authorId, featured }) {
-  const post = await postRepository.create({ title, content, authorId, featured });
-  // TODO : assign categories to post
+async function createNewPost({ title, content, published, authorId, featured, categories }) {
+  const post = await postRepository.create({
+    title,
+    content,
+    published,
+    authorId,
+    featured,
+    categories,
+  });
   return post;
 }
 
-async function updatePostById(id, { title, content, published, authorId, featured }) {
+async function updatePostById(id, { title, content, published, authorId, featured, categories }) {
   // Before update the post, check its existence.
   const post = await findPostById(id);
   if (!post) return null;
@@ -34,6 +40,7 @@ async function updatePostById(id, { title, content, published, authorId, feature
     published,
     authorId,
     featured,
+    categories,
   });
   return updatedPost;
 }

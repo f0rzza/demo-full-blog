@@ -1,1 +1,3 @@
-export type UserType = { username: string };
+export type UserType = { id: number; username: string };
+
+export type GetUsersApiResponse = Array<UserType>;

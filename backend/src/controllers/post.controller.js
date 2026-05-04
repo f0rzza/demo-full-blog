@@ -1,5 +1,5 @@
 import postService from '../services/post.service.js';
-import { parseBoolean } from '../utils/tools.js';
+import { parseBoolean, parseCategories } from '../utils/tools.js';
 
 async function getAllPosts(req, res) {
   const { categories = '', authors = '', page = 1, limit = 10, featured } = req.query;
@@ -41,17 +41,21 @@ async function getPostById(req, res) {
 
 async function createPost(req, res) {
   try {
-    const { title, content, authorId, featured } = req.body;
+    const { title, content, published, authorId, featured, categories } = req.body;
+    const isPublished = parseBoolean(published);
     const parsedAuthorId = parseInt(authorId);
     const parsedFeatured = parseBoolean(featured);
+    const parsedCategories = parseCategories(categories);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Create new post.
     const post = await postService.createNewPost({
       title,
       content,
+      published: isPublished,
       authorId: parsedAuthorId,
       featured: parsedFeatured,
+      categories: parsedCategories,
     });
 
     res.json(post);
@@ -63,10 +67,11 @@ async function createPost(req, res) {
 async function updatePostById(req, res) {
   try {
     const postId = parseInt(req.params.id);
-    const { title, content, published, authorId, featured } = req.body;
-    const isPublished = published === true;
+    const { title, content, published, authorId, featured, categories } = req.body;
+    const isPublished = parseBoolean(published);
     const parsedAuthorId = parseInt(authorId);
     const parsedFeatured = parseBoolean(featured);
+    const parsedCategories = parseCategories(categories);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Update existing post.
@@ -76,6 +81,7 @@ async function updatePostById(req, res) {
       published: isPublished,
       authorId: parsedAuthorId,
       featured: parsedFeatured,
+      categories: parsedCategories,
     });
 
     if (!updatedPost) {
