@@ -8,7 +8,14 @@ FROM node:22-alpine AS builder
 # Répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copier le dosssier partagé
+# Copier les fichiers package.json et package-lock.json du dossier partagé
+# Note: étape permettant de mettre en cache les dépendances
+COPY shared/package*.json ./shared/
+
+# Installer les dépendances
+RUN cd shared && npm ci
+
+# Copier le dossier partagé
 COPY shared/ ./shared/
 
 # Copier les fichiers package.json et package-lock.json : de l'env local vers l'image Docker
