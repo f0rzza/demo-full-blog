@@ -32,7 +32,8 @@ export function PostButton({ variant }: Props) {
       return;
     }
 
-    navigate(`/admin/posts/${response.id}/edit`);
+    // navigate(`/admin/posts/${response.id}/edit`);
+    // Note: uncomment when edit page will be done
   }
 
   return (

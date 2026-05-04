@@ -1,7 +1,11 @@
+import { useFormContext } from 'react-hook-form';
+
 type Props = { sectionTitle: string; fieldName: string; options: Array<unknown> };
 // TODO: use 'T' generic type
 
 export function MultipleSelectField({ sectionTitle, fieldName, options }: Props) {
+  const { register } = useFormContext();
+
   return (
     <section>
       <h3 className="font-label text-xs uppercase tracking-[0.2em] text-outline mb-6">
@@ -19,8 +23,8 @@ export function MultipleSelectField({ sectionTitle, fieldName, options }: Props)
                 <input
                   type="checkbox"
                   className="form-checkbox text-blue-600"
-                  name={fieldName}
                   value={item.id}
+                  {...register(fieldName)}
                 />
                 <span className="text-sm text-gray-700">{item.name}</span>
               </label>
