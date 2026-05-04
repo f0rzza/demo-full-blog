@@ -1,10 +1,12 @@
 import postService from '../services/post.service.js';
+import { parseBoolean, parseCategories } from '../utils/tools.js';
 
 async function getAllPosts(req, res) {
-  const { categories = '', authors = '', page = 1, limit = 10 } = req.query;
+  const { categories = '', authors = '', page = 1, limit = 10, featured } = req.query;
   // Convert list of ids, from string to array.
   const parsedCategories = categories ? categories.split(',').map(Number) : [];
   const parsedAuthors = authors ? authors.split(',').map(Number) : [];
+  const parsedFeatured = parseBoolean(featured);
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
@@ -12,12 +14,14 @@ async function getAllPosts(req, res) {
     authors: parsedAuthors,
     currentPage: parseInt(page),
     limit: parseInt(limit),
+    featured: parsedFeatured,
   });
 
   // Get total published posts.
   const total = await postService.countPublishedPosts({
     categories: parsedCategories,
     authors: parsedAuthors,
+    featured: parsedFeatured,
   });
 
   res.json({ posts, total });
@@ -37,12 +41,22 @@ async function getPostById(req, res) {
 
 async function createPost(req, res) {
   try {
-    const { title, content, authorId } = req.body;
+    const { title, content, published, authorId, featured, categories } = req.body;
+    const isPublished = parseBoolean(published);
     const parsedAuthorId = parseInt(authorId);
+    const parsedFeatured = parseBoolean(featured);
+    const parsedCategories = parseCategories(categories);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Create new post.
-    const post = await postService.createNewPost({ title, content, authorId: parsedAuthorId });
+    const post = await postService.createNewPost({
+      title,
+      content,
+      published: isPublished,
+      authorId: parsedAuthorId,
+      featured: parsedFeatured,
+      categories: parsedCategories,
+    });
 
     res.json(post);
   } catch (error) {
@@ -53,9 +67,11 @@ async function createPost(req, res) {
 async function updatePostById(req, res) {
   try {
     const postId = parseInt(req.params.id);
-    const { title, content, published, authorId } = req.body;
-    const isPublished = published === true;
+    const { title, content, published, authorId, featured, categories } = req.body;
+    const isPublished = parseBoolean(published);
     const parsedAuthorId = parseInt(authorId);
+    const parsedFeatured = parseBoolean(featured);
+    const parsedCategories = parseCategories(categories);
     // TODO: use 'Zod' package or eq to get validated data.
 
     // Update existing post.
@@ -64,6 +80,8 @@ async function updatePostById(req, res) {
       content,
       published: isPublished,
       authorId: parsedAuthorId,
+      featured: parsedFeatured,
+      categories: parsedCategories,
     });
 
     if (!updatedPost) {

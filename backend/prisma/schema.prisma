@@ -32,6 +32,8 @@ model Post {
   author        User      @relation(fields: [authorId], references: [id])
   authorId      Int
   categories    Category[]
+  featured      Boolean   @default(false)
+  chapo         String?   @db.VarChar(250)
 }
 
 // Category can be assigned to many posts.
