@@ -6,12 +6,7 @@ import { PostButton } from './buttons/PostButton';
 import { SelectField } from './fields/SelectField';
 
 export function PostEditorSidebar() {
-  const { categories } = useLoaderData<CreatePostPageLoaderType>();
-
-  const fakeUsers = [
-    { id: 1, username: 'User1' },
-    { id: 2, username: 'User2' },
-  ];
+  const { categories, authors } = useLoaderData<CreatePostPageLoaderType>();
 
   return (
     <aside className="w-full lg:w-80 flex flex-col gap-8">
@@ -31,7 +26,7 @@ export function PostEditorSidebar() {
         <SelectField
           sectionTitle="Author"
           fieldName="authorId"
-          options={fakeUsers}
+          options={authors}
           fieldAsLabel="username"
         />
         <MultipleSelectField
