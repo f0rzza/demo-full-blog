@@ -1,15 +1,14 @@
 import { TitleInput } from './fields/TitleInput';
 import { TinyMceEditor } from './fields/TinyMceEditor';
 import { PostEditorSidebar } from '@/features/posts/components/admin/forms/PostEditorSidebar';
-import type { CreatePostType } from '@/features/posts/posts.types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createPostSchema } from '@shared/schemas';
+import { createPostSchema, type CreatePostInput, type CreatePostOutput } from '@shared/schemas';
 import { Controller, FormProvider, useForm, type FieldError } from 'react-hook-form';
 import { ErrorField } from '@/shared/components/ui/form/ErrorField';
 
 export function PostForm() {
   // Get form mthods to use in the provider.
-  const methods = useForm<CreatePostType>({
+  const methods = useForm<CreatePostInput, any, CreatePostOutput>({
     resolver: zodResolver(createPostSchema),
     defaultValues: { title: '', content: '', authorId: undefined },
   });
