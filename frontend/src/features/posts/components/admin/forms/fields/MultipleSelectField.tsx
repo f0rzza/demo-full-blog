@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 
-type Props = { sectionTitle: string; fieldName: string; options: Array<unknown> };
+type Props = { sectionTitle: string; fieldName: string; options: Array<any> };
 // TODO: use 'T' generic type
 
 export function MultipleSelectField({ sectionTitle, fieldName, options }: Props) {
@@ -15,7 +15,7 @@ export function MultipleSelectField({ sectionTitle, fieldName, options }: Props)
       <div className="flex flex-col gap-3">
         <div className="dropdown-content  w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto Ahidden group-hover:block">
           <div className="p-2">
-            {options.map((item: unknown) => (
+            {options.map((item) => (
               <label
                 key={item.id}
                 className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 rounded-md p-2"
