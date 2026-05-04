@@ -4,8 +4,8 @@ import { useFormContext, type FieldError } from 'react-hook-form';
 type Props = {
   sectionTitle: string;
   fieldName: string;
-  options: Array<unknown>;
-  selectedValue?: unknown;
+  options: Array<any>;
+  selectedValue?: any;
   fieldAsLabel: string;
 };
 // TODO: use 'T' generic type
