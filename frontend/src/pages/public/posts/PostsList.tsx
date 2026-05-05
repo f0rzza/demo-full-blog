@@ -1,6 +1,10 @@
 import { PostList, PostPagination, PostToolbar } from '@/features/posts/components/public/list';
+import { useLoaderData } from 'react-router-dom';
+import type { PostsListPageLoaderType } from './postsListLoader';
 
 export function PostsList() {
+  const { categories, posts } = useLoaderData<PostsListPageLoaderType>();
+
   return (
     <div className="pt-32 pb-24 px-8 max-w-screen-2xl mx-auto">
       <header className="mb-16 md:mb-24">
@@ -14,8 +18,8 @@ export function PostsList() {
         </div>
       </header>
 
-      <PostToolbar />
-      <PostList />
+      <PostToolbar categories={categories} />
+      <PostList posts={posts} />
       <PostPagination />
     </div>
   );

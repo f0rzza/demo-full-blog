@@ -9,6 +9,7 @@ import {
   homePageLoader,
   PostDetails,
   PostsList,
+  postsListPageLoader,
 } from './pages/public';
 // Admin pages
 import {
@@ -29,6 +30,7 @@ const postRoutes = {
     {
       index: true,
       Component: PostsList,
+      loader: postsListPageLoader,
     },
     { path: ':id', Component: PostDetails },
   ],
