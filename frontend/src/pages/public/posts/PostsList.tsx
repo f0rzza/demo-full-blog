@@ -19,7 +19,7 @@ export function PostsList() {
       </header>
 
       <PostToolbar categories={categories} />
-      <PostList posts={posts} />
+      <PostList posts={posts?.posts} />
       <PostPagination />
     </div>
   );
