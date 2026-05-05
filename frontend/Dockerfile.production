@@ -31,6 +31,13 @@ RUN npm ci
 # Copier tout le code source du projet dans l'image
 COPY frontend/ .
 
+# Déclarer les ARGs et les exposer comme ENV pour le build
+ARG VITE_BASE_BLOG_API_URL
+ARG VITE_TINYMCE_API_KEY
+
+ENV VITE_BASE_BLOG_API_URL=$VITE_BASE_BLOG_API_URL
+ENV VITE_TINYMCE_API_KEY=$VITE_TINYMCE_API_KEY
+
 # Lancer le build de l'App
 RUN npm run build
 
