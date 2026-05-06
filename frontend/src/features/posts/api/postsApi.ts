@@ -31,9 +31,7 @@ export async function getLatestPosts(nb: number = 5): Promise<GetPostsApiRespons
   // Call API
   const results = await callApi(url);
 
-  if (results.total > 0) return results;
-
-  return null;
+  return results;
 }
 
 export async function getPost(id: number): Promise<PostType> {

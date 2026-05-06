@@ -18,7 +18,7 @@ export type PostType = {
 export type GetPostsApiResponse = {
   posts: Array<PostType>;
   total: number;
-} | null;
+};
 
 export type GetFeaturedPostApiResponse = PostType | null;
 
