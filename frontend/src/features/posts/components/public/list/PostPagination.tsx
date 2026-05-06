@@ -4,13 +4,17 @@ import { PaginationLink } from './components/PaginationLink';
 // Generate links for the pagination (except prev/next links)
 function getLinks(current: number, total: number) {
   const links: Array<JSX.Element> = [];
-  for (let i = 1; i < total; i++) {
+  for (let i = 1; i <= total; i++) {
     links.push(<PaginationLink key={i} page={i} current={current === i} />);
   }
   return links;
 }
 
 export function PostPagination({ current, total }: { current: number; total: number }) {
+  if (total === 1) {
+    return;
+  }
+
   const links = getLinks(current, total);
 
   return (

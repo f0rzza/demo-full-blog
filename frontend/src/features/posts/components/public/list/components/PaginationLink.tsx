@@ -11,10 +11,8 @@ export function PaginationLink({ page, variant = 'page', current = false }: Prop
   const config = paginationConfigs[variant];
 
   if (variant === 'next' || variant === 'prev') {
-    const numPage = variant === 'next' ? page - 1 : page + 1;
-
     return (
-      <Link className={config.classNames} to={`?page=${numPage}`}>
+      <Link className={config.classNames} to={`?page=${page}`}>
         {variant === 'next' && config.label}
         <span
           className={`material-symbols-outlined ml-2 text-sm group-hover:translate-x-1 transition-transform ${config.spanClassNames}`}
