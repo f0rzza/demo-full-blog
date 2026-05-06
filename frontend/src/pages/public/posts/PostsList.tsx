@@ -3,7 +3,12 @@ import { useLoaderData } from 'react-router-dom';
 import type { PostsListPageLoaderType } from './postsListLoader';
 
 export function PostsList() {
-  const { categories, posts } = useLoaderData<PostsListPageLoaderType>();
+  const {
+    categories,
+    posts: { posts },
+    currentPage,
+    totalPages,
+  } = useLoaderData<PostsListPageLoaderType>();
 
   return (
     <div className="pt-32 pb-24 px-8 max-w-screen-2xl mx-auto">
@@ -19,8 +24,8 @@ export function PostsList() {
       </header>
 
       <PostToolbar categories={categories} />
-      <PostList posts={posts?.posts} />
-      <PostPagination />
+      <PostList posts={posts} />
+      <PostPagination current={currentPage} total={totalPages} />
     </div>
   );
 }
