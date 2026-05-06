@@ -1,6 +1,6 @@
 import { getCategories } from '@/features/categories/api/categoriesApi';
 import type { GetCategoriesApiResponse } from '@/features/categories/categories.types';
-import { getLatestPosts } from '@/features/posts/api/postsApi';
+import { getPosts } from '@/features/posts/api/postsApi';
 import type { GetPostsApiResponse } from '@/features/posts/posts.types';
 import { POSTS_PER_PAGE } from '@/shared/constants';
 import type { LoaderFunctionArgs } from 'react-router-dom';
@@ -20,7 +20,10 @@ export const postsListPageLoader = async ({
   const currentPage = parseInt(url.searchParams.get('page') || '1');
 
   // Get all data for the page.
-  const [categories, posts] = await Promise.all([getCategories(), getLatestPosts(POSTS_PER_PAGE)]);
+  const [categories, posts] = await Promise.all([
+    getCategories(),
+    getPosts(POSTS_PER_PAGE, currentPage),
+  ]);
   // Alternative way : create a backend route which directly returns all the data.
 
   const totalPages = Math.ceil(posts.total / POSTS_PER_PAGE);

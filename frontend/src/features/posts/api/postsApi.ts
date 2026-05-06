@@ -24,9 +24,15 @@ export async function getFeaturedPost(): Promise<GetFeaturedPostApiResponse> {
 }
 
 export async function getLatestPosts(nb: number = 5): Promise<GetPostsApiResponse> {
+  // Get X posts from page 1.
+  return getPosts(nb);
+}
+
+export async function getPosts(nb: number = 5, page: number = 1): Promise<GetPostsApiResponse> {
   // Generate API URL
   const url = new URL('/posts', baseApiUrl);
   url.searchParams.set('limit', nb.toString());
+  url.searchParams.set('page', page.toString());
 
   // Call API
   const results = await callApi(url);
