@@ -1,6 +1,6 @@
 import { prisma } from '../utils/prisma.js';
 
-async function getAll({ categories, authors, currentPage, limit, featured }) {
+async function getAll({ categories, authors, currentPage, limit, featured, sort }) {
   const posts = await prisma.post.findMany({
     where: {
       // Post has at least one category in the given list.
@@ -18,6 +18,9 @@ async function getAll({ categories, authors, currentPage, limit, featured }) {
     ...(limit && { take: limit }),
     // Skip the first X posts according to the current page.
     ...(currentPage && { skip: (currentPage - 1) * limit }),
+    // Apply the specified or default sort order.
+    ...(!sort && { orderBy: [{ createdAt: 'desc' }] }),
+    ...(sort && { orderBy: [{ [sort.criteria]: sort.order }] }),
   });
   return posts;
 }

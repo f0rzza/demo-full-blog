@@ -1,8 +1,9 @@
 import type { PostType } from '@/features/posts/posts.types';
+import { formatDate } from '@/shared/utils/dateFormat';
 import { Link } from 'react-router-dom';
 
 export function PostCard({ post }: { post: PostType }) {
-  const { id, title, chapo, content, categories } = post;
+  const { id, title, chapo, content, categories, createdAt } = post;
   // TODO: 12 min read, image
 
   return (
@@ -30,9 +31,15 @@ export function PostCard({ post }: { post: PostType }) {
           </div>
         )}
 
-        <h3 className="font-newsreader text-2xl md:text-3xl font-bold mb-3 leading-tight text-on-surface group-hover:text-primary transition-colors">
+        <h3 className="font-newsreader text-2xl md:text-3xl font-bold leading-tight text-on-surface group-hover:text-primary transition-colors">
           {title}
         </h3>
+
+        <div className="font-newsreader font-bold mb-3">
+          <time className="" dateTime={createdAt.toString()}>
+            {formatDate(createdAt)}
+          </time>
+        </div>
 
         <p className="font-manrope text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3">
           {chapo ?? content}
