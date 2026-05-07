@@ -9,10 +9,13 @@ type Props = {
 
 export function PaginationLink({ page, variant = 'page', current = false }: Props) {
   const config = paginationConfigs[variant];
+  // Add or override page number to the current URL (keep selected filters)
+  const url = new URL(window.location.href);
+  url.searchParams.set('page', page.toString());
 
   if (variant === 'next' || variant === 'prev') {
     return (
-      <Link className={config.classNames} to={`?page=${page}`}>
+      <Link className={config.classNames} to={url.toString()}>
         {variant === 'next' && config.label}
         <span
           className={`material-symbols-outlined ml-2 text-sm group-hover:translate-x-1 transition-transform ${config.spanClassNames}`}
@@ -27,7 +30,7 @@ export function PaginationLink({ page, variant = 'page', current = false }: Prop
   return (
     <Link
       className={`${config.classNames} ${current ? 'bg-primary text-on-primary shadow-xl shadow-primary/10 transition-all scale-100 active:scale-95' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-colors'}`}
-      to={`?page=${page}`}
+      to={url.toString()}
     >
       {page}
     </Link>
