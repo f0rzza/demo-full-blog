@@ -4,6 +4,7 @@ import type {
   CreatePostType,
   GetFeaturedPostApiResponse,
   GetPostsApiResponse,
+  GetPostsOptions,
   PostType,
 } from '../posts.types';
 
@@ -28,11 +29,22 @@ export async function getLatestPosts(nb: number = 5): Promise<GetPostsApiRespons
   return getPosts(nb);
 }
 
-export async function getPosts(nb: number = 5, page: number = 1): Promise<GetPostsApiResponse> {
+export async function getPosts(
+  nb: number = 5,
+  options?: GetPostsOptions,
+): Promise<GetPostsApiResponse> {
   // Generate API URL
   const url = new URL('/posts', baseApiUrl);
   url.searchParams.set('limit', nb.toString());
-  url.searchParams.set('page', page.toString());
+
+  // Add options to API URL if necessary.
+  if (options) {
+    // Get keys from options (categories, sort)
+    Object.keys(options).forEach((value) => {
+      const optionKey = value as keyof GetPostsOptions;
+      if (options[optionKey]) url.searchParams.set(optionKey, options[optionKey].toString());
+    });
+  }
 
   // Call API
   const results = await callApi(url);
