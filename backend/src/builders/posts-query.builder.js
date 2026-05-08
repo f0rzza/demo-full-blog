@@ -24,8 +24,8 @@ function buildSearchFilter(keywords) {
 
   const searchArray = [];
   keywords.forEach((keyword) => {
-    searchArray.push({ title: { contains: keyword } });
-    searchArray.push({ content: { contains: keyword } });
+    searchArray.push({ title: { contains: keyword, mode: 'insensitive' } });
+    searchArray.push({ content: { contains: keyword, mode: 'insensitive' } });
   });
   return searchArray;
 }

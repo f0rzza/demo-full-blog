@@ -22,6 +22,7 @@ export const postsListPageLoader = async ({
   // Filter & sort
   const selectedCategory = parseInt(url.searchParams.get('category') || '0');
   const selectedSort = url.searchParams.get('sort') || 'date-desc';
+  const search = url.searchParams.get('search');
 
   // Get all data for the page.
   const [categories, posts] = await Promise.all([
@@ -30,6 +31,7 @@ export const postsListPageLoader = async ({
       page: currentPage,
       categories: selectedCategory,
       sort: selectedSort,
+      search,
     }),
   ]);
   // Alternative way : create a backend route which directly returns all the data.

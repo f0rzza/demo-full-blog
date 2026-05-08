@@ -33,3 +33,15 @@ export const parseSort = (sort) => {
 
   return { criteria, order };
 };
+
+export const parseSearch = (search) => {
+  if (search.length < 3) return;
+
+  // Remove useless whitespaces
+  const cleaned = search.trim().replace(/\s+/g, ' ');
+  const splitted = cleaned.split(' ');
+
+  return splitted.filter((keyword) => {
+    if (keyword.length > 2) return keyword;
+  });
+};

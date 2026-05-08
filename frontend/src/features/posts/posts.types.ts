@@ -21,7 +21,12 @@ export type GetPostsApiResponse = {
 };
 
 // Type of the options object in a 'getPosts' query.
-export type GetPostsOptions = { page?: number; categories?: number; sort?: string };
+export type GetPostsOptions = {
+  page?: number;
+  categories?: number;
+  sort?: string;
+  search: string | null;
+};
 
 export type GetFeaturedPostApiResponse = PostType | null;
 

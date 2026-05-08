@@ -1,6 +1,6 @@
 import postRepository from '../repositories/post.repository.js';
 
-async function findAllPosts({ categories, authors, currentPage, limit, featured, sort }) {
+async function findAllPosts({ categories, authors, currentPage, limit, featured, sort, search }) {
   const posts = await postRepository.getAll({
     categories,
     authors,
@@ -8,6 +8,7 @@ async function findAllPosts({ categories, authors, currentPage, limit, featured,
     limit,
     featured,
     sort,
+    search,
   });
   return posts;
 }

@@ -1,5 +1,5 @@
 import postService from '../services/post.service.js';
-import { parseBoolean, parseCategories, parseSort } from '../utils/tools.js';
+import { parseBoolean, parseCategories, parseSearch, parseSort } from '../utils/tools.js';
 
 async function getAllPosts(req, res) {
   const {
@@ -9,6 +9,7 @@ async function getAllPosts(req, res) {
     limit = 10,
     featured,
     sort = 'date-desc',
+    search = '',
   } = req.query;
 
   // Convert list of ids, from string to array.
@@ -16,6 +17,7 @@ async function getAllPosts(req, res) {
   const parsedAuthors = authors ? authors.split(',').map(Number) : [];
   const parsedFeatured = parseBoolean(featured);
   const parsedSort = parseSort(sort);
+  const parsedSearch = parseSearch(search);
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
@@ -25,6 +27,7 @@ async function getAllPosts(req, res) {
     limit: parseInt(limit),
     featured: parsedFeatured,
     sort: parsedSort,
+    search: parsedSearch,
   });
 
   // Get total published posts.
