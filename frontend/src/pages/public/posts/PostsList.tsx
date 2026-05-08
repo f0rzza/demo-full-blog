@@ -8,6 +8,7 @@ export function PostsList() {
     posts: { posts },
     currentPage,
     totalPages,
+    currentFilters,
   } = useLoaderData<PostsListPageLoaderType>();
 
   return (
@@ -23,7 +24,7 @@ export function PostsList() {
         </div>
       </header>
 
-      <PostToolbar categories={categories} />
+      <PostToolbar categories={categories} currentFilters={currentFilters} />
       <PostList posts={posts} />
       <PostPagination current={currentPage} total={totalPages} />
     </div>

@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
 
-export function Search() {
-  const [search, setSearch] = useState('');
+export function Search({ currentValue }: { currentValue: string }) {
+  const [search, setSearch] = useState(currentValue);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;

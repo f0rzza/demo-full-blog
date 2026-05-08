@@ -3,6 +3,8 @@ import type { GetCategoriesApiResponse } from '@/features/categories/categories.
 import { getPosts } from '@/features/posts/api/postsApi';
 import type { GetPostsApiResponse } from '@/features/posts/posts.types';
 import { POSTS_PER_PAGE } from '@/shared/constants';
+import type { Filters } from '@/shared/types/common';
+import { getFilterValues } from '@/shared/utils/filters';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 export type PostsListPageLoaderType = {
@@ -10,6 +12,7 @@ export type PostsListPageLoaderType = {
   posts: GetPostsApiResponse;
   currentPage: number;
   totalPages: number;
+  currentFilters: Filters;
 };
 
 export const postsListPageLoader = async ({
@@ -36,6 +39,9 @@ export const postsListPageLoader = async ({
   ]);
   // Alternative way : create a backend route which directly returns all the data.
 
+  // Get current filters form URL.
+  const currentFilters = getFilterValues<Filters>(url, ['category', 'search', 'sort']);
+
   const totalPages = Math.ceil(posts.total / POSTS_PER_PAGE);
-  return { categories, posts, currentPage, totalPages };
+  return { categories, posts, currentPage, totalPages, currentFilters };
 };
