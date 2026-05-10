@@ -1,4 +1,5 @@
 import type { PostType } from '@/features/posts/posts.types';
+import { sanitizeHTML } from '@/shared/utils/tools';
 
 export function PostCard({ post }: { post: PostType }) {
   const { title, chapo, content, categories } = post;
@@ -26,15 +27,17 @@ export function PostCard({ post }: { post: PostType }) {
       </h3>
 
       {chapo && (
-        <p className="text-on-surface-variant text-sm font-body leading-relaxed mb-6 line-clamp-3">
-          {chapo}
-        </p>
+        <p
+          className="text-on-surface-variant text-sm font-body leading-relaxed mb-6 line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(chapo) }}
+        />
       )}
 
       {!chapo && (
-        <p className="text-on-surface-variant text-sm font-body leading-relaxed mb-6 line-clamp-3">
-          {content.slice(0, 250)}
-        </p>
+        <p
+          className="text-on-surface-variant text-sm font-body leading-relaxed mb-6 line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(content.slice(0, 250)) }}
+        />
       )}
 
       <div className="flex items-center justify-between border-t border-outline-variant/10 pt-4">

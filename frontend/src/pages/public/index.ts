@@ -6,6 +6,7 @@ import { Home } from './Home';
 import { homePageLoader } from './homeLoader';
 import { PostDetails } from './posts/PostDetails';
 import { PostsList } from './posts/PostsList';
+import { postsListPageLoader } from './posts/postsListLoader';
 
 export {
   AccountDashboard,
@@ -16,4 +17,5 @@ export {
   homePageLoader,
   PostDetails,
   PostsList,
+  postsListPageLoader,
 };

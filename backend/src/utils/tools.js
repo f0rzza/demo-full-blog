@@ -15,3 +15,33 @@ export const parseCategories = (categories) => {
     return { id: parseInt(category) };
   });
 };
+
+export const parseSort = (sort) => {
+  const splittedSort = sort.split('-');
+
+  // Skip sorting if there is not enough data.
+  if (splittedSort.length !== 2) return;
+
+  let [criteria, order] = splittedSort;
+
+  // Skip sorting if there is incorrect data.
+  if (!['date'].includes(criteria) || !['asc', 'desc'].includes(order)) return;
+  // TODO : views-[order]
+
+  // Override 'date' criteria.
+  if (criteria === 'date') criteria = 'createdAt';
+
+  return { criteria, order };
+};
+
+export const parseSearch = (search) => {
+  if (search.length < 3) return;
+
+  // Remove useless whitespaces
+  const cleaned = search.trim().replace(/\s+/g, ' ');
+  const splitted = cleaned.split(' ');
+
+  return splitted.filter((keyword) => {
+    if (keyword.length > 2) return keyword;
+  });
+};
