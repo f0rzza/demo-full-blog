@@ -1,4 +1,4 @@
-import { callApi } from '@/shared/api/api';
+import { callApi } from '@/shared/utils/api';
 import type {
   CreatePostApiResponse,
   CreatePostType,

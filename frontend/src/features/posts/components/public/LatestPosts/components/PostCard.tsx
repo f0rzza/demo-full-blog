@@ -1,5 +1,5 @@
 import type { PostType } from '@/features/posts/posts.types';
-import { sanitizeHTML } from '@/shared/utils/tools';
+import { sanitizeHTML } from '@/shared/utils/sanitize';
 
 export function PostCard({ post }: { post: PostType }) {
   const { title, chapo, content, categories } = post;

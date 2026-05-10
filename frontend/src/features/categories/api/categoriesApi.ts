@@ -1,4 +1,4 @@
-import { callApi } from '@/shared/api/api';
+import { callApi } from '@/shared/utils/api';
 import type { GetCategoriesApiResponse } from '../categories.types';
 
 const baseApiUrl = import.meta.env.VITE_BASE_BLOG_API_URL;

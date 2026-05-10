@@ -1,5 +1,5 @@
 import type { PostType } from '@/features/posts/posts.types';
-import { formatDate } from '@/shared/utils/dateFormat';
+import { formatDate } from '@/shared/utils/format';
 
 export function Author({ post }: { post: PostType }) {
   const {

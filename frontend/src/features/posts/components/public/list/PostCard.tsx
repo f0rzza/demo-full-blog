@@ -1,6 +1,6 @@
 import type { PostType } from '@/features/posts/posts.types';
-import { formatDate } from '@/shared/utils/dateFormat';
-import { sanitizeHTML } from '@/shared/utils/tools';
+import { formatDate } from '@/shared/utils/format';
+import { sanitizeHTML } from '@/shared/utils/sanitize';
 import { Link } from 'react-router-dom';
 
 export function PostCard({ post }: { post: PostType }) {
