@@ -4,7 +4,7 @@ export type AuthStateType = {
   user: UserType | undefined;
   isAuth: boolean;
   loading: boolean;
-  login: (identifier: string, password: string) => Promise<boolean>;
+  login: (identifier: string, password: string) => Promise<AuthApiResponse>;
   logout: () => Promise<void>;
   checkAuthentication: () => Promise<void>;
 };
