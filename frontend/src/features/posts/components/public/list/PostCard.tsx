@@ -1,5 +1,6 @@
 import type { PostType } from '@/features/posts/posts.types';
 import { formatDate } from '@/shared/utils/dateFormat';
+import { sanitizeHTML } from '@/shared/utils/tools';
 import { Link } from 'react-router-dom';
 
 export function PostCard({ post }: { post: PostType }) {
@@ -41,9 +42,10 @@ export function PostCard({ post }: { post: PostType }) {
           </time>
         </div>
 
-        <p className="font-manrope text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3">
-          {chapo ?? content}
-        </p>
+        <p
+          className="font-manrope text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3"
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(chapo ?? content) }}
+        />
 
         <div className="flex items-center justify-between pt-4 border-t border-outline-variant/15">
           <span className="font-manrope text-xs text-outline italic">12 min read</span>
