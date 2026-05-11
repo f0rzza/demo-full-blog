@@ -5,8 +5,8 @@ export type AuthStateType = {
   isAuth: boolean;
   loading: boolean;
   login: (identifier: string, password: string) => Promise<AuthApiResponse>;
-  logout: () => Promise<void>;
-  checkAuthentication: () => Promise<void>;
+  logout: () => Promise<LogoutApiResponse>;
+  checkAuthentication: () => Promise<AuthApiResponse>;
 };
 
 export type AuthApiResponse =

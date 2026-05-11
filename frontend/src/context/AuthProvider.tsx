@@ -1,8 +1,8 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { checkApi, loginApi, logoutApi } from '@/features/auth/api/authApi';
 import type { UserType } from '@/features/users/users.types';
 import { AuthContext } from './AuthContext';
-import type { AuthApiResponse } from '@/features/auth/auth.types';
+import type { AuthApiResponse, LogoutApiResponse } from '@/features/auth/auth.types';
 
 // Define Auth provider using the previous context.
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -31,32 +31,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // TODO : try/catch
-  const logout = async () => {
+  const logout = async (): Promise<LogoutApiResponse> => {
     setIsLoading(true);
 
-    const response = await logoutApi();
+    try {
+      const response = await logoutApi();
 
-    if (response.success) {
-      setUser(undefined);
+      if (response.success) {
+        setUser(undefined);
+      }
+
+      return response;
+    } catch {
+      return { success: false };
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   // Check if user is authenticated.
-  // TODO : try/catch
-  const checkAuthentication = async () => {
+  const checkAuthentication = async (): Promise<AuthApiResponse> => {
     setIsLoading(true);
 
-    const response = await checkApi();
+    try {
+      const response = await checkApi();
 
-    if (response.success) {
-      setUser(response.user);
+      if (response.success) {
+        setUser(response.user);
+      } else {
+        setUser(undefined);
+      }
+
+      return response;
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'An error occurred during authentication verification.';
+      setUser(undefined);
+      return { success: false, message: message };
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
+
+  // Check authentication when App starts.
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
 
   return (
     <AuthContext value={{ user, isAuth, loading, login, logout, checkAuthentication }}>

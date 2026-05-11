@@ -7,6 +7,6 @@ export const AuthContext = createContext<AuthStateType>({
   isAuth: false,
   loading: false,
   login: async () => ({ success: false, message: '' }),
-  logout: async () => {},
-  checkAuthentication: async () => {},
+  logout: async () => ({ success: false, message: '' }),
+  checkAuthentication: async () => ({ success: false, message: '' }),
 });
