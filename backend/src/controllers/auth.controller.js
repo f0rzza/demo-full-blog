@@ -1,3 +1,4 @@
+import HttpError from '../errors/HttpError.js';
 import authService from '../services/auth.service.js';
 import passport from 'passport';
 
@@ -9,9 +10,8 @@ async function login(req, res, next) {
     }
 
     if (!user) {
-      return res
-        .status(401)
-        .json({ success: false, message: info?.message || 'Identifiants invalides' });
+      // delegates error management to 'errorHandler' middleware.
+      return next(new HttpError(info?.message || 'Invalid credentials', 401));
     }
 
     req.login(user, (err) => {
@@ -21,7 +21,7 @@ async function login(req, res, next) {
 
       // Duplicate user without password
       const { password, ...userWithoutPassword } = user;
-      return res.json({ success: true, user: userWithoutPassword });
+      return res.json({ data: userWithoutPassword, message: 'Connection successful' });
     });
   });
 
@@ -32,14 +32,15 @@ async function login(req, res, next) {
 async function createAccount(req, res) {
   // Create new user with correct data.
   const user = await authService.createAccount(req.body);
-  res.json(user);
+  return res.json({ data: user, message: 'Account successfully created' });
 }
 
-function checkAuthentication(req, res) {
+function checkAuthentication(req, res, next) {
   if (!req.user) {
-    return res.status(401).json({ success: false, message: 'Not auth' }); // Unauthorized
+    // delegates error management to 'errorHandler' middleware.
+    return next(new HttpError('Not authenticated', 401));
   }
-  res.json({ success: true, user: req.user });
+  res.json({ data: req.user });
 }
 
 function logout(req, res, next) {
@@ -47,7 +48,7 @@ function logout(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.json({ success: true });
+    res.json({ data: null, message: 'Logout successful' });
   });
 }
 
