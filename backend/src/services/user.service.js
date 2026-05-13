@@ -29,6 +29,11 @@ async function createNewUser({ username, email, password }) {
   const hashedPassword = await bcryptjs.hash(password, saltRounds);
   // Create new user
   const user = await userRepository.create({ username, email, password: hashedPassword });
+
+  if (!user) {
+    throw new HttpError(`An error has occurred. No user were created.`, 500);
+  }
+
   return user;
 }
 
