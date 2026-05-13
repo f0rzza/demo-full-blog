@@ -8,7 +8,7 @@ export const validateRequest = ({ params, body }) => {
     } catch (error) {
       // Group all the errors.
       const errors = error.issues.map((error) => error.message);
-      res.status(400).json({ errors: errors });
+      res.status(400).json({ status: 400, message: 'Invalid Request', errors: errors });
     }
   };
 };
