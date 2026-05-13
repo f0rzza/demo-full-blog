@@ -2,6 +2,7 @@
 export type ApiResponse<T> = {
   data: T;
   message?: string;
+  pagination?: Pagination;
 };
 
 // Generic API error type. (client side)
@@ -9,4 +10,9 @@ export type ApiResponse<T> = {
 export type ApiError = {
   status: number;
   message: string;
+};
+
+type Pagination = {
+  currentPage: number;
+  totalItems: number;
 };
