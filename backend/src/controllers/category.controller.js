@@ -1,8 +1,11 @@
+import HttpError from '../errors/HttpError.js';
 import categoryService from '../services/category.service.js';
+
+// TODO : use validateRequest middleware to remove try/catch
 
 async function getAllCategories(req, res) {
   const categories = await categoryService.findAllCategories();
-  res.json(categories);
+  res.json({ data: categories });
 }
 
 async function getCategoryById(req, res) {
@@ -10,14 +13,10 @@ async function getCategoryById(req, res) {
   const categoryId = parseInt(req.params.id);
   const category = await categoryService.findCategoryById(categoryId);
 
-  if (!category) {
-    return res.status(404).json({ error: `Category with id: ${categoryId} not found.` });
-  }
-
-  res.json(category);
+  res.json({ data: category });
 }
 
-async function createCategory(req, res) {
+async function createCategory(req, res, next) {
   try {
     const { name } = req.body;
     // TODO: use 'Zod' package or eq to get validated data.
@@ -25,13 +24,13 @@ async function createCategory(req, res) {
     // Create new category.
     const category = await categoryService.createNewCategory({ name });
 
-    res.json(category);
+    res.status(201).json({ data: category, message: 'Category successfully created.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No category were created.` });
+    next(new HttpError(`An error has occurred. No category were created.`, 500));
   }
 }
 
-async function updateCategoryById(req, res) {
+async function updateCategoryById(req, res, next) {
   try {
     const categoryId = parseInt(req.params.id);
     const { name } = req.body;
@@ -42,29 +41,21 @@ async function updateCategoryById(req, res) {
       name,
     });
 
-    if (!updatedCategory) {
-      return res.status(404).json({ error: `Category with id: ${categoryId} not found. No category were updated.` });
-    }
-
-    res.json(updatedCategory);
+    res.json({ data: updatedCategory, message: 'Category successfully updated.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No category were updated.` });
+    next(new HttpError(`An error has occurred. No category were updated.`, 500));
   }
 }
 
-async function deleteCategoryById(req, res) {
+async function deleteCategoryById(req, res, next) {
   try {
     // Delete existing category.
     const categoryId = parseInt(req.params.id);
     const deletedCategory = await categoryService.deleteCategoryById(categoryId);
 
-    if (!deletedCategory) {
-      return res.status(404).json({ error: `Category with id: ${categoryId} not found. No category were deleted.` });
-    }
-
-    res.sendStatus(200);
+    res.json({ data: null, message: 'Category successfully deleted.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No category were deleted.` });
+    next(new HttpError(`An error has occurred. No category were deleted.`, 500));
   }
 }
 
@@ -74,4 +65,4 @@ export default {
   createCategory,
   updateCategoryById,
   deleteCategoryById,
-}
+};
