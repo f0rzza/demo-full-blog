@@ -10,6 +10,7 @@ export async function callApi(endpoint: URL, options: RequestInit = {}) {
 
   if (!response.ok) {
     throw new Error(response.statusText ?? 'Api Error');
+    // TODO: create ApiError
   }
 
   return await response.json();
