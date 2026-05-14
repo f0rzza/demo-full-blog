@@ -1,12 +1,13 @@
 import { createContext } from 'react';
 import { type AuthStateType } from '@/features/auth/auth.types';
+import type { ApiResponse, User } from '@shared/types';
 
 // Initialize Auth context.
 export const AuthContext = createContext<AuthStateType>({
-  user: undefined,
+  user: null,
   isAuth: false,
   loading: false,
-  login: async () => ({ success: false, message: '' }),
-  logout: async () => ({ success: false, message: '' }),
-  checkAuthentication: async () => ({ success: false, message: '' }),
+  login: async () => ({}) as ApiResponse<User>,
+  logout: async () => ({}) as ApiResponse<null>,
+  checkAuthentication: async () => ({}) as ApiResponse<User>,
 });

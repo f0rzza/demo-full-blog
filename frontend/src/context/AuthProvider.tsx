@@ -1,75 +1,59 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { checkApi, loginApi, logoutApi } from '@/features/auth/api/authApi';
-import type { UserType } from '@/features/users/users.types';
 import { AuthContext } from './AuthContext';
-import type { AuthApiResponse, LogoutApiResponse } from '@/features/auth/auth.types';
+import type { ApiError, ApiResponse, User } from '@shared/types';
 
 // Define Auth provider using the previous context.
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<User | null>(null);
   const isAuth = !!user; // Derived state.
   const [loading, setIsLoading] = useState(false);
 
-  const login = async (identifier: string, password: string): Promise<AuthApiResponse> => {
+  const login = async (identifier: string, password: string): Promise<ApiResponse<User>> => {
     setIsLoading(true);
 
     try {
       const response = await loginApi(identifier, password);
-
-      if (response.success) {
-        setUser(response.user);
-      }
-
+      setUser(response.data);
       return response;
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'An error occurred during authentication.';
-      //TODO: specify a custom message for 401 Error
-      return { success: false, message: message };
+      throw error as ApiError;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = async (): Promise<LogoutApiResponse> => {
+  const logout = async (): Promise<ApiResponse<null>> => {
     setIsLoading(true);
 
     try {
       const response = await logoutApi();
-
-      if (response.success) {
-        setUser(undefined);
-      }
-
+      setUser(null);
       return response;
-    } catch {
-      return { success: false };
+    } catch (error) {
+      throw error as ApiError;
     } finally {
       setIsLoading(false);
     }
   };
 
   // Check if user is authenticated.
-  const checkAuthentication = async (): Promise<AuthApiResponse> => {
+  const checkAuthentication = async (): Promise<ApiResponse<User>> => {
     setIsLoading(true);
 
     try {
       const response = await checkApi();
 
-      if (response.success) {
-        setUser(response.user);
+      if (response.data) {
+        setUser(response.data);
       } else {
-        setUser(undefined);
+        setUser(null); // Session expired
       }
 
       return response;
     } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'An error occurred during authentication verification.';
-      setUser(undefined);
-      return { success: false, message: message };
+      setUser(null);
+      throw error as ApiError;
     } finally {
       setIsLoading(false);
     }
