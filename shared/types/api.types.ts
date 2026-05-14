@@ -12,7 +12,8 @@ export type ApiError = {
   message: string;
 };
 
-type Pagination = {
+export type Pagination = {
   currentPage: number;
   totalItems: number;
 };
+// TODO: totalPages

@@ -1,15 +1,14 @@
 import { getCategories } from '@/features/categories/api/categoriesApi';
-import type { GetCategoriesApiResponse } from '@/features/categories/categories.types';
 import { getPosts } from '@/features/posts/api/postsApi';
-import type { GetPostsApiResponse } from '@/features/posts/posts.types';
 import { POSTS_PER_PAGE } from '@/shared/constants';
 import type { Filters } from '@/shared/types/common';
 import { getFilterValues } from '@/shared/utils/filters';
+import type { Category, Post } from '@shared/types';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 export type PostsListPageLoaderType = {
-  categories: GetCategoriesApiResponse;
-  posts: GetPostsApiResponse;
+  categories: Category[];
+  posts: Post[];
   currentPage: number;
   totalPages: number;
   currentFilters: Filters;
@@ -42,6 +41,7 @@ export const postsListPageLoader = async ({
   // Get current filters form URL.
   const currentFilters = getFilterValues<Filters>(url, ['category', 'search', 'sort']);
 
-  const totalPages = Math.ceil(posts.total / POSTS_PER_PAGE);
-  return { categories, posts, currentPage, totalPages, currentFilters };
+  const totalItems = posts.pagination?.totalItems;
+  const totalPages = totalItems ? Math.ceil(totalItems / POSTS_PER_PAGE) : 1;
+  return { categories, posts: posts.data, currentPage, totalPages, currentFilters };
 };

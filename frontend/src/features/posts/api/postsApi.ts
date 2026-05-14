@@ -1,5 +1,5 @@
 import { callApi } from '@/shared/utils/api';
-import type { CreatePostPayload, GetPostsOptions, PostResponse } from '@shared/types';
+import type { ApiResponse, CreatePostPayload, GetPostsOptions, PostResponse } from '@shared/types';
 
 const baseApiUrl = import.meta.env.VITE_BASE_BLOG_API_URL;
 
@@ -18,10 +18,14 @@ export async function getFeaturedPost(): Promise<PostResponse | null> {
 
 export async function getLatestPosts(nb: number = 5): Promise<PostResponse[]> {
   // Get X posts from page 1.
-  return getPosts(nb);
+  const posts = await getPosts(nb);
+  return posts.data;
 }
 
-export async function getPosts(nb: number = 5, options?: GetPostsOptions): Promise<PostResponse[]> {
+export async function getPosts(
+  nb: number = 5,
+  options?: GetPostsOptions,
+): Promise<ApiResponse<PostResponse[]>> {
   // Generate API URL
   const url = new URL('/posts', baseApiUrl);
   url.searchParams.set('limit', nb.toString());
@@ -37,7 +41,7 @@ export async function getPosts(nb: number = 5, options?: GetPostsOptions): Promi
 
   // Call API
   const response = await callApi<PostResponse[]>(url);
-  return response.data;
+  return response;
 }
 
 export async function getPost(id: number): Promise<PostResponse> {
