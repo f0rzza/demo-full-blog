@@ -1,12 +1,11 @@
 import { getCategories } from '@/features/categories/api/categoriesApi';
-import type { GetCategoriesApiResponse } from '@/features/categories/categories.types';
 import { getAuthors } from '@/features/users/api/usersApi';
-import type { GetUsersApiResponse } from '@/features/users/users.types';
+import type { Category, User } from '@shared/types';
 
 // Type of the loader response.
 export type CreatePostPageLoaderType = {
-  categories: GetCategoriesApiResponse;
-  authors: GetUsersApiResponse;
+  categories: Category[];
+  authors: User[];
 };
 
 export const createPostPageLoader = async (): Promise<CreatePostPageLoaderType> => {

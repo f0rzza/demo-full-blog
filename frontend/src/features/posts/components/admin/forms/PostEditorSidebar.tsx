@@ -23,17 +23,21 @@ export function PostEditorSidebar() {
       </div>
 
       <div className="space-y-12 px-2">
-        <SelectField
-          sectionTitle="Author"
-          fieldName="authorId"
-          options={authors}
-          fieldAsLabel="username"
-        />
-        <MultipleSelectField
-          sectionTitle="Categories"
-          fieldName="categories"
-          options={categories}
-        />
+        {authors.length > 0 && (
+          <SelectField
+            sectionTitle="Author"
+            fieldName="authorId"
+            options={authors}
+            fieldAsLabel="username"
+          />
+        )}
+        {categories.length > 0 && (
+          <MultipleSelectField
+            sectionTitle="Categories"
+            fieldName="categories"
+            options={categories}
+          />
+        )}
         <TextAreaField
           sectionTitle="Chapo"
           fieldName="chapo"

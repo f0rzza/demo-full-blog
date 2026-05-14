@@ -2,7 +2,8 @@ import { TitleInput } from './fields/TitleInput';
 import { TinyMceEditor } from './fields/TinyMceEditor';
 import { PostEditorSidebar } from '@/features/posts/components/admin/forms/PostEditorSidebar';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createPostSchema, type CreatePostInput, type CreatePostOutput } from '@shared/schemas';
+import { createPostSchema } from '@shared/schemas';
+import { type CreatePostInput, type CreatePostOutput } from '@shared/types';
 import { Controller, FormProvider, useForm, type FieldError } from 'react-hook-form';
 import { ErrorField } from '@/shared/components/ui/form/ErrorField';
 
