@@ -49,8 +49,5 @@ export const loginSchema = z.object({
   password: passwordSchema,
 });
 
-export type LoginInput = z.input<typeof loginSchema>;
-export type LoginOutput = z.output<typeof loginSchema>;
-
 /* REGISTER */
 // TODO

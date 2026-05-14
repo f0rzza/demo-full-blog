@@ -1,5 +1,7 @@
 import * as z from 'zod';
 import { idSchema } from './common.schemas';
+import { categorySchema } from './category.schemas';
+import { userSchema } from './user.schemas';
 
 const titleSchema = z
   .string({ error: 'Title is required.' })
@@ -20,35 +22,45 @@ const chapoSchema = z
 
 const authorSchema = z.coerce.number().int().positive({ error: 'Select an author.' });
 
-// Post schema
+/** GENERAL **/
+
+// Post schema (representation in the database)
 export const postSchema = z.object({
   id: idSchema,
   title: titleSchema,
   content: contentSchema,
   published: z.boolean().default(false),
   authorId: authorSchema,
-  categories: z.array(z.string()), // TODO
   featured: z.boolean().default(false),
   chapo: chapoSchema,
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
-// Route schema with ID as path parameter.
-export const postIdSchema = z.object({
-  id: idSchema,
+/** GET Requests  **/
+
+// Override Post shema for the API Response.
+// Note: categories and author are returned with Prisma.
+export const postResponseSchema = postSchema.extend({
+  categories: z.array(categorySchema),
+  author: z.object(userSchema),
 });
 
-// Post schema for creation.
-export const createPostSchema = postSchema
-  .omit({ id: true, createdAt: true, updatedAt: true })
-  .partial({ published: true, categories: true, featured: true, chapo: true });
+/** POST Requests  **/
 
-// Post schema for update
-export const updatePostSchema = postSchema
-  .omit({ id: true, createdAt: true, updatedAt: true })
-  .partial({ published: true, categories: true, featured: true, chapo: true });
+// Create new Post shema for the creation.
+export const createPostSchema = z.object({
+  title: titleSchema,
+  content: contentSchema,
+  published: z.boolean().default(false),
+  authorId: authorSchema,
+  featured: z.boolean().default(false),
+  chapo: chapoSchema,
+  categories: z.array(idSchema),
+});
 
-// export type PostType = z.infer<typeof postSchema>; // TODO: remove duplicated PostType
-export type CreatePostInput = z.input<typeof createPostSchema>; // authorId: string (form)
-export type CreatePostOutput = z.output<typeof createPostSchema>; // authorId: number (API)
+/** PUT Requests  **/
+// TODO
+
+/** DELETE Requests  **/
+// TODO
