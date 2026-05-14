@@ -4,9 +4,9 @@ import { Images } from './components/Images';
 import { RightColumn } from './layouts/RightColumn';
 import { LeftColumn } from './layouts/LeftColumn';
 import { LinkButton } from '@/shared';
-import type { GetFeaturedPostApiResponse } from '@/features/posts/posts.types';
+import type { PostResponse } from '@shared/types';
 
-export function FeaturedPost({ featuredPost }: { featuredPost: GetFeaturedPostApiResponse }) {
+export function FeaturedPost({ featuredPost }: { featuredPost: PostResponse | null }) {
   // If there is are not featured post, hide the section.
   if (!featuredPost) {
     return;

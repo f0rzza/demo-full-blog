@@ -1,10 +1,10 @@
 import { getFeaturedPost, getLatestPosts } from '@/features/posts/api/postsApi';
-import type { GetFeaturedPostApiResponse, GetPostsApiResponse } from '@/features/posts/posts.types';
+import type { PostResponse } from '@shared/types';
 
 // Type of the loader response.
 export type HomePageLoaderType = {
-  featuredPost: GetFeaturedPostApiResponse;
-  latestPosts: GetPostsApiResponse;
+  featuredPost: PostResponse | null;
+  latestPosts: PostResponse[];
 };
 
 export const homePageLoader = async (): Promise<HomePageLoaderType> => {
