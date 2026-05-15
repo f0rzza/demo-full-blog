@@ -1,16 +1,10 @@
-import { type UserType } from '@/features/users/users.types';
+import type { ApiResponse, User } from '@shared/types';
 
 export type AuthStateType = {
-  user: UserType | undefined;
+  user: User | null;
   isAuth: boolean;
   loading: boolean;
-  login: (identifier: string, password: string) => Promise<AuthApiResponse>;
-  logout: () => Promise<LogoutApiResponse>;
-  checkAuthentication: () => Promise<AuthApiResponse>;
+  login: (identifier: string, password: string) => Promise<ApiResponse<User>>;
+  logout: () => Promise<ApiResponse<null>>;
+  checkAuthentication: () => Promise<ApiResponse<User>>;
 };
-
-export type AuthApiResponse =
-  | { success: true; user: UserType }
-  | { success: false; message: string };
-
-export type LogoutApiResponse = { success: boolean };

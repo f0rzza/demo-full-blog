@@ -2,20 +2,21 @@ import express from 'express';
 import categoryController from '../controllers/category.controller.js';
 
 const router = express.Router();
+// TODO : use validateRequest middleware
 
 // Get a categories list
 router.get('/', categoryController.getAllCategories);
 
 // Get a category
-router.get("/:id", categoryController.getCategoryById);
+router.get('/:id', categoryController.getCategoryById);
 
 // Create a new category
-router.post("/", categoryController.createCategory);
+router.post('/', categoryController.createCategory);
 
 // Update a category
-router.put("/:id", categoryController.updateCategoryById);
+router.put('/:id', categoryController.updateCategoryById);
 
 // Delete a category
-router.delete("/:id", categoryController.deleteCategoryById);
+router.delete('/:id', categoryController.deleteCategoryById);
 
 export default router;

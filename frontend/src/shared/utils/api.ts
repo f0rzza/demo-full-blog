@@ -1,17 +1,19 @@
-// Generic function to make API request.
-export async function callApi(endpoint: URL, options: RequestInit = {}) {
-  let response: Response;
+import type { ApiError, ApiResponse } from '@shared/types';
 
-  try {
-    response = await fetch(endpoint, options);
-  } catch {
-    throw new Error('Network Error');
-  }
+// Generic function to make API request.
+export async function callApi<T>(
+  endpoint: URL,
+  options: RequestInit = {},
+): Promise<ApiResponse<T>> {
+  const response = await fetch(endpoint, options);
 
   if (!response.ok) {
-    throw new Error(response.statusText ?? 'Api Error');
-    // TODO: create ApiError
+    const error: ApiError = {
+      status: response.status,
+      message: response.statusText ?? 'Api Error',
+    };
+    throw error;
   }
 
-  return await response.json();
+  return response.json() as Promise<ApiResponse<T>>;
 }

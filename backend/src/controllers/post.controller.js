@@ -1,5 +1,8 @@
+import HttpError from '../errors/HttpError.js';
 import postService from '../services/post.service.js';
 import { parseBoolean, parseCategories, parseSearch, parseSort } from '../utils/tools.js';
+
+// TODO : use validateRequest middleware to remove try/catch
 
 async function getAllPosts(req, res) {
   const {
@@ -37,7 +40,8 @@ async function getAllPosts(req, res) {
     featured: parsedFeatured,
   });
 
-  res.json({ posts, total });
+  res.json({ data: posts, pagination: { currentPage: page, totalItems: total } });
+  // TODO : include totalPages
 }
 
 async function getPostById(req, res) {
@@ -45,14 +49,10 @@ async function getPostById(req, res) {
   const postId = parseInt(req.params.id);
   const post = await postService.findPostById(postId);
 
-  if (!post) {
-    return res.status(404).json({ error: `Post with id: ${postId} not found.` });
-  }
-
-  res.json(post);
+  res.json({ data: post });
 }
 
-async function createPost(req, res) {
+async function createPost(req, res, next) {
   try {
     const { title, content, published, authorId, featured, categories } = req.body;
     const isPublished = parseBoolean(published);
@@ -71,13 +71,13 @@ async function createPost(req, res) {
       categories: parsedCategories,
     });
 
-    res.json(post);
+    res.status(201).json({ data: post, message: 'Post successfully created.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No post were created.` });
+    next(new HttpError(`An error has occurred. No post were created.`, 500));
   }
 }
 
-async function updatePostById(req, res) {
+async function updatePostById(req, res, next) {
   try {
     const postId = parseInt(req.params.id);
     const { title, content, published, authorId, featured, categories } = req.body;
@@ -97,33 +97,21 @@ async function updatePostById(req, res) {
       categories: parsedCategories,
     });
 
-    if (!updatedPost) {
-      return res
-        .status(404)
-        .json({ error: `Post with id: ${postId} not found. No post were updated.` });
-    }
-
-    res.json(updatedPost);
+    res.json({ data: updatedPost, message: 'Post successfully updated.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No post were updated.` });
+    next(new HttpError(`An error has occurred. No post were updated.`, 500));
   }
 }
 
-async function deletePostById(req, res) {
+async function deletePostById(req, res, next) {
   try {
     // Delete existing post.
     const postId = parseInt(req.params.id);
     const deletedPost = await postService.deletePostById(postId);
 
-    if (!deletedPost) {
-      return res
-        .status(404)
-        .json({ error: `Post with id: ${postId} not found. No post were deleted.` });
-    }
-
-    res.sendStatus(200);
+    res.json({ data: null, message: 'Post successfully deleted.' });
   } catch (error) {
-    res.status(500).json({ error: `An error has occurred. No post were deleted.` });
+    next(new HttpError(`An error has occurred. No post were deleted.`, 500));
   }
 }
 

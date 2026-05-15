@@ -1,3 +1,4 @@
+import HttpError from '../errors/HttpError.js';
 import postRepository from '../repositories/post.repository.js';
 
 async function findAllPosts({ categories, authors, currentPage, limit, featured, sort, search }) {
@@ -15,6 +16,11 @@ async function findAllPosts({ categories, authors, currentPage, limit, featured,
 
 async function findPostById(id) {
   const post = await postRepository.getById(id);
+
+  if (!post) {
+    throw new HttpError(`Post not found with ID ${id}.`, 404);
+  }
+
   return post;
 }
 
@@ -27,13 +33,21 @@ async function createNewPost({ title, content, published, authorId, featured, ca
     featured,
     categories,
   });
+
+  if (!post) {
+    throw new HttpError(`An error has occurred. No post were created.`, 500);
+  }
+
   return post;
 }
 
 async function updatePostById(id, { title, content, published, authorId, featured, categories }) {
   // Before update the post, check its existence.
   const post = await findPostById(id);
-  if (!post) return null;
+
+  if (!post) {
+    throw new HttpError(`Post not found with ID ${id}.`, 404);
+  }
 
   // Update the post.
   const updatedPost = await postRepository.updateById(id, {
@@ -44,15 +58,28 @@ async function updatePostById(id, { title, content, published, authorId, feature
     featured,
     categories,
   });
+
+  if (!updatedPost) {
+    throw new HttpError(`An error has occurred. No post were updated.`, 404);
+  }
+
   return updatedPost;
 }
 
 async function deletePostById(id) {
   // Before delete the post, check its existence.
   const post = await findPostById(id);
-  if (!post) return null;
+
+  if (!post) {
+    throw new HttpError(`Post not found with ID ${id}.`, 404);
+  }
 
   const deletedPost = await postRepository.deleteById(id);
+
+  if (!deletedPost) {
+    throw new HttpError(`An error has occurred. No post were deleted.`, 404);
+  }
+
   return deletedPost;
 }
 
