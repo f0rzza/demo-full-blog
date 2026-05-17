@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
+import { idSchema } from './common.schemas.js';
 
 // Returns email in lowercase after removing spaces and validating the format.
 // Note: Because z.string().email() is deprecated, we use pipe() to check format after trim the email.

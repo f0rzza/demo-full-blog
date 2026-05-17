@@ -1,7 +1,7 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
-import { categorySchema } from './category.schemas';
-import { userSchema } from './user.schemas';
+import { idSchema } from './common.schemas.js';
+import { categorySchema } from './category.schemas.js';
+import { userSchema } from './user.schemas.js';
 
 const titleSchema = z
   .string({ error: 'Title is required.' })

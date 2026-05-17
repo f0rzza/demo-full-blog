@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
+import { idSchema } from './common.schemas.js';
 
 const nameSchema = z
   .string({ error: 'Name is required.' })
