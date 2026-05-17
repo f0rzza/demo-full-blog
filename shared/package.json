@@ -1,14 +1,23 @@
 {
   "name": "shared",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "typescript": "~6.0.2"
+  },
   "dependencies": {
     "zod": "^4.4.3"
   }
