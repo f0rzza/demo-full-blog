@@ -1,9 +1,9 @@
-import type { PostType } from '@/features/posts/posts.types';
 import { formatDate } from '@/shared/utils/format';
 import { sanitizeHTML } from '@/shared/utils/sanitize';
+import type { PostResponse } from '@shared/types';
 import { Link } from 'react-router-dom';
 
-export function PostCard({ post }: { post: PostType }) {
+export function PostCard({ post }: { post: PostResponse }) {
   const { id, title, chapo, content, categories, createdAt } = post;
   // TODO: 12 min read, image
 

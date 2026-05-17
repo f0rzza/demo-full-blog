@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, type LoginInput, type LoginOutput } from '@shared/schemas';
+import { loginSchema } from '@shared/schemas';
+import { type LoginInput, type LoginOutput } from '@shared/types';
 import { FormProvider, useForm, type FieldError, type SubmitHandler } from 'react-hook-form';
 import { AuthField } from './fields/AuthField';
 import { use } from 'react';

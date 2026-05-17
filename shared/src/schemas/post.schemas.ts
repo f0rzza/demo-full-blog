@@ -43,7 +43,7 @@ export const postSchema = z.object({
 // Note: categories and author are returned with Prisma.
 export const postResponseSchema = postSchema.extend({
   categories: z.array(categorySchema),
-  author: z.object(userSchema),
+  author: userSchema,
 });
 
 /** POST Requests  **/

@@ -1,5 +1,5 @@
-import type { CategoryType } from '@/features/categories/categories.types';
 import { SORT_BY } from '@/shared/constants';
+import type { Category } from '@shared/types';
 import { Select } from './components/Select';
 import { Search } from './components/Search';
 import type { Filters } from '@/shared/types/common';
@@ -8,7 +8,7 @@ export function PostToolbar({
   categories,
   currentFilters,
 }: {
-  categories: Array<CategoryType>;
+  categories: Array<Category>;
   currentFilters: Filters;
 }) {
   return (

@@ -1,6 +1,6 @@
-import type { PostType } from '@/features/posts/posts.types';
+import type { PostResponse } from '@shared/types';
 
-export function Header({ post }: { post: PostType }) {
+export function Header({ post }: { post: PostResponse }) {
   const { chapo, content } = post;
 
   return (

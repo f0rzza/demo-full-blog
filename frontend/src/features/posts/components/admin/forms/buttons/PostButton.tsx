@@ -1,9 +1,8 @@
 import { createPost } from '@/features/posts/api/postsApi';
-import type { CreatePostType } from '@/features/posts/posts.types';
 import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { buttonConfigs } from './button.config';
-import type { CreatePostInput, CreatePostOutput } from '@shared/schemas';
+import type { CreatePostPayload, CreatePostInput, CreatePostOutput } from '@shared/types';
 
 type ButtonConfig = keyof typeof buttonConfigs;
 
@@ -25,7 +24,7 @@ export function PostButton({ variant }: Props) {
     const response = await createPost({
       ...data,
       published: variant === 'publish',
-    } as unknown as CreatePostType);
+    } as unknown as CreatePostPayload);
     // Note: quickfix, A Refactor is required because there are duplicated post types. (post.types & zod.shemas)
     // TODO: infer types from schemas and remove useless types.
 
