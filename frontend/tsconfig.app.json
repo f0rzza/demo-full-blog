@@ -9,7 +9,7 @@
 
     "paths": {
       "@/*": ["./src/*"], // Alias "@" pointe vers tout ce qui est sous "src"
-      "@shared/*": ["../shared/*"] // Alias "@shared" pointe vers le dossier 'shared' externe à Vite
+      "@shared/*": ["../shared/src/*"] // Alias "@shared" pointe vers le dossier 'shared' externe à Vite
     },
 
     /* Bundler mode */
