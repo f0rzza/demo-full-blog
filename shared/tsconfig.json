@@ -10,5 +10,11 @@
     "strict": true,
     "skipLibCheck": true
   },
+  // Note: forcer le polling dans "tsc --watch"
+  // Exemple: lors de l'ajout d'un schema Zod, etc
+  "watchOptions": {
+    "watchFile": "fixedPollingInterval",
+    "watchDirectory": "fixedPollingInterval"
+  },
   "include": ["src"]
 }

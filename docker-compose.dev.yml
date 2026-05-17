@@ -20,8 +20,7 @@ services:
     volumes:
       - ./shared:/app
       - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+    # Contrairement à nodemon/vite, tsc n'utilise pas chokidar dans son watch. Il a son propre système de détection de modifs (cf. tsconfig.json)
 
   # Backend : Node / Express
   backend:

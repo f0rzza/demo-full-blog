@@ -3,4 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+# Compile une première fois le dossier /shared au build de l'image
+RUN npm run build
 CMD ["npm", "run", "dev"]
