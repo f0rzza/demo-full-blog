@@ -1,5 +1,11 @@
 import express from 'express';
 import categoryController from '../controllers/category.controller.js';
+import {
+  categoryIdSchema,
+  createCategorySchema,
+  updateCategorySchema,
+} from '#shared/schemas/category.schemas.js';
+import { validateRequest } from '../middlewares/validate.middleware.js';
 
 const router = express.Router();
 // TODO : use validateRequest middleware
@@ -8,15 +14,31 @@ const router = express.Router();
 router.get('/', categoryController.getAllCategories);
 
 // Get a category
-router.get('/:id', categoryController.getCategoryById);
+router.get(
+  '/:id',
+  validateRequest({ params: categoryIdSchema }),
+  categoryController.getCategoryById,
+);
 
 // Create a new category
-router.post('/', categoryController.createCategory);
+router.post(
+  '/',
+  validateRequest({ body: createCategorySchema }),
+  categoryController.createCategory,
+);
 
 // Update a category
-router.put('/:id', categoryController.updateCategoryById);
+router.put(
+  '/:id',
+  validateRequest({ params: categoryIdSchema, body: updateCategorySchema }),
+  categoryController.updateCategoryById,
+);
 
 // Delete a category
-router.delete('/:id', categoryController.deleteCategoryById);
+router.delete(
+  '/:id',
+  validateRequest({ params: categoryIdSchema }),
+  categoryController.deleteCategoryById,
+);
 
 export default router;
