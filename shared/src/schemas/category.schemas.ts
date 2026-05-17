@@ -12,3 +12,12 @@ export const categorySchema = z.object({
   id: idSchema,
   name: nameSchema,
 });
+
+// Schema for the route where ID is used as path parameter.
+export const categoryIdSchema = z.object({
+  id: idSchema,
+});
+
+// Create new Post shema for the creation.
+export const createCategorySchema = categorySchema.omit({ id: true });
+export const updateCategorySchema = createCategorySchema;

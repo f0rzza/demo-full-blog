@@ -36,6 +36,12 @@ export const postSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
 });
+// TODO: upgrade boolean data
+
+// Schema for the route where user ID is used as path parameter.
+export const postIdSchema = z.object({
+  id: idSchema,
+});
 
 /** GET Requests  **/
 
@@ -60,6 +66,7 @@ export const createPostSchema = z.object({
 });
 
 /** PUT Requests  **/
+export const updatePostSchema = createPostSchema;
 // TODO
 
 /** DELETE Requests  **/

@@ -36,6 +36,16 @@ export const userIdSchema = z.object({
   id: idSchema,
 });
 
+/** POST Requests  **/
+
+// Exclude ID verification during user creation
+export const createUserSchema = userSchema.omit({ id: true });
+
+/** PUT request **/
+
+// Make password field optional during update.
+export const updateUserSchema = createUserSchema.partial({ password: true });
+
 /* LOGIN */
 
 // Use Zod union for the 'identifier' field : only one input, could be username or email.
