@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { createPostSchema, postResponseSchema, postSchema } from '@shared/schemas';
+import { createPostSchema, postResponseSchema, postSchema } from '../schemas/post.schemas.js';
 
 // Create types from Zod schemas.
 export type Post = z.infer<typeof postSchema>;

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
+import { idSchema } from './common.schemas.js';
 
 // Returns email in lowercase after removing spaces and validating the format.
 // Note: Because z.string().email() is deprecated, we use pipe() to check format after trim the email.
@@ -35,6 +35,16 @@ export const userSchema = z.object({
 export const userIdSchema = z.object({
   id: idSchema,
 });
+
+/** POST Requests  **/
+
+// Exclude ID verification during user creation
+export const createUserSchema = userSchema.omit({ id: true });
+
+/** PUT request **/
+
+// Make password field optional during update.
+export const updateUserSchema = createUserSchema.partial({ password: true });
 
 /* LOGIN */
 

@@ -1,7 +1,7 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
-import { categorySchema } from './category.schemas';
-import { userSchema } from './user.schemas';
+import { idSchema } from './common.schemas.js';
+import { categorySchema } from './category.schemas.js';
+import { userSchema } from './user.schemas.js';
 
 const titleSchema = z
   .string({ error: 'Title is required.' })
@@ -36,6 +36,12 @@ export const postSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
 });
+// TODO: upgrade boolean data
+
+// Schema for the route where user ID is used as path parameter.
+export const postIdSchema = z.object({
+  id: idSchema,
+});
 
 /** GET Requests  **/
 
@@ -43,7 +49,7 @@ export const postSchema = z.object({
 // Note: categories and author are returned with Prisma.
 export const postResponseSchema = postSchema.extend({
   categories: z.array(categorySchema),
-  author: z.object(userSchema),
+  author: userSchema,
 });
 
 /** POST Requests  **/
@@ -60,6 +66,7 @@ export const createPostSchema = z.object({
 });
 
 /** PUT Requests  **/
+export const updatePostSchema = createPostSchema;
 // TODO
 
 /** DELETE Requests  **/

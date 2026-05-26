@@ -12,6 +12,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data # Données persistentes entre les redémarrages du container
 
+  # Dossier partagé entre le backend et le frontend
+  shared:
+    build:
+      context: ./shared
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./shared:/app
+      - /app/node_modules
+    # Contrairement à nodemon/vite, tsc n'utilise pas chokidar dans son watch. Il a son propre système de détection de modifs (cf. tsconfig.json)
+
   # Backend : Node / Express
   backend:
     build:
@@ -29,6 +39,7 @@ services:
       - '${SERVER_PORT:-4000}:${SERVER_PORT:-4000}'
     depends_on:
       - postgres_db # le backend démarre après la BDD
+      - shared
 
   # Frontend : Vite + React/TS
   frontend:

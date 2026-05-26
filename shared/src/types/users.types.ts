@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { loginSchema, userSchema } from '@shared/schemas';
+import { loginSchema, userSchema } from '../schemas/user.schemas.js';
 
 // Create types from Zod schemas.
 export type User = z.infer<typeof userSchema>;

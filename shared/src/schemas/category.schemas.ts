@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { idSchema } from './common.schemas';
+import { idSchema } from './common.schemas.js';
 
 const nameSchema = z
   .string({ error: 'Name is required.' })
@@ -12,3 +12,12 @@ export const categorySchema = z.object({
   id: idSchema,
   name: nameSchema,
 });
+
+// Schema for the route where ID is used as path parameter.
+export const categoryIdSchema = z.object({
+  id: idSchema,
+});
+
+// Create new Post shema for the creation.
+export const createCategorySchema = categorySchema.omit({ id: true });
+export const updateCategorySchema = createCategorySchema;

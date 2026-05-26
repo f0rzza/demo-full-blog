@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "#shared/*": ["../shared/src/*"]
+    },
+    "checkJs": false
+  },
+  "include": ["**/*.js", "../shared/src/**/*"]
+}

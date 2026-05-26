@@ -1,7 +1,7 @@
-import type { PostType } from '@/features/posts/posts.types';
 import { sanitizeHTML } from '@/shared/utils/sanitize';
+import type { PostResponse } from '@shared/types';
 
-export function PostCard({ post }: { post: PostType }) {
+export function PostCard({ post }: { post: PostResponse }) {
   const { title, chapo, content, categories } = post;
   // TODO : image, minutes (?), display all categories
 

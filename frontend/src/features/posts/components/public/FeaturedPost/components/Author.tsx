@@ -1,7 +1,7 @@
-import type { PostType } from '@/features/posts/posts.types';
 import { formatDate } from '@/shared/utils/format';
+import type { PostResponse } from '@shared/types';
 
-export function Author({ post }: { post: PostType }) {
+export function Author({ post }: { post: PostResponse }) {
   const {
     author: { username },
     createdAt,

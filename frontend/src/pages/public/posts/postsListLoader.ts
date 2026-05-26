@@ -3,12 +3,12 @@ import { getPosts } from '@/features/posts/api/postsApi';
 import { POSTS_PER_PAGE } from '@/shared/constants';
 import type { Filters } from '@/shared/types/common';
 import { getFilterValues } from '@/shared/utils/filters';
-import type { Category, Post } from '@shared/types';
+import type { Category, PostResponse } from '@shared/types';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 export type PostsListPageLoaderType = {
   categories: Category[];
-  posts: Post[];
+  posts: PostResponse[];
   currentPage: number;
   totalPages: number;
   currentFilters: Filters;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUserSchema, loginSchema } from '../utils/zod.schemas.js';
+import { createUserSchema, loginSchema } from '#shared/schemas/user.schemas.js';
 import { validateRequest } from '../middlewares/validate.middleware.js';
 import authController from '../controllers/auth.controller.js';
 
