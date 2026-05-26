@@ -38,7 +38,7 @@ export const userIdSchema = z.object({
 
 /** POST Requests  **/
 
-// Exclude ID verification during user creation
+// Exclude ID verification during user creation / registration
 export const createUserSchema = userSchema.omit({ id: true });
 
 /** PUT request **/
@@ -58,6 +58,3 @@ export const loginSchema = z.object({
   identifier: identifierSchema,
   password: passwordSchema,
 });
-
-/* REGISTER */
-// TODO
