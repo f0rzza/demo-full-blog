@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { checkApi, loginApi, logoutApi } from '@/features/auth/api/authApi';
+import { checkApi, loginApi, logoutApi, registerApi } from '@/features/auth/api/authApi';
 import { AuthContext } from './AuthContext';
-import type { ApiError, ApiResponse, User } from '@shared/types';
+import type { ApiError, ApiResponse, CreateUserOutput, User } from '@shared/types';
 
 // Define Auth provider using the previous context.
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -64,8 +64,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuthentication();
   }, []);
 
+  // Create an account
+  const register = async (data: CreateUserOutput): Promise<ApiResponse<User>> => {
+    setIsLoading(true);
+
+    try {
+      const response = await registerApi(data);
+      setUser(null); // Not automatically logged.
+      return response;
+    } catch (error) {
+      throw error as ApiError;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <AuthContext value={{ user, isAuth, loading, login, logout, checkAuthentication }}>
+    <AuthContext value={{ user, isAuth, loading, login, logout, checkAuthentication, register }}>
       {children}
     </AuthContext>
   );
