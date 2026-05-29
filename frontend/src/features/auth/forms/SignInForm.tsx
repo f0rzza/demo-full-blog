@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@shared/schemas';
-import { type LoginInput, type LoginOutput } from '@shared/types';
+import { type ApiError, type LoginInput, type LoginOutput } from '@shared/types';
 import { FormProvider, useForm, type FieldError, type SubmitHandler } from 'react-hook-form';
 import { AuthField } from './fields/AuthField';
 import { use } from 'react';
@@ -25,18 +25,16 @@ export function SignInForm() {
   } = methods;
 
   const onSubmit: SubmitHandler<LoginOutput> = async (data) => {
-    const response = await login(data.identifier, data.password);
-    console.log('resp', response);
-
-    if (!response) {
+    try {
+      await login(data.identifier, data.password);
+      navigate('/'); // Go to the homepage.
+    } catch (error) {
+      const apiError = error as ApiError;
       setError('root.serverError', {
         type: 'server',
-        message: 'Incorrect credentials.',
+        message: apiError.message ?? 'Incorrect credentials.',
       });
-      return;
     }
-
-    navigate('/'); // tmp
   };
 
   return (
