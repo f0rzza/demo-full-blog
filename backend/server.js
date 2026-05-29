@@ -8,6 +8,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { useLocalStrategy } from './src/utils/passport.strategy.js';
 import cors from 'cors';
+import userRepository from './src/repositories/user.repository.js';
 
 // Load custom ENV file
 dotenv.config();
@@ -59,13 +60,14 @@ app.use(errorHandler);
 // Define passport strategy
 passport.use(useLocalStrategy());
 
-// Define serialize functions
+// Define serialize functions. Save only the user ID.
 passport.serializeUser((user, cb) => {
-  const { password, ...userWithoutPassword } = user;
-  cb(null, userWithoutPassword);
+  cb(null, user.id);
 });
 
-passport.deserializeUser((user, cb) => {
+// Get user from ID to get up-to-date data all the time.
+passport.deserializeUser(async (id, cb) => {
+  const user = await userRepository.getById(id);
   cb(null, user);
 });
 
