@@ -14,9 +14,9 @@ datasource db {
 
 // User roles
 enum Role {
-  ADMIN   @map("admin")
-  EDITOR  @map("editor")
-  USER    @map("user")
+  ADMIN
+  EDITOR
+  USER
 }
 
 // Email and name are required. User can have many posts.
