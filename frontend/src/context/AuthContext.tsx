@@ -10,4 +10,5 @@ export const AuthContext = createContext<AuthStateType>({
   login: async () => ({}) as ApiResponse<User>,
   logout: async () => ({}) as ApiResponse<null>,
   checkAuthentication: async () => ({}) as ApiResponse<User>,
+  register: async () => ({}) as ApiResponse<User>,
 });

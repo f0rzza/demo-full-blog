@@ -1,5 +1,5 @@
 import { callApi } from '@/shared/utils/api';
-import type { ApiResponse, User } from '@shared/types';
+import type { ApiResponse, CreateUserOutput, User } from '@shared/types';
 
 const baseApiUrl = `${import.meta.env.VITE_BASE_BLOG_API_URL}`;
 
@@ -29,6 +29,16 @@ export async function checkApi(): Promise<ApiResponse<User>> {
   const url = new URL('/auth/check', baseApiUrl);
   const response = await callApi<User>(url, {
     credentials: 'include',
+  });
+  return response;
+}
+
+export async function registerApi(data: CreateUserOutput): Promise<ApiResponse<User>> {
+  const url = new URL('/auth/register', baseApiUrl);
+  const response = await callApi<User>(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
   });
   return response;
 }

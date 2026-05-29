@@ -1,4 +1,4 @@
-import type { ApiResponse, User } from '@shared/types';
+import type { ApiResponse, CreateUserOutput, User } from '@shared/types';
 
 export type AuthStateType = {
   user: User | null;
@@ -7,4 +7,5 @@ export type AuthStateType = {
   login: (identifier: string, password: string) => Promise<ApiResponse<User>>;
   logout: () => Promise<ApiResponse<null>>;
   checkAuthentication: () => Promise<ApiResponse<User>>;
+  register: (data: CreateUserOutput) => Promise<ApiResponse<User>>;
 };
