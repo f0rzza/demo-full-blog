@@ -8,9 +8,12 @@ export async function callApi<T>(
   const response = await fetch(endpoint, options);
 
   if (!response.ok) {
+    // Get server errors in the body. Retuns {} if there is error during json().
+    const body = await response.json().catch(() => ({}));
+    // Create and return ApiError.
     const error: ApiError = {
       status: response.status,
-      message: response.statusText ?? 'Api Error',
+      message: body.message ?? 'Api Error',
     };
     throw error;
   }
