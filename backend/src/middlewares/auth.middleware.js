@@ -15,3 +15,6 @@ export const checkAuthorization = (...roles) => {
     next();
   };
 };
+
+// Combines authentication and authorization middlewares.
+export const authorize = (...roles) => [checkAuthentication, checkAuthorization(...roles)];
