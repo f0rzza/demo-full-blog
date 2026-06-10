@@ -1,26 +1,28 @@
 import express from 'express';
 import { userIdSchema, createUserSchema, updateUserSchema } from '#shared/schemas/user.schemas.js';
-import { authorize, validateRequest } from '../middlewares/index.js';
+import { checkAuthentication, checkAuthorization, validateRequest } from '../middlewares/index.js';
 import userController from '../controllers/user.controller.js';
 import { Role } from '@prisma/client';
 
 const router = express.Router();
 
 // Get a users list
-router.get('/', userController.getAllUsers);
+router.get('/', checkAuthentication, checkAuthorization([Role.ADMIN]), userController.getAllUsers);
 
 // Get a user
 router.get(
   '/:id',
-  authorize(Role.ADMIN),
+  checkAuthentication,
   validateRequest({ params: userIdSchema }),
+  checkAuthorization([Role.ADMIN], { enabled: true }),
   userController.getUserById,
 );
 
 // Create a new user
 router.post(
   '/',
-  authorize(Role.ADMIN),
+  checkAuthentication,
+  checkAuthorization([Role.ADMIN]),
   validateRequest({ body: createUserSchema }),
   userController.createUser,
 );
@@ -28,16 +30,19 @@ router.post(
 // Update a user
 router.put(
   '/:id',
-  authorize(Role.ADMIN),
-  validateRequest({ params: userIdSchema, body: updateUserSchema }),
+  checkAuthentication,
+  validateRequest({ params: userIdSchema }),
+  checkAuthorization([Role.ADMIN], { enabled: true }),
+  validateRequest({ body: updateUserSchema }),
   userController.updateUserById,
 );
 
 // Delete a user
 router.delete(
   '/:id',
-  authorize(Role.ADMIN),
+  checkAuthentication,
   validateRequest({ params: userIdSchema }),
+  checkAuthorization([Role.ADMIN], { enabled: true }),
   userController.deleteUserById,
 );
 

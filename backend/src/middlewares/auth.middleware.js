@@ -7,14 +7,31 @@ export const checkAuthentication = (req, res, next) => {
 };
 
 // Check if the user is authorized.
-export const checkAuthorization = (...roles) => {
+// - allowedRoles: Array
+// - self: {enabled: boolean, type: string}
+export const checkAuthorization = (allowedRoles, allowedSelf = {}) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ status: 403, message: 'Forbidden' });
+    const { id, role } = req.user;
+
+    // Check if the authenticated user has an allowed role.
+    if (allowedRoles.includes(role)) {
+      return next();
     }
-    next();
+
+    const { enabled = false, type = '' } = allowedSelf;
+
+    // If the user has not an allowed role, check if he try to access at his own content. (optional)
+    if (enabled) {
+      // For the posts, we need to compare authenticated user ID with the author ID.
+      // Note: because ID in the path is not a user ID.
+      if (type === 'post') {
+        // TODO: retrieve the authorId from post ID.
+      } else if (id === parseInt(req.params.id)) {
+        // Authenticated user ID = queried user ID.
+        return next();
+      }
+    }
+
+    return res.status(403).json({ status: 403, message: 'Forbidden' });
   };
 };
-
-// Combines authentication and authorization middlewares.
-export const authorize = (...roles) => [checkAuthentication, checkAuthorization(...roles)];
