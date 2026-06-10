@@ -5,7 +5,8 @@ import {
   createCategorySchema,
   updateCategorySchema,
 } from '#shared/schemas/category.schemas.js';
-import { validateRequest } from '../middlewares/validate.middleware.js';
+import { checkAuthentication, checkAuthorization, validateRequest } from '../middlewares/index.js';
+import { Role } from '@prisma/client';
 
 const router = express.Router();
 // TODO : use validateRequest middleware
@@ -23,6 +24,8 @@ router.get(
 // Create a new category
 router.post(
   '/',
+  checkAuthentication,
+  checkAuthorization([Role.ADMIN, Role.EDITOR]),
   validateRequest({ body: createCategorySchema }),
   categoryController.createCategory,
 );
@@ -30,6 +33,8 @@ router.post(
 // Update a category
 router.put(
   '/:id',
+  checkAuthentication,
+  checkAuthorization([Role.ADMIN, Role.EDITOR]),
   validateRequest({ params: categoryIdSchema, body: updateCategorySchema }),
   categoryController.updateCategoryById,
 );
@@ -37,6 +42,8 @@ router.put(
 // Delete a category
 router.delete(
   '/:id',
+  checkAuthentication,
+  checkAuthorization([Role.ADMIN]),
   validateRequest({ params: categoryIdSchema }),
   categoryController.deleteCategoryById,
 );
