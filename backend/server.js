@@ -2,7 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import { categoryRoutes, postRoutes, userRoutes, authRoutes } from './src/routes/index.js';
+import {
+  categoryRoutes,
+  postRoutes,
+  userRoutes,
+  authRoutes,
+  authorRoutes,
+} from './src/routes/index.js';
 import { errorHandler } from './src/middlewares/error.middleware.js';
 import session from 'express-session';
 import passport from 'passport';
@@ -53,6 +59,7 @@ app.use('/categories', categoryRoutes);
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/authors', authorRoutes);
 
 // Handle custom errors
 app.use(errorHandler);
