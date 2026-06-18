@@ -22,6 +22,8 @@ import {
 } from './pages/admin';
 import { AppError } from './shared/components/errors/AppError';
 import { BasicLayout, CategoryEditorLayout, DashboardLayout } from './layouts';
+import { authLoader } from './shared/utils/loaders';
+import { Role } from '@shared/constants';
 
 // Post routes, with prefix.
 const postRoutes = {
@@ -65,6 +67,8 @@ const authRoute = { path: 'auth', Component: Authentication };
 // Admin routes : management pages.
 const adminRoutes = {
   path: 'admin',
+  // Allow access to management pages only to administrators and editors.
+  loader: authLoader(Role.ADMIN, Role.EDITOR),
   children: [
     // Post routes
     {
