@@ -50,15 +50,16 @@ const categoryRoutes = {
   ],
 };
 
-// Account routes, with prefix.
+// Account route.
 const accountRoutes = {
   path: 'account',
-  children: [
-    {
-      index: true,
-      Component: AccountDashboard,
-    },
-  ],
+  Component: AccountDashboard, // TODO
+};
+
+// Favorites route.
+const favoriteRoute = {
+  path: 'favorites',
+  Component: AccountDashboard, // TODO
 };
 
 // Auth routes, with prefix.
@@ -70,6 +71,8 @@ const adminRoutes = {
   // Allow access to management pages only to administrators and editors.
   loader: authLoader(Role.ADMIN, Role.EDITOR),
   children: [
+    // Default admin route.
+    { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
     // Post routes
     {
       path: 'posts',
@@ -114,6 +117,7 @@ export const router = createBrowserRouter([
       accountRoutes,
       authRoute,
       adminRoutes,
+      favoriteRoute,
     ],
   },
 ]);

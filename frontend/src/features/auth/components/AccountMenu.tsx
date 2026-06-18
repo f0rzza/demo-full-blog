@@ -1,10 +1,14 @@
 import { AuthContext } from '@/context/AuthContext';
 import { use } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AccountMenuLink } from './AccountMenuLink';
+import { Role } from '@shared/constants';
 
 export function AccountMenu() {
-  const { logout } = use(AuthContext);
+  const { logout, user } = use(AuthContext);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const advMenu = user?.role === Role.ADMIN || user?.role === Role.EDITOR;
 
   async function handleLogoutClick() {
     await logout();
@@ -13,6 +17,7 @@ export function AccountMenu() {
 
   return (
     <div className="relative group">
+      {/* Account button */}
       <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
           <span className="material-symbols-outlined text-primary text-xl">account_circle</span>
@@ -21,20 +26,18 @@ export function AccountMenu() {
           expand_more
         </span>
       </button>
+
+      {/* Menu */}
       <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-stone-900 rounded-xl shadow-xl border border-outline-variant/10 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-        <a
-          className="block px-4 py-2 text-xs font-sans uppercase tracking-widest text-[#191c1d]/70 dark:text-stone-300 hover:bg-surface-container-low dark:hover:bg-stone-800 transition-colors"
-          href="#"
-        >
-          My Account
-        </a>
-        <a
-          className="block px-4 py-2 text-xs font-sans uppercase tracking-widest text-[#191c1d]/70 dark:text-stone-300 hover:bg-surface-container-low dark:hover:bg-stone-800 transition-colors"
-          href="#"
-        >
-          My Stories
-        </a>
-        <div className="border-t border-outline-variant/10 my-2"></div>
+        {/* Main links */}
+        {advMenu && (
+          <AccountMenuLink label="Dashboard" to="/admin" current={pathname.indexOf('admin') >= 0} />
+        )}
+        <AccountMenuLink label="Favorites" to="/favorites" current={pathname === '/favorites'} />
+        <AccountMenuLink label="Account" to="/account" current={pathname === '/account'} />
+
+        <div className="border-t border-outline-variant/30 my-2"></div>
+
         <a
           className="block px-4 py-2 text-xs font-sans uppercase tracking-widest text-error hover:bg-error-container/10 transition-colors"
           href="#"
