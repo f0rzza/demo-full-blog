@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { idSchema } from './common.schemas.js';
+import { Role } from '../constants.js';
 
 // Returns email in lowercase after removing spaces and validating the format.
 // Note: Because z.string().email() is deprecated, we use pipe() to check format after trim the email.
@@ -23,12 +24,15 @@ const passwordSchema = z
     message: 'Password must contain at most 12 characters.',
   });
 
+export const roleEnum = z.enum(Object.values(Role));
+
 // User schema
 export const userSchema = z.object({
   id: idSchema,
   email: emailSchema,
   username: usernameSchema,
   password: passwordSchema,
+  role: roleEnum,
 });
 
 // Schema for the route where user ID is used as path parameter.
