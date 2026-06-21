@@ -1,3 +1,4 @@
+import type { ApiError } from '@shared/types';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 export function AppError() {
@@ -7,14 +8,17 @@ export function AppError() {
   let status = 500;
   let message = 'An expected error has occured';
 
-  // Check if the error has occured in route loader, action, etc.
   if (isRouteErrorResponse(error)) {
     status = error.status;
     message = error.statusText || error.data;
   } else if (error instanceof Error) {
-    // Else,
     message = error.message;
+  } else {
+    const err = error as ApiError;
+    status = err.status;
+    message = err.message;
   }
+  // TODO: if (error instanceof ApiError) ?
 
   return (
     <>
