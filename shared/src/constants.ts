@@ -5,3 +5,10 @@ export const SORT_BY = [
   { id: 'date-asc', name: 'Oldest' },
   { id: 'views-desc', name: 'Most Read' },
 ];
+
+// Object of roles.
+export const Role = {
+  ADMIN: 'ADMIN',
+  EDITOR: 'EDITOR',
+  USER: 'USER',
+} as const;

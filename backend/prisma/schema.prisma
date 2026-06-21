@@ -12,6 +12,13 @@ datasource db {
   provider = "postgresql"
 }
 
+// User roles
+enum Role {
+  ADMIN
+  EDITOR
+  USER
+}
+
 // Email and name are required. User can have many posts.
 model User {
   id        Int     @id @default(autoincrement())
@@ -19,6 +26,7 @@ model User {
   username  String  @unique
   password  String
   posts     Post[]
+  role      Role @default(USER)
 }
 
 // Post can can be assigned to many categories but have only one author.

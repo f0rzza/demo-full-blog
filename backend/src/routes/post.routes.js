@@ -1,7 +1,8 @@
 import express from 'express';
 import postController from '../controllers/post.controller.js';
 import { postIdSchema, createPostSchema, updatePostSchema } from '#shared/schemas/post.schemas.js';
-import { validateRequest } from '../middlewares/validate.middleware.js';
+import { checkAuthentication, checkAuthorization, validateRequest } from '../middlewares/index.js';
+import { Role } from '@prisma/client';
 
 const router = express.Router();
 // TODO : use validateRequest middleware
@@ -13,16 +14,31 @@ router.get('/', postController.getAllPosts);
 router.get('/:id', validateRequest({ params: postIdSchema }), postController.getPostById);
 
 // Create a new post
-router.post('/', validateRequest({ body: createPostSchema }), postController.createPost);
+router.post(
+  '/',
+  checkAuthentication,
+  checkAuthorization([Role.ADMIN, Role.EDITOR]),
+  validateRequest({ body: createPostSchema }),
+  postController.createPost,
+);
 
 // Update a post
 router.put(
   '/:id',
-  validateRequest({ params: postIdSchema, body: updatePostSchema }),
+  checkAuthentication,
+  validateRequest({ params: postIdSchema }),
+  checkAuthorization([Role.ADMIN], { enabled: true, type: 'post' }),
+  validateRequest({ body: updatePostSchema }),
   postController.updatePostById,
 );
 
 // Delete a post
-router.delete('/:id', validateRequest({ params: postIdSchema }), postController.deletePostById);
+router.delete(
+  '/:id',
+  checkAuthentication,
+  validateRequest({ params: postIdSchema }),
+  checkAuthorization([Role.ADMIN], { enabled: true, type: 'post' }),
+  postController.deletePostById,
+);
 
 export default router;

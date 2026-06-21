@@ -65,6 +65,7 @@ export async function createPost(data: CreatePostPayload): Promise<PostResponse>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+    credentials: 'include',
   });
 
   return result.data;

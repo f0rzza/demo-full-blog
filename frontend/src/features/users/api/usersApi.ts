@@ -5,10 +5,11 @@ const baseApiUrl = import.meta.env.VITE_BASE_BLOG_API_URL;
 
 export async function getAuthors(): Promise<User[]> {
   // Generate API URL
-  const url = new URL('/users', baseApiUrl);
-  // TODO: get only users with specific roles (author, admin) when the data is created in the database.
+  const url = new URL('/authors', baseApiUrl);
 
   // Call API
-  const response = await callApi<User[]>(url);
+  const response = await callApi<User[]>(url, {
+    credentials: 'include',
+  });
   return response.data;
 }

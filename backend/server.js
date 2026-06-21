@@ -2,12 +2,19 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import { categoryRoutes, postRoutes, userRoutes, authRoutes } from './src/routes/index.js';
+import {
+  categoryRoutes,
+  postRoutes,
+  userRoutes,
+  authRoutes,
+  authorRoutes,
+} from './src/routes/index.js';
 import { errorHandler } from './src/middlewares/error.middleware.js';
 import session from 'express-session';
 import passport from 'passport';
 import { useLocalStrategy } from './src/utils/passport.strategy.js';
 import cors from 'cors';
+import userRepository from './src/repositories/user.repository.js';
 
 // Load custom ENV file
 dotenv.config();
@@ -52,6 +59,7 @@ app.use('/categories', categoryRoutes);
 app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/authors', authorRoutes);
 
 // Handle custom errors
 app.use(errorHandler);
@@ -59,13 +67,14 @@ app.use(errorHandler);
 // Define passport strategy
 passport.use(useLocalStrategy());
 
-// Define serialize functions
+// Define serialize functions. Save only the user ID.
 passport.serializeUser((user, cb) => {
-  const { password, ...userWithoutPassword } = user;
-  cb(null, userWithoutPassword);
+  cb(null, user.id);
 });
 
-passport.deserializeUser((user, cb) => {
+// Get user from ID to get up-to-date data all the time.
+passport.deserializeUser(async (id, cb) => {
+  const user = await userRepository.getById(id);
   cb(null, user);
 });
 
