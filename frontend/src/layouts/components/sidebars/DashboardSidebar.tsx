@@ -1,4 +1,5 @@
 import { AuthContext } from '@/context/AuthContext';
+import { LogoutButton } from '@/shared/components/ui/buttons/LogoutButton';
 import { DashboardLink } from '@/shared/components/ui/links/DashboardLink';
 import { Role } from '@shared/constants';
 import { use } from 'react';
@@ -33,6 +34,7 @@ export function DashboardSidebar() {
         <nav className="flex flex-col gap-2">
           <DashboardLink variant="account" current={pathname === '/account'} />
           <DashboardLink variant="favorites" current={pathname === '/favorites'} />
+          <LogoutButton variant="dashboard" />
         </nav>
       </div>
     </aside>
