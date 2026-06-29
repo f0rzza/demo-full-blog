@@ -70,17 +70,19 @@ const adminRoutes = {
   path: 'admin',
   // Allow access to management pages only to administrators and editors.
   loader: authLoader(Role.ADMIN, Role.EDITOR),
+  Component: DashboardLayout,
   children: [
     // Default admin route.
-    { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
+    { children: [{ index: true, Component: AdminPostsList }] },
     // Post routes
     {
       path: 'posts',
       children: [
         // DashboardLayout
-        { Component: DashboardLayout, children: [{ index: true, Component: AdminPostsList }] },
+        { children: [{ index: true, Component: AdminPostsList }] },
         // BasicLayout
         {
+          // Component: DashboardLayout,
           children: [
             { path: 'create', Component: AdminPostCreate, loader: createPostPageLoader },
             { path: ':id/edit', Component: AdminPostEdit },
