@@ -22,8 +22,8 @@ export function DashboardSidebar() {
               variant="articles"
               current={pathname === '/admin' || pathname === '/admin/posts'}
             />
-            <DashboardLink variant="createArticle" />
-            <DashboardLink variant="categories" />
+            <DashboardLink variant="createArticle" current={pathname === '/admin/posts/create'} />
+            <DashboardLink variant="categories" current={pathname === '/admin/categories'} />
           </nav>
         </div>
       )}
