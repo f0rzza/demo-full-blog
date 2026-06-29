@@ -11,7 +11,7 @@ export function DashboardSidebar() {
   const displayManagement = user && (user.role === Role.ADMIN || user.role === Role.EDITOR);
 
   return (
-    <aside className="w-64 hidden lg:flex flex-col gap-10">
+    <div className="w-64 flex flex-col gap-10 p-4">
       {displayManagement && (
         <div>
           <h3 className="text-xs font-label uppercase tracking-[0.2em] text-on-surface-variant mb-6">
@@ -37,6 +37,6 @@ export function DashboardSidebar() {
           <LogoutButton variant="dashboard" />
         </nav>
       </div>
-    </aside>
+    </div>
   );
 }
