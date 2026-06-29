@@ -1,19 +1,14 @@
 import { AuthContext } from '@/context/AuthContext';
 import { use } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AccountMenuLink } from './AccountMenuLink';
 import { Role } from '@shared/constants';
+import { LogoutButton } from '@/shared/components/ui/buttons/LogoutButton';
 
 export function AccountMenu() {
-  const { logout, user } = use(AuthContext);
-  const navigate = useNavigate();
+  const { user } = use(AuthContext);
   const { pathname } = useLocation();
   const advMenu = user?.role === Role.ADMIN || user?.role === Role.EDITOR;
-
-  async function handleLogoutClick() {
-    await logout();
-    navigate('/');
-  }
 
   return (
     <div className="relative group">
@@ -38,13 +33,7 @@ export function AccountMenu() {
 
         <div className="border-t border-outline-variant/30 my-2"></div>
 
-        <a
-          className="block px-4 py-2 text-xs font-sans uppercase tracking-widest text-error hover:bg-error-container/10 transition-colors"
-          href="#"
-          onClick={handleLogoutClick}
-        >
-          Sign Out
-        </a>
+        <LogoutButton />
       </div>
     </div>
   );
