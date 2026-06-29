@@ -45,7 +45,7 @@ export function DashboardDrawer({ anchor = 'left', children }: Props) {
         onOpen={toggleDrawer(true)}
         disableScrollLock
       >
-        {children}
+        <div onClick={toggleDrawer(false)}>{children}</div>
       </SwipeableDrawer>
     </>
   );
