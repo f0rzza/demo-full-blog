@@ -1,3 +1,5 @@
+import { Statuses } from '#shared/constants.js';
+
 export const isObjectEmpty = (objectName) => {
   return Object.keys(objectName).length === 0;
 };
@@ -44,4 +46,10 @@ export const parseSearch = (search) => {
   return splitted.filter((keyword) => {
     if (keyword.length > 2) return keyword;
   });
+};
+
+// By default, the status is 'published'.
+export const parseStatus = (status) => {
+  const allowedStatuses = Object.values(Statuses);
+  return allowedStatuses.includes(status) ? status : Statuses.PUBLISHED;
 };

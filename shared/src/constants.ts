@@ -12,3 +12,10 @@ export const Role = {
   EDITOR: 'EDITOR',
   USER: 'USER',
 } as const;
+
+// Object of statuses.
+export const Statuses = {
+  ALL: 'all',
+  DRAFT: 'draft',
+  PUBLISHED: 'published',
+} as const;

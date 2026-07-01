@@ -1,13 +1,14 @@
 import { prisma } from '../utils/prisma.js';
 import { buildWhereClauses } from '../builders/posts-query.builder.js';
 
-async function getAll({ categories, authors, currentPage, limit, featured, sort, search }) {
+async function getAll({ categories, authors, currentPage, limit, featured, sort, search, status }) {
   const posts = await prisma.post.findMany({
     where: buildWhereClauses({
       categories,
       authors,
       featured,
       search,
+      status,
     }),
     // Include related entities. For users, return only usernames.
     include: { categories: true, author: { select: { username: true } } },

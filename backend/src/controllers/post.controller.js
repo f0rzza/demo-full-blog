@@ -1,6 +1,12 @@
 import HttpError from '../errors/HttpError.js';
 import postService from '../services/post.service.js';
-import { parseBoolean, parseCategories, parseSearch, parseSort } from '../utils/tools.js';
+import {
+  parseBoolean,
+  parseCategories,
+  parseSearch,
+  parseSort,
+  parseStatus,
+} from '../utils/tools.js';
 
 // TODO : use validateRequest middleware to remove try/catch
 
@@ -13,6 +19,7 @@ async function getAllPosts(req, res) {
     featured,
     sort = 'date-desc',
     search = '',
+    status = '',
   } = req.query;
 
   // Convert list of ids, from string to array.
@@ -21,6 +28,7 @@ async function getAllPosts(req, res) {
   const parsedFeatured = parseBoolean(featured);
   const parsedSort = parseSort(sort);
   const parsedSearch = parseSearch(search);
+  const parsedStatus = parseStatus(status);
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
@@ -31,6 +39,7 @@ async function getAllPosts(req, res) {
     featured: parsedFeatured,
     sort: parsedSort,
     search: parsedSearch,
+    status: parsedStatus,
   });
 
   // Get total published posts.

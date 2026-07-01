@@ -1,7 +1,16 @@
 import HttpError from '../errors/HttpError.js';
 import postRepository from '../repositories/post.repository.js';
 
-async function findAllPosts({ categories, authors, currentPage, limit, featured, sort, search }) {
+async function findAllPosts({
+  categories,
+  authors,
+  currentPage,
+  limit,
+  featured,
+  sort,
+  search,
+  status,
+}) {
   const posts = await postRepository.getAll({
     categories,
     authors,
@@ -10,6 +19,7 @@ async function findAllPosts({ categories, authors, currentPage, limit, featured,
     featured,
     sort,
     search,
+    status,
   });
   return posts;
 }
