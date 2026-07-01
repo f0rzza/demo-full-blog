@@ -70,3 +70,15 @@ export async function createPost(data: CreatePostPayload): Promise<PostResponse>
 
   return result.data;
 }
+
+export async function deletePost(id: number): Promise<null> {
+  // Generate API URL
+  const url = new URL(`/posts/${id}`, baseApiUrl);
+
+  // Call API
+  const result = await callApi<null>(url, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+  return result.data;
+}

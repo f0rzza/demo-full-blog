@@ -1,9 +1,11 @@
+import { DeletePostButton } from '@/shared/components/ui/buttons/DeletePostButton';
 import { formatDate } from '@/shared/utils/format';
 import { sanitizeHTML } from '@/shared/utils/sanitize';
 import type { PostResponse } from '@shared/types';
+import { Link } from 'react-router-dom';
 
 export function PostLine({ post }: { post: PostResponse }) {
-  const { title, content, chapo, published, updatedAt } = post;
+  const { id, title, content, chapo, published, updatedAt } = post;
   // TODO: images
 
   return (
@@ -33,16 +35,17 @@ export function PostLine({ post }: { post: PostResponse }) {
         {formatDate(updatedAt, 'short')}
       </div>
       <div className="col-span-2 flex justify-end gap-3">
-        <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+        {/* Go to the edit page */}
+        <Link
+          to={`/admin/posts/${id}/edit`}
+          className="p-2 text-on-surface-variant hover:text-primary transition-colors"
+        >
           <span className="material-symbols-outlined" data-icon="edit">
             edit
           </span>
-        </button>
-        <button className="p-2 text-on-surface-variant hover:text-error transition-colors">
-          <span className="material-symbols-outlined" data-icon="delete">
-            delete
-          </span>
-        </button>
+        </Link>
+        {/* Delete post */}
+        <DeletePostButton id={id} />
       </div>
     </div>
   );
