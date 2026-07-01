@@ -80,12 +80,14 @@ async function deleteById(id) {
   return post;
 }
 
-async function countPublishedPosts({ categories, authors, featured }) {
+async function countPosts({ categories, authors, featured, search, status }) {
   const posts = await prisma.post.count({
     where: buildWhereClauses({
       categories,
       authors,
       featured,
+      search,
+      status,
     }),
   });
   return posts;
@@ -98,5 +100,5 @@ export default {
   create,
   updateById,
   deleteById,
-  countPublishedPosts,
+  countPosts,
 };

@@ -43,10 +43,12 @@ async function getAllPosts(req, res) {
   });
 
   // Get total published posts.
-  const total = await postService.countPublishedPosts({
+  const total = await postService.countPosts({
     categories: parsedCategories,
     authors: parsedAuthors,
     featured: parsedFeatured,
+    search: parsedSearch,
+    status: parsedStatus,
   });
 
   res.json({ data: posts, pagination: { currentPage: page, totalItems: total } });

@@ -93,8 +93,14 @@ async function deletePostById(id) {
   return deletedPost;
 }
 
-async function countPublishedPosts({ categories, authors, featured }) {
-  return await postRepository.countPublishedPosts({ categories, authors, featured });
+async function countPosts({ categories, authors, featured, search, status }) {
+  return await postRepository.countPosts({
+    categories,
+    authors,
+    featured,
+    search,
+    status,
+  });
 }
 
 export default {
@@ -103,5 +109,5 @@ export default {
   createNewPost,
   updatePostById,
   deletePostById,
-  countPublishedPosts,
+  countPosts,
 };
