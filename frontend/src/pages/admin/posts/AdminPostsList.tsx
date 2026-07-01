@@ -1,9 +1,10 @@
 import { useLoaderData } from 'react-router-dom';
 import type { AdminPostsListPageLoaderType } from './adminPostsListLoader';
 import { PostList } from '@/features/posts/components/admin/list/PostList';
+import { Pagination } from '@/shared';
 
 export function AdminPostsList() {
-  const { posts } = useLoaderData<AdminPostsListPageLoaderType>();
+  const { posts, currentPage, totalPages } = useLoaderData<AdminPostsListPageLoaderType>();
 
   return (
     <div className="flex-1">
@@ -36,12 +37,8 @@ export function AdminPostsList() {
       {/* List */}
       <PostList posts={posts} />
 
-      {/*  Pagination : TODO */}
-      <div className="mt-8 flex justify-center">
-        <button className="px-8 py-3 bg-surface-container-low text-on-surface-variant font-label text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-on-primary transition-all rounded-xl">
-          View Archive
-        </button>
-      </div>
+      {/*  Pagination */}
+      <Pagination current={currentPage} total={totalPages} />
     </div>
   );
 }

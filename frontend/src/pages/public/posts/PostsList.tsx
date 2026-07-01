@@ -1,6 +1,7 @@
-import { PostList, PostPagination, PostToolbar } from '@/features/posts/components/public/list';
+import { PostList, PostToolbar } from '@/features/posts/components/public/list';
 import { useLoaderData } from 'react-router-dom';
 import type { PostsListPageLoaderType } from './postsListLoader';
+import { Pagination } from '@/shared';
 
 export function PostsList() {
   const { categories, posts, currentPage, totalPages, currentFilters } =
@@ -21,7 +22,7 @@ export function PostsList() {
 
       <PostToolbar categories={categories} currentFilters={currentFilters} />
       <PostList posts={posts} />
-      <PostPagination current={currentPage} total={totalPages} />
+      <Pagination current={currentPage} total={totalPages} />
     </div>
   );
 }
