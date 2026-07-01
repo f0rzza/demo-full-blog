@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { createPostSchema, postResponseSchema, postSchema } from '../schemas/post.schemas.js';
+import { Statuses } from '../constants.js';
 
 // Create types from Zod schemas.
 export type Post = z.infer<typeof postSchema>;
@@ -10,10 +11,14 @@ export type CreatePostPayload = z.infer<typeof createPostSchema>;
 export type CreatePostInput = z.input<typeof createPostSchema>; // authorId: string (form)
 export type CreatePostOutput = z.output<typeof createPostSchema>; // authorId: number (API)
 
+// Other types.
+export type PostStatus = (typeof Statuses)[keyof typeof Statuses];
+
 // Type of the options object in a 'Get Posts' query.
 export type GetPostsOptions = {
   page?: number;
   categories?: number;
   sort?: string;
   search: string | null;
+  status?: PostStatus;
 };

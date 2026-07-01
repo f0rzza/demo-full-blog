@@ -18,6 +18,7 @@ import {
   AdminPostCreate,
   AdminPostEdit,
   AdminPostsList,
+  adminPostsListPageLoader,
   createPostPageLoader,
 } from './pages/admin';
 import { AppError } from './shared/components/errors/AppError';
@@ -73,13 +74,15 @@ const adminRoutes = {
   Component: DashboardLayout,
   children: [
     // Default admin route.
-    { children: [{ index: true, Component: AdminPostsList }] },
+    { children: [{ index: true, loader: adminPostsListPageLoader, Component: AdminPostsList }] },
     // Post routes
     {
       path: 'posts',
       children: [
         // DashboardLayout
-        { children: [{ index: true, Component: AdminPostsList }] },
+        {
+          children: [{ index: true, loader: adminPostsListPageLoader, Component: AdminPostsList }],
+        },
         // BasicLayout
         {
           // Component: DashboardLayout,
