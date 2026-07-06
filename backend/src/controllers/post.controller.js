@@ -20,15 +20,25 @@ async function getAllPosts(req, res) {
     sort = 'date-desc',
     search = '',
     status = '',
+    me = false,
   } = req.query;
 
   // Convert list of ids, from string to array.
   const parsedCategories = categories ? categories.split(',').map(Number) : [];
-  const parsedAuthors = authors ? authors.split(',').map(Number) : [];
   const parsedFeatured = parseBoolean(featured);
   const parsedSort = parseSort(sort);
   const parsedSearch = parseSearch(search);
   const parsedStatus = parseStatus(status);
+  const parsedMe = parseBoolean(me);
+  let parsedAuthors = [];
+
+  // Authors: 'me' filter has priority if user is authenticated.
+  if (parsedMe && req.user) {
+    parsedAuthors = [req.user.id];
+  } else if (authors) {
+    // Else, use 'authors' filter if necessary.
+    parsedAuthors = authors.split(',').map(Number);
+  }
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
