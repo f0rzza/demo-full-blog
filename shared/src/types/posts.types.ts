@@ -21,4 +21,6 @@ export type GetPostsOptions = {
   sort?: string;
   search: string | null;
   status?: PostStatus;
+  authors?: Array<number>;
+  me?: boolean;
 };

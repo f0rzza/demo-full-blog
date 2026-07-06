@@ -19,6 +19,7 @@ export const adminPostsListPageLoader = async ({
   // Get current page from url parameters.
   const url = new URL(request.url);
   const currentPage = parseInt(url.searchParams.get('page') || '1');
+  const displayAll = url.searchParams.get('display') === 'all';
 
   // Filter & sort
   const search = url.searchParams.get('search');
@@ -28,6 +29,7 @@ export const adminPostsListPageLoader = async ({
     page: currentPage,
     search,
     status: Statuses.ALL,
+    me: !displayAll,
   });
   // Alternative way : create a backend route which directly returns all the data.
 

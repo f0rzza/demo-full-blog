@@ -40,7 +40,7 @@ export async function getPosts(
   }
 
   // Call API
-  const response = await callApi<PostResponse[]>(url);
+  const response = await callApi<PostResponse[]>(url, { credentials: 'include' });
   return response;
 }
 
