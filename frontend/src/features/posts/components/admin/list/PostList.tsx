@@ -9,7 +9,7 @@ export function PostList({ posts }: { posts: Array<PostResponse> }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Header */}
-      <div className="grid grid-cols-12 px-6 py-2 text-xs font-label uppercase tracking-widest text-on-surface-variant/60">
+      <div className="hidden md:grid grid-cols-12 px-6 py-2 text-xs font-label uppercase tracking-widest text-on-surface-variant/60">
         <div className="col-span-6">Article Detail</div>
         <div className="col-span-2">Status</div>
         <div className="col-span-2">Date</div>
