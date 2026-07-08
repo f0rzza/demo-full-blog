@@ -4,9 +4,15 @@ import { PostList } from '@/features/posts/components/admin/list/PostList';
 import { Pagination } from '@/shared';
 import { ToggleButton } from '@mui/material';
 import { Person, ViewList } from '@mui/icons-material';
+import { use } from 'react';
+import { AuthContext } from '@/context/AuthContext';
+import { Role } from '@shared/constants';
 
 export function AdminPostsList() {
   const { posts, currentPage, totalPages } = useLoaderData<AdminPostsListPageLoaderType>();
+
+  const { user } = use(AuthContext);
+  const isAdmin = user && user.role === Role.ADMIN;
 
   const url = new URL(window.location.href);
   const display = url.searchParams.get('display') ?? '';
@@ -31,9 +37,9 @@ export function AdminPostsList() {
           </p>
         </div>
 
-        <div className="flex mt-5 xl:mt-1">
+        <div className={`${isAdmin ? 'flex' : ''} mt-5 xl:mt-1`}>
           {/* Search  */}
-          <div className="flex gap-4 items-center">
+          <div className={`${isAdmin ? 'flex gap-4 items-center' : ''}`}>
             <div className="relative">
               <span
                 className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm"
@@ -42,7 +48,7 @@ export function AdminPostsList() {
                 search
               </span>
               <input
-                className="bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-sm font-label focus:ring-1 focus:ring-primary/30 w-auto md:w-96 mr-5"
+                className={`bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-sm font-label focus:ring-1 focus:ring-primary/30 ${isAdmin ? 'w-auto md:w-96 mr-5' : 'w-full'}`}
                 placeholder="Filter posts..."
                 type="text"
               />
@@ -50,19 +56,21 @@ export function AdminPostsList() {
           </div>
 
           {/* Toggle Button : seel all posts or only mine */}
-          <ToggleButton value="check" onChange={toggleDisplay}>
-            {displayAll ? (
-              <div>
-                <Person />
-                <span className="hidden md:inline-block ml-2">My Posts</span>
-              </div>
-            ) : (
-              <div>
-                <ViewList />
-                <span className="hidden md:inline-block ml-2">View All</span>
-              </div>
-            )}
-          </ToggleButton>
+          {isAdmin && (
+            <ToggleButton value="check" onChange={toggleDisplay}>
+              {displayAll ? (
+                <div>
+                  <Person />
+                  <span className="hidden md:inline-block ml-2">My Posts</span>
+                </div>
+              ) : (
+                <div>
+                  <ViewList />
+                  <span className="hidden md:inline-block ml-2">View All</span>
+                </div>
+              )}
+            </ToggleButton>
+          )}
         </div>
       </header>
 
