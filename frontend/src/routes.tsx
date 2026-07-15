@@ -15,11 +15,10 @@ import {
 import {
   AdminCategoriesList,
   AdminCategoryEdit,
-  AdminPostCreate,
-  AdminPostEdit,
+  AdminPostForm,
+  adminPostFormPageLoader,
   AdminPostsList,
   adminPostsListPageLoader,
-  createPostPageLoader,
 } from './pages/admin';
 import { AppError } from './shared/components/errors/AppError';
 import { BasicLayout, CategoryEditorLayout, DashboardLayout } from './layouts';
@@ -87,8 +86,8 @@ const adminRoutes = {
         {
           // Component: DashboardLayout,
           children: [
-            { path: 'create', Component: AdminPostCreate, loader: createPostPageLoader },
-            { path: ':id/edit', Component: AdminPostEdit },
+            { path: 'create', Component: AdminPostForm, loader: adminPostFormPageLoader },
+            { path: ':id/edit', Component: AdminPostForm, loader: adminPostFormPageLoader },
           ],
         },
       ],

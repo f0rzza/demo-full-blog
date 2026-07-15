@@ -1,17 +1,15 @@
 import { AdminCategoriesList } from './categories/AdminCategoriesList';
 import { AdminCategoryEdit } from './categories/AdminCategoryEdit';
-import { AdminPostCreate } from './posts/AdminPostCreate';
-import { AdminPostEdit } from './posts/AdminPostEdit';
+import { AdminPostForm } from './posts/AdminPostForm';
+import { adminPostFormPageLoader } from './posts/adminPostFormLoader';
 import { AdminPostsList } from './posts/AdminPostsList';
 import { adminPostsListPageLoader } from './posts/adminPostsListLoader';
-import { createPostPageLoader } from './posts/createPostLoader';
 
 export {
   AdminCategoriesList,
   AdminCategoryEdit,
-  AdminPostCreate,
-  AdminPostEdit,
+  AdminPostForm,
+  adminPostFormPageLoader,
   AdminPostsList,
   adminPostsListPageLoader,
-  createPostPageLoader,
 };

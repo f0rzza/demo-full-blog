@@ -1,12 +1,12 @@
 import { TextAreaField } from '@/features/posts/components/admin/forms/fields/TextAreaField';
 import { MultipleSelectField } from '@/features/posts/components/admin/forms/fields/MultipleSelectField';
 import { useLoaderData } from 'react-router-dom';
-import type { CreatePostPageLoaderType } from '@/pages/admin/posts/createPostLoader';
+import type { AdminPostFormPageLoaderType } from '@/pages/admin/posts/adminPostFormLoader';
 import { PostButton } from './buttons/PostButton';
 import { SelectField } from './fields/SelectField';
 
 export function PostEditorSidebar() {
-  const { categories, authors } = useLoaderData<CreatePostPageLoaderType>();
+  const { categories, authors } = useLoaderData<AdminPostFormPageLoaderType>();
 
   return (
     <aside className="w-full lg:w-80 flex flex-col gap-8">
