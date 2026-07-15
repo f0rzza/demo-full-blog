@@ -1,5 +1,7 @@
 /** Filter functions */
 
+import { Statuses } from '#shared/constants.js';
+
 // Post has at least one category in the given list.
 function buildCategoryFilter(categories) {
   if (!categories || categories.length === 0) return;
@@ -30,14 +32,22 @@ function buildSearchFilter(keywords) {
   return searchArray;
 }
 
+// Filter posts by status if necessary.
+function buildStatusFilter(status) {
+  if (status === Statuses.ALL) return;
+
+  const published = status === Statuses.PUBLISHED;
+  return { published };
+}
+
 /** Where **/
 
-export function buildWhereClauses({ categories, authors, published, featured, search }) {
+export function buildWhereClauses({ categories, authors, published, featured, search, status }) {
   // Use filter(Boolean) to keep only useful clauses.
   const andClauses = [
     buildCategoryFilter(categories),
     buildAuthorFilter(authors),
-    buildBooleanFilter('published', published || true),
+    buildStatusFilter(status),
     buildBooleanFilter('featured', featured),
   ].filter(Boolean);
 

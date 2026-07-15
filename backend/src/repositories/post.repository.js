@@ -1,13 +1,14 @@
 import { prisma } from '../utils/prisma.js';
 import { buildWhereClauses } from '../builders/posts-query.builder.js';
 
-async function getAll({ categories, authors, currentPage, limit, featured, sort, search }) {
+async function getAll({ categories, authors, currentPage, limit, featured, sort, search, status }) {
   const posts = await prisma.post.findMany({
     where: buildWhereClauses({
       categories,
       authors,
       featured,
       search,
+      status,
     }),
     // Include related entities. For users, return only usernames.
     include: { categories: true, author: { select: { username: true } } },
@@ -79,12 +80,14 @@ async function deleteById(id) {
   return post;
 }
 
-async function countPublishedPosts({ categories, authors, featured }) {
+async function countPosts({ categories, authors, featured, search, status }) {
   const posts = await prisma.post.count({
     where: buildWhereClauses({
       categories,
       authors,
       featured,
+      search,
+      status,
     }),
   });
   return posts;
@@ -97,5 +100,5 @@ export default {
   create,
   updateById,
   deleteById,
-  countPublishedPosts,
+  countPosts,
 };

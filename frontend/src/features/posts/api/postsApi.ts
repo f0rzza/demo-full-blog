@@ -40,7 +40,7 @@ export async function getPosts(
   }
 
   // Call API
-  const response = await callApi<PostResponse[]>(url);
+  const response = await callApi<PostResponse[]>(url, { credentials: 'include' });
   return response;
 }
 
@@ -68,5 +68,17 @@ export async function createPost(data: CreatePostPayload): Promise<PostResponse>
     credentials: 'include',
   });
 
+  return result.data;
+}
+
+export async function deletePost(id: number): Promise<null> {
+  // Generate API URL
+  const url = new URL(`/posts/${id}`, baseApiUrl);
+
+  // Call API
+  const result = await callApi<null>(url, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
   return result.data;
 }

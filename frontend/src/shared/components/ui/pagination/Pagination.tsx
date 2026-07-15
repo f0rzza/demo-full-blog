@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { PaginationLink } from './components/PaginationLink';
+import { PaginationLink } from './PaginationLink';
 
 // Generate links for the pagination (except prev/next links)
 function getLinks(current: number, total: number) {
@@ -10,7 +10,7 @@ function getLinks(current: number, total: number) {
   return links;
 }
 
-export function PostPagination({ current, total }: { current: number; total: number }) {
+export function Pagination({ current, total }: { current: number; total: number }) {
   if (total === 1) {
     return;
   }

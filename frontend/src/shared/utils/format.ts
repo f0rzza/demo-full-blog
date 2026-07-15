@@ -1,7 +1,11 @@
-export function formatDate(date: Date | string, locale: string = 'en-US') {
+export function formatDate(
+  date: Date | string,
+  month: 'long' | 'short' = 'long',
+  locale: string = 'en-US',
+) {
   // Define formatter
   const formatter = new Intl.DateTimeFormat(locale, {
-    month: 'long',
+    month,
     day: 'numeric',
     year: 'numeric',
   });

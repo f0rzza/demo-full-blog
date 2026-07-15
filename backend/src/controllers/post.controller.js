@@ -1,6 +1,12 @@
 import HttpError from '../errors/HttpError.js';
 import postService from '../services/post.service.js';
-import { parseBoolean, parseCategories, parseSearch, parseSort } from '../utils/tools.js';
+import {
+  parseBoolean,
+  parseCategories,
+  parseSearch,
+  parseSort,
+  parseStatus,
+} from '../utils/tools.js';
 
 // TODO : use validateRequest middleware to remove try/catch
 
@@ -13,14 +19,26 @@ async function getAllPosts(req, res) {
     featured,
     sort = 'date-desc',
     search = '',
+    status = '',
+    me = false,
   } = req.query;
 
   // Convert list of ids, from string to array.
   const parsedCategories = categories ? categories.split(',').map(Number) : [];
-  const parsedAuthors = authors ? authors.split(',').map(Number) : [];
   const parsedFeatured = parseBoolean(featured);
   const parsedSort = parseSort(sort);
   const parsedSearch = parseSearch(search);
+  const parsedStatus = parseStatus(status);
+  const parsedMe = parseBoolean(me);
+  let parsedAuthors = [];
+
+  // Authors: 'me' filter has priority if user is authenticated.
+  if (parsedMe && req.user) {
+    parsedAuthors = [req.user.id];
+  } else if (authors) {
+    // Else, use 'authors' filter if necessary.
+    parsedAuthors = authors.split(',').map(Number);
+  }
 
   // Get posts with current filters / page.
   const posts = await postService.findAllPosts({
@@ -31,13 +49,16 @@ async function getAllPosts(req, res) {
     featured: parsedFeatured,
     sort: parsedSort,
     search: parsedSearch,
+    status: parsedStatus,
   });
 
   // Get total published posts.
-  const total = await postService.countPublishedPosts({
+  const total = await postService.countPosts({
     categories: parsedCategories,
     authors: parsedAuthors,
     featured: parsedFeatured,
+    search: parsedSearch,
+    status: parsedStatus,
   });
 
   res.json({ data: posts, pagination: { currentPage: page, totalItems: total } });

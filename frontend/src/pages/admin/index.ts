@@ -3,6 +3,7 @@ import { AdminCategoryEdit } from './categories/AdminCategoryEdit';
 import { AdminPostCreate } from './posts/AdminPostCreate';
 import { AdminPostEdit } from './posts/AdminPostEdit';
 import { AdminPostsList } from './posts/AdminPostsList';
+import { adminPostsListPageLoader } from './posts/adminPostsListLoader';
 import { createPostPageLoader } from './posts/createPostLoader';
 
 export {
@@ -11,5 +12,6 @@ export {
   AdminPostCreate,
   AdminPostEdit,
   AdminPostsList,
+  adminPostsListPageLoader,
   createPostPageLoader,
 };
