@@ -54,8 +54,8 @@ export const postResponseSchema = postSchema.extend({
 
 /** POST Requests  **/
 
-// Create new Post shema for the creation.
-export const createPostSchema = z.object({
+// Create and update Post shema.
+export const postBodySchema = z.object({
   title: titleSchema,
   content: contentSchema,
   published: z.boolean().default(false),
@@ -64,10 +64,6 @@ export const createPostSchema = z.object({
   chapo: chapoSchema,
   categories: z.array(idSchema),
 });
-
-/** PUT Requests  **/
-export const updatePostSchema = createPostSchema;
-// TODO
 
 /** DELETE Requests  **/
 // TODO

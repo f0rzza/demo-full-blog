@@ -1,5 +1,5 @@
 import { callApi } from '@/shared/utils/api';
-import type { ApiResponse, CreatePostPayload, GetPostsOptions, PostResponse } from '@shared/types';
+import type { ApiResponse, PostPayload, GetPostsOptions, PostResponse } from '@shared/types';
 
 const baseApiUrl = import.meta.env.VITE_BASE_BLOG_API_URL;
 
@@ -53,8 +53,7 @@ export async function getPost(id: number): Promise<PostResponse> {
   return result.data;
 }
 
-// export async function createPost(data: CreatePostType): Promise<CreatePostApiResponse> {
-export async function createPost(data: CreatePostPayload): Promise<PostResponse> {
+export async function createPost(data: PostPayload): Promise<PostResponse> {
   // Generate API URL
   const url = new URL('/posts', baseApiUrl);
 

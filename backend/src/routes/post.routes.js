@@ -1,6 +1,6 @@
 import express from 'express';
 import postController from '../controllers/post.controller.js';
-import { postIdSchema, createPostSchema, updatePostSchema } from '#shared/schemas/post.schemas.js';
+import { postIdSchema, postBodySchema } from '#shared/schemas/post.schemas.js';
 import { checkAuthentication, checkAuthorization, validateRequest } from '../middlewares/index.js';
 import { Role } from '@prisma/client';
 
@@ -18,7 +18,7 @@ router.post(
   '/',
   checkAuthentication,
   checkAuthorization([Role.ADMIN, Role.EDITOR]),
-  validateRequest({ body: createPostSchema }),
+  validateRequest({ body: postBodySchema }),
   postController.createPost,
 );
 
@@ -28,7 +28,7 @@ router.put(
   checkAuthentication,
   validateRequest({ params: postIdSchema }),
   checkAuthorization([Role.ADMIN], { enabled: true, type: 'post' }),
-  validateRequest({ body: updatePostSchema }),
+  validateRequest({ body: postBodySchema }),
   postController.updatePostById,
 );
 

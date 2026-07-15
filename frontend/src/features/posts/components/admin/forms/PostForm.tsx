@@ -2,15 +2,15 @@ import { TitleInput } from './fields/TitleInput';
 import { TinyMceEditor } from './fields/TinyMceEditor';
 import { PostEditorSidebar } from '@/features/posts/components/admin/forms/PostEditorSidebar';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createPostSchema } from '@shared/schemas';
-import { type CreatePostInput, type CreatePostOutput } from '@shared/types';
+import { postBodySchema } from '@shared/schemas';
+import { type PostBodyInput, type PostBodyOutput } from '@shared/types';
 import { Controller, FormProvider, useForm, type FieldError } from 'react-hook-form';
 import { ErrorField } from '@/shared/components/ui/form/ErrorField';
 
 export function PostForm() {
   // Get form mthods to use in the provider.
-  const methods = useForm<CreatePostInput, any, CreatePostOutput>({
-    resolver: zodResolver(createPostSchema),
+  const methods = useForm<PostBodyInput, any, PostBodyOutput>({
+    resolver: zodResolver(postBodySchema),
     defaultValues: { title: '', content: '', authorId: undefined },
   });
 
